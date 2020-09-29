@@ -1,0 +1,38 @@
+$tileDimension: 32px;
+
+.tile {
+  width: $tileDimension;
+  height: $tileDimension;
+
+  &__none {
+    background-color: #000;
+  }
+
+  &__i {
+    background-color: #0dc2ff;
+  }
+
+  &__j {
+    background-color: #3877ff;
+  }
+
+  &__l {
+    background-color: #ff8e0d;
+  }
+
+  &__o {
+    background-color: #ffe138;
+  }
+
+  &__s {
+    background-color: #0dff72;
+  }
+
+  &__t {
+    background-color: #f538ff;
+  }
+
+  &__z {
+    background-color: #ff0d72;
+  }
+}
