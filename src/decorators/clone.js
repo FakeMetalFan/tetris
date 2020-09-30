@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-export const clone = (_, _, descriptor) => {
+export const clone = (target, propName, descriptor) => {
   const { value: fn } = descriptor;
 
   descriptor.value = function(...args) {
