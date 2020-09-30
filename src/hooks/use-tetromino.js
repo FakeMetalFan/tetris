@@ -1,33 +1,32 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import produce from 'immer';
 
-import { tetrominoMatrix } from 'const';
+import { tetrominoMap } from 'const';
 
-import { getRotatedMatrix } from 'utils';
+import { TetrominoPosition } from 'view-models';
 
 export const useTetromino = ({ width }) => {
-  const [state, setState] = useState([]);
-  const [position, setPosition] = useState({ rowAddress: 0, colAddress: 0 });
+  const [tetromino, setTetromino] = useState(null);
+  const [position, setPosition] = useState(new TetrominoPosition()); // should be apart from "Tetromino" class;
 
-  const randomize = () => {
-    const keys = Object.keys(tetrominoMatrix);
-    const matrix = tetrominoMatrix[keys[Math.random() * keys.length | 0]];
+  const randomize = useCallback(() => {
+    const keys = [...tetrominoMap.keys()];
+    const item = tetrominoMap.get(keys[Math.random() * keys.length | 0]).clone();
 
-    setState(matrix);
-    setPosition({ rowAddress: 0, colAddress: (width - matrix.length) / 2 | 0 });
-  };
+    setTetromino(item);
+    setPosition(new TetrominoPosition(0, (width - item.width) / 2 | 0));
+  }, [width]);
 
-  const move = ({ rowAddressOffset = 0, colAddressOffset = 0 }) => {
-    setPosition(produce(position, draft => {
-      draft.rowAddress += rowAddressOffset;
-      draft.colAddress += colAddressOffset;
+  const makeMove = move => {
+    if (move.isRotation) setTetromino(tetromino.clone().rotate(move.direction));
+    else setPosition(prevPosition => produce(prevPosition, draft => {
+      const { rowAddress = 0, colAddress = 0 } = move.offset;
+
+      draft.rowAddress += rowAddress;
+      draft.colAddress += colAddress;
     }));
   };
 
-  const rotate = () => {
-    setState(getRotatedMatrix(state));
-  };
-
-  return { state, position, randomize, move, rotate };
+  return { tetromino, position, randomize, makeMove };
 };

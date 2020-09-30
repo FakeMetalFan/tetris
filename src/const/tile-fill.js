@@ -1,4 +1,4 @@
-// should not be 0, easier to check collisions;
+// should not be 0 to avoid some nasty logical operators issues;
 export const tileFill = {
   None: -1,
   I: 1,

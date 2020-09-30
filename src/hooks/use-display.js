@@ -1,80 +1,79 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 
 import produce from 'immer';
 
-import { tileFill } from 'const';
+import some from 'lodash/some';
 
-import { isEmptyTile } from 'utils';
+import { TileVM } from 'view-models';
 
-import { useDidUpdate } from './use-did-update';
+import { useDidUpdate, useTetromino } from '.';
 
-export const useDisplay = ({ width, height, tetromino, position, randomize }) => {
-  const getEmptyRow = useCallback(() => Array(width).fill(tileFill.None), [width]);
-  // eslint-disable-next-line
-  const getEmptyState = useCallback(() => Array(height).fill(getEmptyRow()), [height]);
+export const useDisplay = ({ width, height, move }) => {
+  const emptyRow = useMemo(() => Array(width).fill(new TileVM()), [width]);
+  const emptyDisplay = useMemo(() => Array(height).fill(emptyRow), [emptyRow, height]);
 
-  const [state, setState] = useState(() => getEmptyState());
-  const [mergedState, setMergedState] = useState(state); // readonly value, needed to detect collision, recreate state;
+  const [display, setDisplay] = useState(emptyDisplay);
+  const [mergedDisplay, setMergedDisplay] = useState(display); // readonly, no need to clone;
   const [sweptRowsCount, setSweptRowsCount] = useState(0);
 
-  const willCollide = ({ piece = tetromino, rowAddressOffset = 0, colAddressOffset = 0 } = {}) =>
-    piece.some((row, rowAddress) => row.some((tile, colAddress) => {
-      const targetRowAddress = rowAddress + position.rowAddress + rowAddressOffset;
-      const targetColAddress = colAddress + position.colAddress + colAddressOffset;
+  const { tetromino, position, randomize, makeMove } = useTetromino({ width });
 
-      return !isEmptyTile(tile) && (!isEmptyTile(mergedState[targetRowAddress]?.[targetColAddress])
-        || targetRowAddress >= height
-        || targetColAddress >= width
-        || targetColAddress < 0
-      );
-    }));
+  const didCollide = () => tetromino.matrix.some((row, rowAddress) => row.some(({ isEmpty }, colAddress) => {
+    const targetRowAddress = rowAddress + position.rowAddress;
+    const targetColAddress = colAddress + position.colAddress;
 
-  const merge = () => {
-    setMergedState(state);
-  };
+    return !isEmpty && (!mergedDisplay[targetRowAddress]?.[targetColAddress]?.isEmpty // filled tile;
+      || targetRowAddress >= height // floor;
+      || (targetColAddress >= width || targetColAddress < 0) // walls;
+    );
+  }));
 
   useEffect(() => {
     randomize();
-    // eslint-disable-next-line
-  }, [mergedState]);
+  }, [randomize, mergedDisplay]);
 
-  useDidUpdate(() => { // drawing piece at the new position;
-    const { rowAddress: rowAddressOffset, colAddress: colAddressOffset } = position;
+  useDidUpdate(() => {
+    makeMove(move);
+  }, move);
 
-    setState(produce(mergedState, draft => {
-      tetromino.forEach((row, rowAddress) => {
+  useDidUpdate(() => {
+    if (didCollide())
+      if (move.isDown) setMergedDisplay(display);
+      else makeMove(move.getOppositeMove());
+    else setDisplay(produce(mergedDisplay, draft => {
+      tetromino.matrix.forEach((row, rowAddress) => {
         row.forEach((tile, colAddress) => {
-          !isEmptyTile(tile) && (draft[rowAddress + rowAddressOffset][colAddress + colAddressOffset] = tile);
+          !tile.isEmpty && (draft[rowAddress + position.rowAddress][colAddress + position.colAddress] = tile);
         });
       });
     }));
   }, tetromino, position);
 
-  useDidUpdate(() => { // sweeping filled rows;
-    const filledRowsAddresses = mergedState.reduce((acc, row, rowAddress) => {
-      !row.some(isEmptyTile) && acc.push(rowAddress);
+  useDidUpdate(() => {
+    const filledRowsAddresses = mergedDisplay.reduce((acc, row, rowAddress) => {
+      !some(row, 'isEmpty') && acc.push(rowAddress);
 
       return acc;
     }, []);
 
     if (filledRowsAddresses.length) {
-      setMergedState(produce(mergedState, draft => {
+      setMergedDisplay(prevMergedDisplay => produce(prevMergedDisplay, draft => {
         filledRowsAddresses.forEach(address => {
           draft.splice(address, 1);
-          draft.unshift(getEmptyRow());
+          draft.unshift(emptyRow);
         });
       }));
       setSweptRowsCount(count => count + filledRowsAddresses.length);
     }
-  }, mergedState);
+  }, mergedDisplay);
 
-  useDidUpdate(() => { // game over, reset;
-    if (willCollide()) {
-      setState(getEmptyState());
-      setMergedState(getEmptyState());
+  useDidUpdate(() => {
+    if (move?.isDown && didCollide()) {
+      setDisplay(emptyDisplay);
+      setMergedDisplay(emptyDisplay);
       setSweptRowsCount(0);
     }
   }, tetromino);
 
-  return { state, sweptRowsCount, willCollide, merge };
+  return { display, sweptRowsCount };
 };

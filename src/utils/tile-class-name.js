@@ -1,9 +1,9 @@
 import { tileFill } from 'const';
 
-export const getTileClassName = state => {
+export const getTileClassName = fill => {
   const prefix = 'tile tile__';
 
-  switch (state) {
+  switch (fill) {
     case tileFill.None:
       return `${prefix}none`;
     case tileFill.I:
@@ -21,6 +21,6 @@ export const getTileClassName = state => {
     case tileFill.Z:
       return `${prefix}z`;
     default:
-      throw new Error(`Unexpected tile state of "${state}"!`);
+      throw new Error(`Unexpected tile fill of "${fill}"!`);
   }
 };

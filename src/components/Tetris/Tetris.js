@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { useDidUpdate, useDisplay, useInterval, useTetromino } from 'hooks';
+import { useDidUpdate, useDisplay, useInterval } from 'hooks';
 
-import { keyCode, tetrominoMove } from 'const';
+import { keyCode } from 'const';
 
-import { getRotatedMatrix } from 'utils';
+import { LeftMove, RotationMove, RightMove, DownMove } from 'view-models';
 
 import { Display } from '..';
 
@@ -12,28 +12,24 @@ import './Tetris.scss';
 
 export const Tetris = () => {
   const width = 10;
-  const height = 20;
-
   const delay = 800;
 
-  const [intervalDelay, setIntervalDelay] = useState(null);
+  const [intervalDelay, setIntervalDelay] = useState(delay);
   const [score, setScore] = useState(0);
+  const [move, setMove] = useState(null);
 
-  const { state: tetromino, position, randomize, move, rotate } = useTetromino({ width });
-
-  const { state, sweptRowsCount, willCollide, merge } = useDisplay({ width, height, tetromino, position, randomize });
+  const { display, sweptRowsCount } = useDisplay({ width, move, height: 20 });
 
   const container = useRef();
 
   const drop = () => {
-    if (willCollide(tetrominoMove.Down)) merge();
-    else move(tetrominoMove.Down);
+    setMove(new DownMove());
   };
 
   const handleKeyDown = ({ keyCode: code }) => {
-    code === keyCode.ArrowLeft && !willCollide(tetrominoMove.Left) && move(tetrominoMove.Left);
-    code === keyCode.ArrowUp && !willCollide({ piece: getRotatedMatrix(tetromino) }) && rotate();
-    code === keyCode.ArrowRight && !willCollide(tetrominoMove.Right) && move(tetrominoMove.Right);
+    code === keyCode.ArrowLeft && setMove(new LeftMove());
+    code === keyCode.ArrowUp && setMove(new RotationMove());
+    code === keyCode.ArrowRight && setMove(new RightMove());
 
     if (code === keyCode.ArrowDown) {
       setIntervalDelay(null);
@@ -53,10 +49,6 @@ export const Tetris = () => {
     setScore(prevScore => sweptRowsCount ? prevScore + sweptRowsCount * 10 : 0);
   }, sweptRowsCount);
 
-  useDidUpdate(() => {
-    !intervalDelay && setIntervalDelay(delay);
-  }, tetromino, position);
-
   useInterval(() => {
     drop();
   }, intervalDelay);
@@ -64,7 +56,7 @@ export const Tetris = () => {
   return (
     <div className='tetris' tabIndex='0' onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} ref={container}>
       <div className='score'>{score}</div>
-      <Display state={state} columnsCount={width} />
+      <Display state={display} columnsCount={width} />
     </div>
   );
 };
