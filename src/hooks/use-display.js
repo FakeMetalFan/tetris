@@ -29,7 +29,7 @@ export const useDisplay = ({ width, height, move }) => {
     );
   }));
 
-  useEffect(() => { // collision detection, a tetromino drawing;
+  useEffect(() => { // drawing;
     if (didCollide())
       if (move.isDown) setMergedDisplay(display);
       else makeMove(move.getOppositeMove());
@@ -69,7 +69,7 @@ export const useDisplay = ({ width, height, move }) => {
     }
   }, mergedDisplay);
 
-  useDidUpdate(() => { // game is over, resetting;
+  useDidUpdate(() => { // game over, reset;
     if (didCollide()) {
       setDisplay(emptyDisplay);
       setMergedDisplay(emptyDisplay);

@@ -1,9 +1,11 @@
 import React from 'react';
 
-import { Tetris } from 'components';
+import { Header, Tetris, Footer } from 'components';
 
 export const App = () => (
   <>
+    <Header />
     <Tetris />
+    <Footer />
   </>
 );

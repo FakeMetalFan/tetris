@@ -12,6 +12,8 @@ export class Tetromino {
   id = uuid(); // to always detect a new piece;
   position = new Position();
 
+  matrix;
+
   constructor(
     matrix
   ) {
