@@ -21,7 +21,7 @@ export class Tetromino {
   }
 
   @clone
-  getCopied(colAddress) {
+  getCloned(colAddress) {
     this.id = uuid();
     this.position = new Position(0, colAddress);
 
