@@ -19,7 +19,7 @@ npm start
 ## Features
 
 - React (pure functional components, hooks)
-- OOP (some necessary game entities, easy to follow and use)
+- OOP (some of the game's entities, easy to follow and use)
 
 ## Technologies Used
 
