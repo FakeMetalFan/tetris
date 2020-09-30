@@ -31,8 +31,10 @@ export const useDisplay = ({ width, height, move }) => {
 
   useEffect(() => {
     if (didCollide())
-      if (move.isDown) setMergedDisplay(display);
-      else makeMove(move.getOppositeMove());
+      if (move.isDown) {
+        setMergedDisplay(display);
+        randomize();
+      } else makeMove(move.getOppositeMove());
     else setDisplay(produce(mergedDisplay, draft => {
       tetromino.matrix.forEach((row, rowAddress) => {
         row.forEach((tile, colAddress) => {
@@ -48,8 +50,6 @@ export const useDisplay = ({ width, height, move }) => {
   }, move);
 
   useDidUpdate(() => {
-    randomize();
-
     const filledRowsAddresses = mergedDisplay.reduce((acc, row, rowAddress) => {
       !some(row, 'isEmpty') && acc.push(rowAddress);
 
