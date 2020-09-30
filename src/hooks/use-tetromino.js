@@ -7,7 +7,7 @@ export const useTetromino = ({ width }) => {
     const keys = [...tetrominoMap.keys()];
     const item = tetrominoMap.get(keys[Math.random() * keys.length | 0]);
 
-    return item.clone().setColAddress((width - item.width) / 2 | 0);
+    return item.getCopied((width - item.width) / 2 | 0);
   };
 
   const [tetromino, setTetromino] = useState(() => getRandomTetromino());
@@ -17,9 +17,7 @@ export const useTetromino = ({ width }) => {
   };
 
   const makeMove = move => {
-    const item = tetromino.clone();
-
-    setTetromino(move.isRotation ? item.rotate() : item.setOffset(move.offset));
+    setTetromino(move.isRotation ? tetromino.getRotated(move.direction) : tetromino.getMoved(move.offset));
   };
 
   return { tetromino, randomize, makeMove };
