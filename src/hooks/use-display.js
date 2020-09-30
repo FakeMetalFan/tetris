@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import produce from 'immer';
 
@@ -6,21 +6,22 @@ import some from 'lodash/some';
 
 import { TileVM } from 'view-models';
 
-import { useDidUpdate, useTetromino } from '.';
+import { useDidUpdate, useTetromino, useSafeRef } from '.';
 
 export const useDisplay = ({ width, height, move }) => {
   const emptyRow = useMemo(() => Array(width).fill(new TileVM()), [width]);
   const emptyDisplay = useMemo(() => Array(height).fill(emptyRow), [emptyRow, height]);
 
   const [display, setDisplay] = useState(emptyDisplay);
-  const [mergedDisplay, setMergedDisplay] = useState(display); // readonly, no need to clone;
   const [sweptRowsCount, setSweptRowsCount] = useState(0);
 
-  const { tetromino, position, randomize, makeMove } = useTetromino({ width });
+  const { tetromino, randomize, makeMove } = useTetromino({ width });
+
+  const [mergedDisplay, setMergedDisplay] = useSafeRef(display); // to recreate state when a new tetromino is drawn;
 
   const didCollide = () => tetromino.matrix.some((row, rowAddress) => row.some(({ isEmpty }, colAddress) => {
-    const targetRowAddress = rowAddress + position.rowAddress;
-    const targetColAddress = colAddress + position.colAddress;
+    const targetRowAddress = rowAddress + tetromino.rowAddress;
+    const targetColAddress = colAddress + tetromino.colAddress;
 
     return !isEmpty && (!mergedDisplay[targetRowAddress]?.[targetColAddress]?.isEmpty // filled tile;
       || targetRowAddress >= height // floor;
@@ -28,28 +29,29 @@ export const useDisplay = ({ width, height, move }) => {
     );
   }));
 
-  useEffect(() => {
-    randomize();
-  }, [randomize, mergedDisplay]);
-
-  useDidUpdate(() => {
-    makeMove(move);
-  }, move);
-
-  useDidUpdate(() => {
+  useEffect(() => { // collision detection, a tetromino drawing;
     if (didCollide())
       if (move.isDown) setMergedDisplay(display);
       else makeMove(move.getOppositeMove());
     else setDisplay(produce(mergedDisplay, draft => {
       tetromino.matrix.forEach((row, rowAddress) => {
         row.forEach((tile, colAddress) => {
-          !tile.isEmpty && (draft[rowAddress + position.rowAddress][colAddress + position.colAddress] = tile);
+          !tile.isEmpty && (draft[rowAddress + tetromino.rowAddress][colAddress + tetromino.colAddress] = tile);
         });
       });
     }));
-  }, tetromino, position);
+    // eslint-disable-next-line
+  }, [tetromino.matrix, tetromino.position]);
 
   useDidUpdate(() => {
+    makeMove(move);
+  }, move);
+
+  useDidUpdate(() => {
+    randomize();
+  }, mergedDisplay);
+
+  useDidUpdate(() => { // filled rows sweep;
     const filledRowsAddresses = mergedDisplay.reduce((acc, row, rowAddress) => {
       !some(row, 'isEmpty') && acc.push(rowAddress);
 
@@ -57,7 +59,7 @@ export const useDisplay = ({ width, height, move }) => {
     }, []);
 
     if (filledRowsAddresses.length) {
-      setMergedDisplay(prevMergedDisplay => produce(prevMergedDisplay, draft => {
+      setMergedDisplay(produce(mergedDisplay, draft => {
         filledRowsAddresses.forEach(address => {
           draft.splice(address, 1);
           draft.unshift(emptyRow);
@@ -67,13 +69,13 @@ export const useDisplay = ({ width, height, move }) => {
     }
   }, mergedDisplay);
 
-  useDidUpdate(() => {
-    if (move?.isDown && didCollide()) {
+  useDidUpdate(() => { // game is over, resetting;
+    if (didCollide()) {
       setDisplay(emptyDisplay);
       setMergedDisplay(emptyDisplay);
       setSweptRowsCount(0);
     }
-  }, tetromino);
+  }, tetromino.id);
 
   return { display, sweptRowsCount };
 };

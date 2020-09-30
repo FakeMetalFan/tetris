@@ -1,32 +1,26 @@
-import { useCallback, useState } from 'react';
-
-import produce from 'immer';
+import { useState } from 'react';
 
 import { tetrominoMap } from 'const';
 
-import { TetrominoPosition } from 'view-models';
-
 export const useTetromino = ({ width }) => {
-  const [tetromino, setTetromino] = useState(null);
-  const [position, setPosition] = useState(new TetrominoPosition()); // should be apart from "Tetromino" class;
-
-  const randomize = useCallback(() => {
+  const getRandomTetromino = () => {
     const keys = [...tetrominoMap.keys()];
-    const item = tetrominoMap.get(keys[Math.random() * keys.length | 0]).clone();
+    const item = tetrominoMap.get(keys[Math.random() * keys.length | 0]);
 
-    setTetromino(item);
-    setPosition(new TetrominoPosition(0, (width - item.width) / 2 | 0));
-  }, [width]);
-
-  const makeMove = move => {
-    if (move.isRotation) setTetromino(tetromino.clone().rotate(move.direction));
-    else setPosition(prevPosition => produce(prevPosition, draft => {
-      const { rowAddress = 0, colAddress = 0 } = move.offset;
-
-      draft.rowAddress += rowAddress;
-      draft.colAddress += colAddress;
-    }));
+    return item.clone().setColAddress((width - item.width) / 2 | 0);
   };
 
-  return { tetromino, position, randomize, makeMove };
+  const [tetromino, setTetromino] = useState(() => getRandomTetromino());
+
+  const randomize = () => {
+    setTetromino(getRandomTetromino());
+  };
+
+  const makeMove = move => {
+    const item = tetromino.clone();
+
+    setTetromino(move.isRotation ? item.rotate() : item.setOffset(move.offset));
+  };
+
+  return { tetromino, randomize, makeMove };
 };

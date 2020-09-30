@@ -6,15 +6,32 @@ import { v4 as uuid } from 'uuid';
 
 import { rotationDirection } from 'const';
 
+import { Position } from './internals';
+
 export class Tetromino {
   [immerable] = true;
-
-  _id = uuid(); // to always detect a new piece;
+  id = uuid(); // to always detect a new piece;
+  position = new Position();
 
   constructor(
     matrix
   ) {
     this.matrix = matrix;
+  }
+
+  setColAddress(colAddress) {
+    this.position = new Position(0, colAddress);
+
+    return this;
+  }
+
+  setOffset({ rowAddress = 0, colAddress = 0 }) {
+    this.position = produce(this.position, draft => {
+      draft.rowAddress += rowAddress;
+      draft.colAddress += colAddress;
+    });
+
+    return this;
   }
 
   rotate(direction) {
@@ -36,5 +53,13 @@ export class Tetromino {
 
   get width() {
     return this.matrix.length;
+  }
+
+  get rowAddress() {
+    return this.position.rowAddress;
+  }
+
+  get colAddress() {
+    return this.position.colAddress;
   }
 }

@@ -1,4 +1,4 @@
 export * from './move';
 export * from './tetromino';
-export * from './tetromino-position';
+export * from './internals/position';
 export * from './tile';

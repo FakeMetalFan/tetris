@@ -1,24 +1,6 @@
-import { v4 as uuid } from 'uuid';
-
 import { moveCode, moveOffset, rotationDirection } from 'const';
 
-class Move {
-  _id = uuid(); // to always detect a new move;
-
-  constructor(
-    code
-  ) {
-    this._code = code;
-  }
-
-  get isRotation() {
-    return this._code === moveCode.Rotation;
-  }
-
-  get isDown() {
-    return this._code === moveCode.Down;
-  }
-}
+import { Move } from './internals';
 
 export class LeftMove extends Move {
   offset = moveOffset.Left;
@@ -42,9 +24,9 @@ export class RotationMove extends Move {
   }
 
   getOppositeMove() {
-    const dir = rotationDirection[this.direction === rotationDirection.Clockwise ? 'Counterclockwise' : 'Clockwise'];
-
-    return new RotationMove(dir);
+    return new RotationMove(
+      rotationDirection[this.direction === rotationDirection.Clockwise ? 'Counterclockwise' : 'Clockwise']
+    );
   }
 }
 

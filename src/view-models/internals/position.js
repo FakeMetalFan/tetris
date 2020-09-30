@@ -1,7 +1,10 @@
 import { immerable } from 'immer';
 
-export class TetrominoPosition {
+export class Position {
   [immerable] = true;
+
+  rowAddress;
+  colAddress;
 
   constructor(
     rowAddress = 0,
