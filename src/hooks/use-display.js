@@ -29,7 +29,7 @@ export const useDisplay = ({ width, height, move }) => {
     );
   }));
 
-  useEffect(() => { // drawing;
+  useEffect(() => {
     if (didCollide())
       if (move.isDown) setMergedDisplay(display);
       else makeMove(move.getOppositeMove());
@@ -49,9 +49,7 @@ export const useDisplay = ({ width, height, move }) => {
 
   useDidUpdate(() => {
     randomize();
-  }, mergedDisplay);
 
-  useDidUpdate(() => { // filled rows sweep;
     const filledRowsAddresses = mergedDisplay.reduce((acc, row, rowAddress) => {
       !some(row, 'isEmpty') && acc.push(rowAddress);
 
@@ -69,7 +67,7 @@ export const useDisplay = ({ width, height, move }) => {
     }
   }, mergedDisplay);
 
-  useDidUpdate(() => { // game over, reset;
+  useDidUpdate(() => {
     if (didCollide()) {
       setDisplay(emptyDisplay);
       setMergedDisplay(emptyDisplay);
