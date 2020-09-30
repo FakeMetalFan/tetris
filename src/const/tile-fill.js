@@ -1,5 +1,4 @@
-// should not be 0 to avoid some nasty logical operators issues;
-export const tileFill = {
+export const tileFill = { // should not contain "0" to avoid some nasty logical operators issues;
   None: -1,
   I: 1,
   J: 2,
