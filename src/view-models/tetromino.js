@@ -26,17 +26,10 @@ export class Tetromino {
   }
 
   @clone
-  setColAddress(tileAddress) {
-    this.position.tileAddress = tileAddress;
-
-    return this;
-  }
-
-  @clone
-  move({ rowAddress = 0, tileAddress = 0 }) {
+  move({ rowAddress = 0, colAddress = 0 }) {
     this.position = produce(this.position, draft => {
       draft.rowAddress += rowAddress;
-      draft.tileAddress += tileAddress;
+      draft.colAddress += colAddress;
     });
 
     return this;
@@ -63,7 +56,7 @@ export class Tetromino {
     return this.position.rowAddress;
   }
 
-  get tileAddress() {
-    return this.position.tileAddress;
+  get colAddress() {
+    return this.position.colAddress;
   }
 }

@@ -4,13 +4,13 @@ export class Position {
   [immerable] = true;
 
   rowAddress;
-  tileAddress;
+  colAddress;
 
   constructor(
     rowAddress = 0,
-    tileAddress = 0
+    colAddress = 0
   ) {
     this.rowAddress = rowAddress;
-    this.tileAddress = tileAddress;
+    this.colAddress = colAddress;
   }
 }
