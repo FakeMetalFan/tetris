@@ -5,6 +5,8 @@ import { tileFill } from 'const/tile-fill'; // to avoid circular dependency;
 export class TileVM {
   [immerable] = true;
 
+  fill;
+
   constructor(
     fill = tileFill.None
   ) {
