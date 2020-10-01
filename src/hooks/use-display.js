@@ -18,8 +18,8 @@ export const useDisplay = ({ width, height, move }) => {
 
   const { tetromino, randomize, makeMove } = useTetromino({ width });
 
-  const detectCollision = ({ matrix: state = tetromino.matrix, offset = new Position() } = {}) =>
-    state.some((row, rowAddress) => row.some(({ isEmpty }, colAddress) => {
+  const detectCollision = ({ matrix = tetromino.matrix, offset = new Position() } = {}) =>
+    matrix.some((row, rowAddress) => row.some(({ isEmpty }, colAddress) => {
       const targetRowAddress = rowAddress + tetromino.rowAddress + offset.rowAddress;
       const targetColAddress = colAddress + tetromino.colAddress + offset.colAddress;
 
