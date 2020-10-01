@@ -1,5 +1,7 @@
+import { Position } from 'view-models/position' // to avoid circular dependency;
+
 export const moveOffset = {
-  Left: { colAddress: -1 },
-  Right: { colAddress: 1 },
-  Down: { rowAddress: 1 },
+  Left: new Position(0, -1),
+  Right: new Position(0, 1),
+  Down: new Position(1),
 };

@@ -2,13 +2,13 @@ import produce from 'immer';
 
 import { v4 as uuid } from 'uuid';
 
-import { rotationDirection } from 'const';
-
 import { clone } from 'decorators/clone';
+
+import { Position } from './position';
 
 export class Tetromino {
   id = uuid(); // to always detect a new piece;
-  position = { rowAddress: 0, colAddress: 0 };
+  position = new Position();
 
   matrix;
 
@@ -19,15 +19,21 @@ export class Tetromino {
   }
 
   @clone
-  getCloned(colAddress) {
+  getCloned() {
     this.id = uuid();
+
+    return this;
+  }
+
+  @clone
+  setColAddress(colAddress) {
     this.position.colAddress = colAddress;
 
     return this;
   }
 
   @clone
-  getMoved({ rowAddress = 0, colAddress = 0 }) {
+  move({ rowAddress = 0, colAddress = 0 }) {
     this.position = produce(this.position, draft => {
       draft.rowAddress += rowAddress;
       draft.colAddress += colAddress;
@@ -37,14 +43,13 @@ export class Tetromino {
   }
 
   @clone
-  getRotated(direction) {
+  rotate() {
     this.matrix = produce(this.matrix, draft => {
       draft.forEach((_, rowAddress) => {
         draft[rowAddress] = this.matrix.map(col => col[rowAddress]);
       });
 
-      if (direction === rotationDirection.Clockwise) draft.map(row => row.reverse());
-      else draft.reverse();
+      draft.map(row => row.reverse());
     });
 
     return this;
