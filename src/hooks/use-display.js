@@ -19,21 +19,20 @@ export const useDisplay = ({ width, height, move }) => {
   const { tetromino, randomize, makeMove } = useTetromino({ width });
 
   const detectCollision = ({ matrix = tetromino.matrix, offset = new Position() } = {}) =>
-    matrix.some((row, rowAddress) => row.some(({ isEmpty }, colAddress) => {
-      const targetRowAddress = rowAddress + tetromino.rowAddress + offset.rowAddress;
-      const targetColAddress = colAddress + tetromino.colAddress + offset.colAddress;
+    matrix.some((row, rowAddress) => row.some(({ isEmpty }, tileAddress) => {
+      const rowAddressAhead = rowAddress + tetromino.rowAddress + offset.rowAddress;
+      const tileAddressAhead = tileAddress + tetromino.tileAddress + offset.tileAddress;
 
-      return !isEmpty && (!mergedDisplay[targetRowAddress]?.[targetColAddress]?.isEmpty // filled tile;
-        || targetRowAddress >= height // floor;
-        || (targetColAddress >= width || targetColAddress < 0) // walls;
+      return !isEmpty && (!mergedDisplay[rowAddressAhead]?.[tileAddressAhead]?.isEmpty
+        || rowAddressAhead >= height || tileAddressAhead >= width || tileAddressAhead < 0
       );
     }));
 
   useEffect(() => {
     setDisplay(produce(mergedDisplay, draft => {
       tetromino.matrix.forEach((row, rowAddress) => {
-        row.forEach((tile, colAddress) => {
-          !tile.isEmpty && (draft[rowAddress + tetromino.rowAddress][colAddress + tetromino.colAddress] = tile);
+        row.forEach((tile, tileAddress) => {
+          !tile.isEmpty && (draft[rowAddress + tetromino.rowAddress][tileAddress + tetromino.tileAddress] = tile);
         });
       });
     }));
