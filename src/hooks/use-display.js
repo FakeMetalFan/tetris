@@ -41,7 +41,7 @@ export const useDisplay = ({ width, height, move }) => {
   }, [tetromino.matrix, tetromino.position]);
 
   useDidUpdate(() => {
-    if (detectCollision(move.isRotation ? tetromino.getCloned().rotate() : move)) {
+    if (detectCollision(move.isRotation ? tetromino.clone().rotate() : move)) {
       if (!move.isDown) return;
 
       const filledRowsAddresses = display.reduce((acc, row, rowAddress) => {

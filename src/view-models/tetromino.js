@@ -19,7 +19,7 @@ export class Tetromino {
   }
 
   @clone
-  getCloned() {
+  clone() {
     this.id = uuid();
 
     return this;
