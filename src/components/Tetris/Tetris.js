@@ -56,7 +56,7 @@ export const Tetris = () => {
   return (
     <div className='tetris' tabIndex='0' onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} ref={container}>
       <div className='score'>{score}</div>
-      <Display state={display} columnsCount={width} />
+      <Display state={display} width={width} />
     </div>
   );
 };
