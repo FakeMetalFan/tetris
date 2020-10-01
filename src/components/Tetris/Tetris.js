@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { useDidUpdate, useDisplay, useInterval } from 'hooks';
+import { useTetris, useDidUpdate, useInterval } from 'hooks';
 
 import { keyCode } from 'const';
 
@@ -18,7 +18,7 @@ export const Tetris = () => {
   const [score, setScore] = useState(0);
   const [move, setMove] = useState(null);
 
-  const { display, sweptRowsCount } = useDisplay({ width, move, height: 20 });
+  const { state, sweptRowsCount } = useTetris({ width, move, height: 20 });
 
   const container = useRef();
 
@@ -56,7 +56,7 @@ export const Tetris = () => {
   return (
     <div className='tetris' tabIndex='0' onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} ref={container}>
       <div className='score'>{score}</div>
-      <Display state={display} width={width} />
+      <Display state={state} width={width} />
     </div>
   );
 };
