@@ -6,11 +6,9 @@ import { rotationDirection } from 'const';
 
 import { clone } from 'decorators/clone';
 
-import { Position } from './internals';
-
 export class Tetromino {
   id = uuid(); // to always detect a new piece;
-  position = new Position();
+  position = { rowAddress: 0, colAddress: 0 };
 
   matrix;
 
@@ -23,7 +21,7 @@ export class Tetromino {
   @clone
   getCloned(colAddress) {
     this.id = uuid();
-    this.position = new Position(0, colAddress);
+    this.position.colAddress = colAddress;
 
     return this;
   }
