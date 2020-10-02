@@ -23,13 +23,14 @@ export const Tetris = () => {
   const container = useRef();
 
   const drop = () => {
-    setMove(new DownMove());
+    /* eslint-disable new-parens */
+    setMove(new DownMove);
   };
 
   const handleKeyDown = ({ keyCode: code }) => {
-    code === keyCode.ArrowLeft && setMove(new LeftMove());
-    code === keyCode.ArrowUp && setMove(new RotationMove());
-    code === keyCode.ArrowRight && setMove(new RightMove());
+    code === keyCode.ArrowLeft && setMove(new LeftMove);
+    code === keyCode.ArrowUp && setMove(new RotationMove);
+    code === keyCode.ArrowRight && setMove(new RightMove);
 
     if (code === keyCode.ArrowDown) {
       setIntervalDelay(null);

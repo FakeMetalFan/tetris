@@ -7,8 +7,9 @@ import { clone } from 'decorators/clone';
 import { Position } from './position';
 
 export class Tetromino {
-  id = uuid(); // to always detect a new piece;
-  position = new Position();
+  id = uuid(); // to always detect a new tetromino;
+  // eslint-disable-next-line
+  position = new Position;
 
   matrix;
 

@@ -9,7 +9,8 @@ import { Position, TileVM } from 'view-models';
 import { useDidUpdate, useTetromino } from '.';
 
 export const useTetris = ({ width, height, move }) => {
-  const emptyRow = useMemo(() => Array(width).fill(new TileVM()), [width]);
+  /* eslint-disable new-parens */
+  const emptyRow = useMemo(() => Array(width).fill(new TileVM), [width]);
   const emptyState = useMemo(() => Array(height).fill(emptyRow), [emptyRow, height]);
 
   const [state, setState] = useState(emptyState);
@@ -18,7 +19,7 @@ export const useTetris = ({ width, height, move }) => {
 
   const { tetromino, randomize, makeMove } = useTetromino({ width });
 
-  const detectCollision = ({ matrix = tetromino.matrix, offset = new Position() } = {}) =>
+  const detectCollision = ({ matrix = tetromino.matrix, offset = new Position } = {}) =>
     matrix.some((row, rowAddress) => row.some(({ isEmpty }, colAddress) => {
       const rowAddressAhead = rowAddress + tetromino.rowAddress + offset.rowAddress;
       const colAddressAhead = colAddress + tetromino.colAddress + offset.colAddress;
