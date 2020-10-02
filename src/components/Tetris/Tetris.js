@@ -23,7 +23,6 @@ export const Tetris = () => {
   const container = useRef();
 
   const drop = () => {
-    /* eslint-disable new-parens */
     setMove(new DownMove);
   };
 

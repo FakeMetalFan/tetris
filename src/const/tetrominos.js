@@ -3,7 +3,6 @@ import { Tetromino } from 'view-models/tetromino'; // to avoid circular dependen
 
 import { tileFill } from './tile-fill';
 
-/* eslint-disable new-parens */
 export const tetrominos = [
   new Tetromino([
     [new TileVM, new TileVM(tileFill.I), new TileVM, new TileVM],

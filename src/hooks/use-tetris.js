@@ -9,7 +9,6 @@ import { Position, TileVM } from 'view-models';
 import { useDidUpdate, useTetromino } from '.';
 
 export const useTetris = ({ width, height, move }) => {
-  /* eslint-disable new-parens */
   const emptyRow = useMemo(() => Array(width).fill(new TileVM), [width]);
   const emptyState = useMemo(() => Array(height).fill(emptyRow), [emptyRow, height]);
 
@@ -37,7 +36,6 @@ export const useTetris = ({ width, height, move }) => {
         });
       });
     }));
-    // eslint-disable-next-line
   }, [tetromino.matrix, tetromino.position]);
 
   useDidUpdate(() => {

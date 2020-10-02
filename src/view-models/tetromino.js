@@ -8,7 +8,6 @@ import { Position } from './position';
 
 export class Tetromino {
   id = uuid(); // to always detect a new tetromino;
-  // eslint-disable-next-line
   position = new Position;
 
   matrix;
