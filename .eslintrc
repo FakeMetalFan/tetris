@@ -3,7 +3,6 @@
     "react-app"
   ],
   "rules": {
-    "no-unused-vars": "off",
     "new-parens": "off",
     "react-hooks/exhaustive-deps": "off"
   }
