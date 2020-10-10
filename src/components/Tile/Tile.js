@@ -36,5 +36,5 @@ export const Tile = memo(({ state: { fill } }) => {
       throw new Error(`Unexpected tile fill of "${fill}"!`);
   }
 
-  return (<div className={className} />);
+  return <div className={className} />;
 });

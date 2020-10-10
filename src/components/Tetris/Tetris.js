@@ -53,10 +53,8 @@ export const Tetris = () => {
     drop();
   }, intervalDelay);
 
-  return (
-    <div className='tetris' tabIndex='0' onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} ref={container}>
-      <div className='score'>{score}</div>
-      <Display state={state} width={width} />
-    </div>
-  );
+  return <div className='tetris' tabIndex='0' onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} ref={container}>
+    <div className='score'>{score}</div>
+    <Display state={state} width={width} />
+  </div>;
 };
