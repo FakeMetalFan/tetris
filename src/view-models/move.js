@@ -1,9 +1,7 @@
-import { v4 as uuid } from 'uuid';
-
 import { moveCode, moveOffset } from 'const';
 
 class Move {
-  _id = uuid(); // to always detect a new move;
+  _id = Symbol(); // to always detect a new move;
 
   _code;
 

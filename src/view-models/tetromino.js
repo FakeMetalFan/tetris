@@ -1,13 +1,11 @@
 import produce from 'immer';
 
-import { v4 as uuid } from 'uuid';
-
 import { clone } from 'decorators/clone';
 
 import { Position } from './position';
 
 export class Tetromino {
-  id = uuid(); // to always detect a new tetromino;
+  id = Symbol(); // to always detect a new tetromino;
   position = new Position;
 
   matrix;
@@ -20,7 +18,7 @@ export class Tetromino {
 
   @clone
   clone() {
-    this.id = uuid();
+    this.id = Symbol();
 
     return this;
   }
