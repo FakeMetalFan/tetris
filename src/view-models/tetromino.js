@@ -18,6 +18,11 @@ export class Tetromino {
 
   @clone
   clone() {
+    return this;
+  }
+
+  @clone
+  generateId() {
     this.id = Symbol();
 
     return this;
