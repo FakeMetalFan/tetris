@@ -4,7 +4,7 @@ import { tetrominos } from 'const';
 
 export const useTetromino = ({ width }) => {
   const getRandomTetromino = () => {
-    const item = tetrominos[Math.random() * tetrominos.length | 0].clone().generateId();
+    const item = tetrominos[Math.random() * tetrominos.length | 0].clone();
 
     return item.move({ colAddress: (width - item.width) / 2 | 0 });
   };
