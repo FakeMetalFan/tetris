@@ -12,11 +12,10 @@ import './Tetris.scss';
 
 export const Tetris = () => {
   const width = 10;
-  const delay = 800;
 
-  const [intervalDelay, setIntervalDelay] = useState(delay);
   const [score, setScore] = useState(0);
   const [move, setMove] = useState(null);
+  const [isAutoDrop, setIsAutoDrop] = useState(true);
 
   const { state, sweptRowsCount } = useTetris({ width, move, height: 20 });
 
@@ -32,13 +31,13 @@ export const Tetris = () => {
     code === keyCode.ArrowRight && setMove(new RightMove);
 
     if (code === keyCode.ArrowDown) {
-      setIntervalDelay(null);
+      setIsAutoDrop(false);
       drop();
     }
   };
 
   const handleKeyUp = ({ keyCode: code }) => {
-    code === keyCode.ArrowDown && setIntervalDelay(delay);
+    code === keyCode.ArrowDown && setIsAutoDrop(true);
   };
 
   useEffect(() => {
@@ -51,7 +50,7 @@ export const Tetris = () => {
 
   useInterval(() => {
     drop();
-  }, intervalDelay);
+  }, isAutoDrop ? 800 : null);
 
   return <div className='tetris' tabIndex='0' onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} ref={container}>
     <div className='score'>{score}</div>
