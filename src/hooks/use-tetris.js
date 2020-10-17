@@ -42,10 +42,10 @@ export const useTetris = ({ width, height, move }) => {
     if (detectCollision(move.isRotation ? tetromino.clone().rotate() : move)) {
       if (!move.isDown) return;
 
-      const filledRowsAddresses = state.reduce((acc, row, rowAddress) => {
-        !some(row, 'isEmpty') && acc.push(rowAddress);
+      const filledRowsAddresses = state.reduce((ac, row, rowAddress) => {
+        !some(row, 'isEmpty') && ac.push(rowAddress);
 
-        return acc;
+        return ac;
       }, []);
 
       if (filledRowsAddresses.length) {
