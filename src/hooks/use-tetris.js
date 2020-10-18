@@ -29,6 +29,10 @@ export const useTetris = ({ width, height, move }) => {
     }));
 
   useEffect(() => {
+    randomize();
+  }, [mergedState]);
+
+  useEffect(() => {
     setState(produce(mergedState, draft => {
       tetromino.matrix.forEach((row, rowAddress) => {
         row.forEach((tile, colAddress) => {
@@ -40,29 +44,25 @@ export const useTetris = ({ width, height, move }) => {
 
   useDidUpdate(() => {
     if (detectCollision(move.isRotation ? tetromino.clone().rotate() : move)) {
-      if (!move.isDown) return;
+      if (move.isDown) {
+        const filledRowsAddresses = state.reduce((ac, row, rowAddress) => {
+          !some(row, 'isEmpty') && ac.push(rowAddress);
 
-      const filledRowsAddresses = state.reduce((ac, row, rowAddress) => {
-        !some(row, 'isEmpty') && ac.push(rowAddress);
+          return ac;
+        }, []);
 
-        return ac;
-      }, []);
-
-      if (filledRowsAddresses.length) {
-        setMergedState(produce(state, draft => {
-          filledRowsAddresses.forEach(address => {
-            draft.splice(address, 1);
-            draft.unshift(emptyRow);
-          });
-        }));
-        setSweptRowsCount(count => count + filledRowsAddresses.length);
-      } else setMergedState(state);
+        if (filledRowsAddresses.length) {
+          setMergedState(produce(state, draft => {
+            filledRowsAddresses.forEach(address => {
+              draft.splice(address, 1);
+              draft.unshift(emptyRow);
+            });
+          }));
+          setSweptRowsCount(count => count + filledRowsAddresses.length);
+        } else setMergedState(state);
+      }
     } else makeMove(move);
   }, move);
-
-  useDidUpdate(() => {
-    randomize();
-  }, mergedState);
 
   useDidUpdate(() => {
     if (detectCollision()) {

@@ -2,17 +2,15 @@ import { useState } from 'react';
 
 import { tetrominos } from 'const';
 
+import { Tetromino } from 'view-models';
+
 export const useTetromino = ({ width }) => {
-  const getRandomTetromino = () => {
-    const item = tetrominos[Math.random() * tetrominos.length | 0].clone();
-
-    return item.move({ colAddress: (width - item.width) / 2 | 0 });
-  };
-
-  const [tetromino, setTetromino] = useState(() => getRandomTetromino());
+  const [tetromino, setTetromino] = useState(new Tetromino);
 
   const randomize = () => {
-    setTetromino(getRandomTetromino());
+    const item = tetrominos[Math.random() * tetrominos.length | 0].clone();
+
+    setTetromino(item.move({ colAddress: (width - item.width) / 2 | 0 }));
   };
 
   const makeMove = move => {

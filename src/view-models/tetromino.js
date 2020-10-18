@@ -11,7 +11,7 @@ export class Tetromino {
   matrix;
 
   constructor(
-    matrix
+    matrix = []
   ) {
     this.matrix = matrix;
   }
