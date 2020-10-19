@@ -1,10 +1,6 @@
-import { immerable } from 'immer';
-
 import { tileFill } from 'const/tile-fill'; // to avoid circular dependency;
 
 export class TileVM {
-  [immerable] = true;
-
   fill;
 
   constructor(
