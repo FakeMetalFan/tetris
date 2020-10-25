@@ -12,65 +12,65 @@ export const useDisplay = ({ width, height, move }) => {
   const emptyRow = useMemo(() => Array(width).fill(new TileVM), [width]);
   const emptyState = useMemo(() => Array(height).fill(emptyRow), [emptyRow, height]);
 
-  const [state, setState] = useState(emptyState);
-  const [mergedState, setMergedState] = useState(state);
-  const [sweptRowsCount, setSweptRowsCount] = useState(0);
+  const initialState = { current: emptyState, merged: emptyState, sweptRowsCount: 0 };
+
+  const [state, setState] = useState(initialState);
+
+  const { current, merged, sweptRowsCount } = state;
 
   const { tetromino, randomize, makeMove } = useTetromino({ width });
 
-  const detectCollision = ({ matrix = tetromino.matrix, offset = new Position } = {}) =>
-    matrix.some((row, rowAddress) => row.some(({ isEmpty }, colAddress) => {
+  const { matrix, position } = tetromino;
+
+  const detectCollision = ({ tetrominoState = matrix, offset = new Position } = {}) =>
+    tetrominoState.some((row, rowAddress) => row.some(({ isEmpty }, colAddress) => {
       const rowAddressAhead = rowAddress + tetromino.rowAddress + offset.rowAddress;
       const colAddressAhead = colAddress + tetromino.colAddress + offset.colAddress;
 
-      return !isEmpty && (!mergedState[rowAddressAhead]?.[colAddressAhead]?.isEmpty
+      return !isEmpty && (!merged[rowAddressAhead]?.[colAddressAhead]?.isEmpty
         || rowAddressAhead >= height || colAddressAhead >= width || colAddressAhead < 0
       );
     }));
 
   useEffect(() => {
     randomize();
-  }, [mergedState]);
+  }, [merged]);
 
   useEffect(() => {
-    setState(produce(mergedState, draft => {
-      tetromino.matrix.forEach((row, rowAddress) => {
+    setState({ ...state, current: produce(merged, draft => {
+      matrix.forEach((row, rowAddress) => {
         row.forEach((tile, colAddress) => {
           !tile.isEmpty && (draft[rowAddress + tetromino.rowAddress][colAddress + tetromino.colAddress] = tile);
         });
       });
-    }));
-  }, [tetromino.matrix, tetromino.position]);
+    }) });
+  }, [matrix, position]);
 
   useDidUpdate(() => {
     if (detectCollision(move.isRotation ? tetromino.clone().rotate() : move)) {
       if (move.isDown) {
-        const filledRowsAddresses = state.reduce((ac, row, rowAddress) => {
+        const filledRowsAddresses = current.reduce((ac, row, rowAddress) => {
           !some(row, 'isEmpty') && ac.push(rowAddress);
 
           return ac;
         }, []);
 
-        if (filledRowsAddresses.length) {
-          setMergedState(produce(state, draft => {
-            filledRowsAddresses.forEach(address => {
-              draft.splice(address, 1);
-              draft.unshift(emptyRow);
-            });
-          }));
-          setSweptRowsCount(count => count + filledRowsAddresses.length);
-        } else setMergedState(state);
+        const { length } = filledRowsAddresses;
+
+        if (length) setState({ ...state, sweptRowsCount: sweptRowsCount + length, merged: produce(current, draft => {
+          filledRowsAddresses.forEach(address => {
+            draft.splice(address, 1);
+            draft.unshift(emptyRow);
+          });
+        }) });
+        else setState({ ...state, merged: current });
       }
     } else makeMove(move);
   }, move);
 
   useDidUpdate(() => {
-    if (detectCollision()) {
-      setState(emptyState);
-      setMergedState(emptyState);
-      setSweptRowsCount(0);
-    }
+    detectCollision() && setState({ ...initialState });
   }, tetromino.id);
 
-  return { state, sweptRowsCount };
+  return { sweptRowsCount, state: current };
 };
