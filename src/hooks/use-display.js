@@ -8,7 +8,7 @@ import { Position, TileVM } from 'view-models';
 
 import { useDidUpdate, useTetromino } from '.';
 
-export const useTetris = ({ width, height, move }) => {
+export const useDisplay = ({ width, height, move }) => {
   const emptyRow = useMemo(() => Array(width).fill(new TileVM), [width]);
   const emptyState = useMemo(() => Array(height).fill(emptyRow), [emptyRow, height]);
 

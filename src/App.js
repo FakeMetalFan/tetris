@@ -4,6 +4,6 @@ import { Header, Tetris, Footer } from 'components';
 
 export const App = () => <>
   <Header />
-  <Tetris />
+  <Tetris width={10} height={20} />
   <Footer />
 </>;

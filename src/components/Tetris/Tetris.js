@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { useTetris, useDidUpdate, useInterval } from 'hooks';
+import { useDisplay, useDidUpdate, useInterval } from 'hooks';
 
 import { keyCode } from 'const';
 
@@ -10,34 +10,32 @@ import { Display } from '..';
 
 import './Tetris.scss';
 
-export const Tetris = () => {
-  const width = 10;
+export const Tetris = ({ width, height }) => {
+  const [state, setState] = useState({ score: 0, move: null, isAutoDrop: true });
 
-  const [score, setScore] = useState(0);
-  const [move, setMove] = useState(null);
-  const [isAutoDrop, setIsAutoDrop] = useState(true);
+  const { score, move, isAutoDrop } = state;
 
-  const { state, sweptRowsCount } = useTetris({ width, move, height: 20 });
+  const { state: displayState, sweptRowsCount } = useDisplay({ width, height, move });
 
   const container = useRef();
 
   const drop = () => {
-    setMove(new DownMove);
+    setState(prevState => ({ ...prevState, move: new DownMove })); // should be lazy, race condition;
   };
 
   const handleKeyDown = ({ keyCode: code }) => {
-    code === keyCode.ArrowLeft && setMove(new LeftMove);
-    code === keyCode.ArrowUp && setMove(new RotationMove);
-    code === keyCode.ArrowRight && setMove(new RightMove);
+    code === keyCode.ArrowLeft && setState({ ...state, move: new LeftMove });
+    code === keyCode.ArrowUp && setState({ ...state, move: new RotationMove });
+    code === keyCode.ArrowRight && setState({ ...state, move: new RightMove });
 
     if (code === keyCode.ArrowDown) {
-      setIsAutoDrop(false);
+      setState({ ...state, isAutoDrop: false });
       drop();
     }
   };
 
   const handleKeyUp = ({ keyCode: code }) => {
-    code === keyCode.ArrowDown && setIsAutoDrop(true);
+    code === keyCode.ArrowDown && setState({ ...state, isAutoDrop: true });
   };
 
   useEffect(() => {
@@ -45,7 +43,7 @@ export const Tetris = () => {
   }, []);
 
   useDidUpdate(() => {
-    setScore(prevScore => sweptRowsCount ? prevScore + sweptRowsCount * 10 : 0);
+    setState({ ...state, score: sweptRowsCount ? score + sweptRowsCount * 10 : 0 });
   }, sweptRowsCount);
 
   useInterval(() => {
@@ -54,6 +52,6 @@ export const Tetris = () => {
 
   return <div className='tetris' tabIndex='0' onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} ref={container}>
     <div className='score'>{score}</div>
-    <Display state={state} width={width} />
+    <Display state={displayState} width={width} />
   </div>;
 };
