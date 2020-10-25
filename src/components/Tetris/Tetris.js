@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { useDisplay, useDidUpdate, useInterval } from 'hooks';
 
-import { keyCode } from 'const';
+import { keyCode as code } from 'const';
 
 import { LeftMove, RotationMove, RightMove, DownMove } from 'view-models';
 
@@ -19,15 +19,15 @@ export const Tetris = ({ width, height }) => {
 
   const container = useRef();
 
-  const handleKeyDown = ({ keyCode: code }) => {
-    code === keyCode.ArrowLeft && setState({ ...state, move: new LeftMove });
-    code === keyCode.ArrowUp && setState({ ...state, move: new RotationMove });
-    code === keyCode.ArrowRight && setState({ ...state, move: new RightMove });
-    code === keyCode.ArrowDown && setState({ ...state, move: new DownMove, isAutoDrop: false });
+  const handleKeyDown = ({ keyCode }) => {
+    keyCode === code.ArrowLeft && setState({ ...state, move: new LeftMove });
+    keyCode === code.ArrowUp && setState({ ...state, move: new RotationMove });
+    keyCode === code.ArrowRight && setState({ ...state, move: new RightMove });
+    keyCode === code.ArrowDown && setState({ ...state, move: new DownMove, isAutoDrop: false });
   };
 
-  const handleKeyUp = ({ keyCode: code }) => {
-    code === keyCode.ArrowDown && setState({ ...state, isAutoDrop: true });
+  const handleKeyUp = ({ keyCode }) => {
+    keyCode === code.ArrowDown && setState({ ...state, isAutoDrop: true });
   };
 
   useEffect(() => {
