@@ -20,9 +20,7 @@ export const useDisplay = ({ width, height, move }) => {
 
   const { tetromino, randomize, makeMove } = useTetromino({ width });
 
-  const { matrix, position } = tetromino;
-
-  const detectCollision = ({ tetrominoState = matrix, offset = new Position } = {}) =>
+  const detectCollision = ({ tetrominoState = tetromino.matrix, offset = new Position } = {}) =>
     tetrominoState.some((row, rowAddress) => row.some(({ isEmpty }, colAddress) => {
       const rowAddressAhead = rowAddress + tetromino.rowAddress + offset.rowAddress;
       const colAddressAhead = colAddress + tetromino.colAddress + offset.colAddress;
@@ -38,13 +36,13 @@ export const useDisplay = ({ width, height, move }) => {
 
   useEffect(() => {
     setState({ ...state, current: produce(merged, draft => {
-      matrix.forEach((row, rowAddress) => {
+      tetromino.matrix.forEach((row, rowAddress) => {
         row.forEach((tile, colAddress) => {
           !tile.isEmpty && (draft[rowAddress + tetromino.rowAddress][colAddress + tetromino.colAddress] = tile);
         });
       });
     }) });
-  }, [matrix, position]);
+  }, [tetromino.matrix, tetromino.position]);
 
   useDidUpdate(() => {
     if (detectCollision(move.isRotation ? tetromino.clone().rotate() : move)) {
