@@ -19,19 +19,11 @@ export const Tetris = ({ width, height }) => {
 
   const container = useRef();
 
-  const drop = () => {
-    setState(prevState => ({ ...prevState, move: new DownMove })); // should be lazy, race condition;
-  };
-
   const handleKeyDown = ({ keyCode: code }) => {
     code === keyCode.ArrowLeft && setState({ ...state, move: new LeftMove });
     code === keyCode.ArrowUp && setState({ ...state, move: new RotationMove });
     code === keyCode.ArrowRight && setState({ ...state, move: new RightMove });
-
-    if (code === keyCode.ArrowDown) {
-      setState({ ...state, isAutoDrop: false });
-      drop();
-    }
+    code === keyCode.ArrowDown && setState({ ...state, move: new DownMove, isAutoDrop: false });
   };
 
   const handleKeyUp = ({ keyCode: code }) => {
@@ -47,7 +39,7 @@ export const Tetris = ({ width, height }) => {
   }, sweptRowsCount);
 
   useInterval(() => {
-    drop();
+    setState({ ...state, move: new DownMove });
   }, isAutoDrop ? 800 : null);
 
   return <div className='tetris' tabIndex='0' onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} ref={container}>
