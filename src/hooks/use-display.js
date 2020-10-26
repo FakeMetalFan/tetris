@@ -7,6 +7,8 @@ import some from 'lodash/some';
 
 import { Position, TileVM } from 'view-models';
 
+import { getRotatedMatrix } from 'utils/rotated-matrix';
+
 import { useDidUpdate, useTetromino } from '.';
 
 const actionType = {
@@ -20,11 +22,11 @@ const reducer = (state, { type, payload }) => type === actionType.Reset ? cloneD
   switch (type) {
     case actionType.DrawTetromino:
       draft.current = produce(draft.merged, dr => {
-        const { tetromino } = payload;
+        const { matrix, position } = payload;
 
-        tetromino.matrix.forEach((row, rowAddress) => {
+        matrix.forEach((row, rowAddress) => {
           row.forEach((tile, colAddress) => {
-            !tile.isEmpty && (dr[rowAddress + tetromino.rowAddress][colAddress + tetromino.colAddress] = tile);
+            !tile.isEmpty && (dr[rowAddress + position.rowAddress][colAddress + position.colAddress] = tile);
           });
         });
       });
@@ -54,12 +56,12 @@ export const useDisplay = ({ width, height, move }) => {
   const initialState = { current: emptyState, merged: emptyState, sweptRowsCount: 0 };
 
   const [{ current, merged, sweptRowsCount }, dispatch] = useReducer(reducer, initialState);
-  const { tetromino, randomize, makeMove } = useTetromino({ width });
+  const { id, matrix, position, randomize, makeMove } = useTetromino({ width });
 
-  const detectCollision = ({ tetrominoState = tetromino.matrix, offset = new Position } = {}) =>
+  const detectCollision = ({ tetrominoState = matrix, offset = new Position } = {}) =>
     tetrominoState.some((row, rowAddress) => row.some(({ isEmpty }, colAddress) => {
-      const rowAddressAhead = rowAddress + tetromino.rowAddress + offset.rowAddress;
-      const colAddressAhead = colAddress + tetromino.colAddress + offset.colAddress;
+      const rowAddressAhead = rowAddress + position.rowAddress + offset.rowAddress;
+      const colAddressAhead = colAddress + position.colAddress + offset.colAddress;
 
       return !isEmpty && (!merged[rowAddressAhead]?.[colAddressAhead]?.isEmpty
         || rowAddressAhead >= height || colAddressAhead >= width || colAddressAhead < 0
@@ -71,11 +73,11 @@ export const useDisplay = ({ width, height, move }) => {
   }, [merged]);
 
   useEffect(() => {
-    dispatch({ type: actionType.DrawTetromino, payload: { tetromino } });
-  }, [tetromino.matrix, tetromino.position]);
+    dispatch({ type: actionType.DrawTetromino, payload: { matrix, position } });
+  }, [matrix, position]);
 
   useDidUpdate(() => {
-    if (detectCollision(move.isRotation ? tetromino.clone().rotate() : move)) {
+    if (detectCollision(move.isRotation ? { tetrominoState: getRotatedMatrix(matrix) } : move)) {
       if (move.isDown) {
         const filledRowsAddresses = current.reduce((ac, row, rowAddress) => {
           !some(row, 'isEmpty') && ac.push(rowAddress);
@@ -93,7 +95,7 @@ export const useDisplay = ({ width, height, move }) => {
 
   useDidUpdate(() => {
     detectCollision() && dispatch({ type: actionType.Reset, payload: initialState });
-  }, tetromino.id);
+  }, id);
 
-  return { sweptRowsCount, state: current };
+  return { sweptRowsCount, displayState: current };
 };

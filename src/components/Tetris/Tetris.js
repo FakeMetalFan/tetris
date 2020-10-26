@@ -58,7 +58,7 @@ const reducer = (state, { type, payload }) => produce(state, draft => {
 
 export const Tetris = ({ width, height }) => {
   const [{ score, move, isAutoDrop }, dispatch] = useReducer(reducer, { score: 0, move: null, isAutoDrop: true });
-  const { state: displayState, sweptRowsCount } = useDisplay({ width, height, move });
+  const { displayState, sweptRowsCount } = useDisplay({ width, height, move });
   const container = useRef();
 
   const handleKeyDown = ({ keyCode }) => {

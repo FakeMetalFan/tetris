@@ -1,4 +1,4 @@
 export * from './key-code';
+export * from './matrices';
 export * from './move-offset';
-export * from './tetrominos';
 export * from './tile-fill';
