@@ -4,7 +4,7 @@ class Move {
   _id = Symbol(); // to always detect a new move;
 
   get isRotation() {
-    return this instanceof RotationMove;
+    return this instanceof Rotation;
   }
 
   get isDown() {
@@ -16,7 +16,7 @@ export class LeftMove extends Move {
   offset = moveOffset.Left;
 }
 
-export class RotationMove extends Move {}
+export class Rotation extends Move {}
 
 export class RightMove extends Move {
   offset = moveOffset.Right;

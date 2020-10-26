@@ -1,12 +1,51 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useReducer } from 'react';
 
 import produce from 'immer';
 
+import cloneDeep from 'lodash/cloneDeep';
 import some from 'lodash/some';
 
 import { Position, TileVM } from 'view-models';
 
 import { useDidUpdate, useTetromino } from '.';
+
+const actionType = {
+  DrawTetromino: 'draw-tetromino',
+  SweepFilledRows: 'sweep-filled-rows',
+  MergeState: 'merge-state',
+  Reset: 'reset',
+};
+
+const reducer = (state, { type, payload }) => type === actionType.Reset ? cloneDeep(payload) : produce(state, draft => {
+  switch (type) {
+    case actionType.DrawTetromino:
+      draft.current = produce(draft.merged, dr => {
+        const { tetromino } = payload;
+
+        tetromino.matrix.forEach((row, rowAddress) => {
+          row.forEach((tile, colAddress) => {
+            !tile.isEmpty && (dr[rowAddress + tetromino.rowAddress][colAddress + tetromino.colAddress] = tile);
+          });
+        });
+      });
+
+      break;
+    case actionType.SweepFilledRows:
+      const { filledRowsAddresses, emptyRow } = payload;
+
+      draft.sweptRowsCount += filledRowsAddresses.length;
+      draft.merged = produce(draft.current, dr => {
+        filledRowsAddresses.forEach(address => {
+          dr.splice(address, 1);
+          dr.unshift(emptyRow);
+        });
+      });
+
+      break;
+    case actionType.MergeState:
+      draft.merged = draft.current;
+  }
+});
 
 export const useDisplay = ({ width, height, move }) => {
   const emptyRow = useMemo(() => Array(width).fill(new TileVM), [width]);
@@ -14,10 +53,7 @@ export const useDisplay = ({ width, height, move }) => {
 
   const initialState = { current: emptyState, merged: emptyState, sweptRowsCount: 0 };
 
-  const [state, setState] = useState(initialState);
-
-  const { current, merged, sweptRowsCount } = state;
-
+  const [{ current, merged, sweptRowsCount }, dispatch] = useReducer(reducer, initialState);
   const { tetromino, randomize, makeMove } = useTetromino({ width });
 
   const detectCollision = ({ tetrominoState = tetromino.matrix, offset = new Position } = {}) =>
@@ -35,13 +71,7 @@ export const useDisplay = ({ width, height, move }) => {
   }, [merged]);
 
   useEffect(() => {
-    setState({ ...state, current: produce(merged, draft => {
-      tetromino.matrix.forEach((row, rowAddress) => {
-        row.forEach((tile, colAddress) => {
-          !tile.isEmpty && (draft[rowAddress + tetromino.rowAddress][colAddress + tetromino.colAddress] = tile);
-        });
-      });
-    }) });
+    dispatch({ type: actionType.DrawTetromino, payload: { tetromino } });
   }, [tetromino.matrix, tetromino.position]);
 
   useDidUpdate(() => {
@@ -53,21 +83,16 @@ export const useDisplay = ({ width, height, move }) => {
           return ac;
         }, []);
 
-        const { length } = filledRowsAddresses;
-
-        if (length) setState({ ...state, sweptRowsCount: sweptRowsCount + length, merged: produce(current, draft => {
-          filledRowsAddresses.forEach(address => {
-            draft.splice(address, 1);
-            draft.unshift(emptyRow);
-          });
-        }) });
-        else setState({ ...state, merged: current });
+        dispatch(filledRowsAddresses.length
+          ? { type: actionType.SweepFilledRows, payload: { filledRowsAddresses, emptyRow } }
+          : { type: actionType.MergeState }
+        );
       }
     } else makeMove(move);
   }, move);
 
   useDidUpdate(() => {
-    detectCollision() && setState({ ...initialState });
+    detectCollision() && dispatch({ type: actionType.Reset, payload: initialState });
   }, tetromino.id);
 
   return { sweptRowsCount, state: current };
