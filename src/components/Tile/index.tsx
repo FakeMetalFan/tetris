@@ -5,11 +5,7 @@ import FillChecker from 'utils/fill-checker';
 
 import styles from './tile.module.scss';
 
-interface Props {
-  fill: TileFill;
-}
-
-const Tile = ({ fill }: Props) => {
+const Tile = ({ fill }: { fill: TileFill }) => {
   const { isI, isJ, isL, isO, isS, isT, isZ } = new FillChecker(fill);
 
   return (
