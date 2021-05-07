@@ -1,0 +1,19 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: Comic Sans MS, cursive, sans-serif;
+  background-color: black;
+  color: white;
+}
+
+a {
+  color: inherit;
+}
+
+:root {
+  --headerHeight: 38px;
+  --footerHeight: 28px;
+}

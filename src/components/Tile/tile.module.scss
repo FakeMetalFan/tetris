@@ -1,0 +1,35 @@
+$tileDimension: 32px;
+
+.tile {
+  width: $tileDimension;
+  height: $tileDimension;
+  border-radius: 2px;
+}
+
+.i {
+  background-color: #0dc2ff;
+}
+
+.j {
+  background-color: #3877ff;
+}
+
+.l {
+  background-color: #ff8e0d;
+}
+
+.o {
+  background-color: #ffe138;
+}
+
+.s {
+  background-color: #0dff72;
+}
+
+.t {
+  background-color: #f538ff;
+}
+
+.z {
+  background-color: #ff0d72;
+}

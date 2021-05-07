@@ -1,0 +1,23 @@
+.tetris {
+  height: calc(100vh - #{var(--headerHeight)} - #{var(--footerHeight)});
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  text-decoration: none;
+  outline: 0;
+}
+
+.tiles {
+  width: fit-content;
+  display: grid;
+  grid-gap: 1px;
+  border: 2px solid white;
+  border-radius: 3px;
+}
+
+.score {
+  font-size: 30px;
+  font-weight: bold;
+}
