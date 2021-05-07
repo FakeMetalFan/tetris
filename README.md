@@ -27,7 +27,6 @@ npm start
 - React
 - Font Awesome
 - Immer
-- Lodash
 
 ## Working Demo
 
