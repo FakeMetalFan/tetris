@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import TileFill from 'constants/tile';
+import TileFill from 'constants/tile-fill';
 import React, { memo } from 'react';
 import FillChecker from 'utils/fill-checker';
 

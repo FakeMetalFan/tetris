@@ -1,4 +1,4 @@
-import TileFill from 'constants/tile';
+import TileFill from 'constants/tile-fill';
 
 class FillChecker {
   constructor(private fill: TileFill) {}
