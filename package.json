@@ -5,7 +5,8 @@
   "homepage": "http://fakemetalfan.github.io/tetris/",
   "scripts": {
     "start": "react-scripts start",
-    "lint": "eslint --ignore-pattern '/node_modules/' --ignore-pattern '/build/' .",
+    "lint:scripts": "eslint --ignore-pattern '/node_modules/' --ignore-pattern '/build/' . --fix",
+    "lint:styles": "npx stylelint src/**/*.scss --fix",
     "prettify": "prettier --write .",
     "test": "react-scripts test",
     "build": "react-scripts build",
@@ -43,7 +44,12 @@
     "gh-pages": "^3.1.0",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4",
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "stylelint": "^13.13.1",
+    "stylelint-config-sass-guidelines": "^8.0.0",
+    "stylelint-config-standard": "^22.0.0",
+    "stylelint-order": "^4.1.0",
+    "stylelint-scss": "^3.19.0"
   },
   "browserslist": {
     "production": [
@@ -133,18 +139,44 @@
       "@typescript-eslint/explicit-module-boundary-types": "off"
     }
   },
+  "stylelint": {
+    "extends": [
+      "stylelint-config-standard",
+      "stylelint-config-sass-guidelines"
+    ],
+    "plugins": [
+      "stylelint-order",
+      "stylelint-scss"
+    ],
+    "rules": {
+      "indentation": 2,
+      "number-leading-zero": null,
+      "color-named": "always-where-possible",
+      "order/order": [
+        "custom-properties",
+        "declarations"
+      ],
+      "order/properties-alphabetical-order": true,
+      "at-rule-no-unknown": null,
+      "scss/at-rule-no-unknown": true
+    }
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "*.+(js|jsx|ts|tsx)": [
-      "eslint --fix",
+    "*.+(ts|tsx)": [
+      "npm run lint:scripts",
       "git add"
     ],
-    "*.+(json|css|scss|md)": [
+    "*.+(json|scss|md)": [
       "prettier --write",
+      "git add"
+    ],
+    "*.+(scss)": [
+      "npm run lint:styles",
       "git add"
     ]
   }

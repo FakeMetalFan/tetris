@@ -1,9 +1,9 @@
-$tileDimension: 32px;
+$tile-size: 32px;
 
 .tile {
-  width: $tileDimension;
-  height: $tileDimension;
   border-radius: 2px;
+  height: $tile-size;
+  width: $tile-size;
 }
 
 .i {
