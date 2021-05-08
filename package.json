@@ -171,12 +171,12 @@
       "npm run lint:scripts",
       "git add"
     ],
-    "*.+(json|scss|md)": [
-      "prettier --write",
-      "git add"
-    ],
     "*.+(scss)": [
       "npm run lint:styles",
+      "git add"
+    ],
+    "*.+(json|md)": [
+      "prettier --write",
       "git add"
     ]
   }
