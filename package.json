@@ -5,7 +5,7 @@
   "homepage": "http://fakemetalfan.github.io/tetris/",
   "scripts": {
     "start": "react-scripts start",
-    "lint:scripts": "eslint --ignore-pattern '/node_modules/' --ignore-pattern '/build/' . --fix",
+    "lint:scripts": "eslint . --fix",
     "lint:styles": "npx stylelint src/**/*.scss --fix",
     "prettify": "prettier --write .",
     "test": "react-scripts test",
@@ -138,6 +138,9 @@
       "@typescript-eslint/explicit-module-boundary-types": "off"
     }
   },
+  "eslintIgnore": [
+    "/build/*"
+  ],
   "stylelint": {
     "extends": [
       "stylelint-config-standard",
