@@ -1,9 +1,7 @@
 import { useEffect, useRef } from 'react';
 
-type Callback = () => void;
-
-const useInterval = (callback: Callback, interval?: number | null) => {
-  const callbackRef = useRef<Callback>();
+const useInterval = (callback: () => void, interval?: number | null) => {
+  const callbackRef = useRef<typeof callback>();
 
   useEffect(() => {
     callbackRef.current = callback;
