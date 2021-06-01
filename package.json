@@ -153,14 +153,7 @@
     "rules": {
       "indentation": 2,
       "number-leading-zero": null,
-      "color-named": "always-where-possible",
-      "order/order": [
-        "custom-properties",
-        "declarations"
-      ],
-      "order/properties-alphabetical-order": true,
-      "at-rule-no-unknown": null,
-      "scss/at-rule-no-unknown": true
+      "color-named": "always-where-possible"
     }
   },
   "husky": {
