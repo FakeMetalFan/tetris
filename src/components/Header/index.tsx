@@ -5,7 +5,7 @@ import styles from './header.module.scss';
 
 const Header = () => (
   <header className={styles.header}>
-    <span className={styles.title}>Tetris</span>
+    Tetris
     <a
       className={styles.link}
       href="https://github.com/FakeMetalFan/tetris"
