@@ -6,7 +6,7 @@ import KeyCode from 'constants/key-code';
 import MoveCode from 'constants/move-code';
 import useDidMount from 'hooks/use-did-mount';
 import useTetris from 'hooks/use-tetris';
-import React, { KeyboardEvent, SyntheticEvent, useRef } from 'react';
+import { KeyboardEvent, SyntheticEvent, useRef } from 'react';
 import createMove from 'utils/create-move';
 
 import styles from './tetris.module.scss';
