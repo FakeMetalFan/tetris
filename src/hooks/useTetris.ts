@@ -1,14 +1,14 @@
-import TileFill from 'constants/tile-fill';
+import TileFill from 'constants/tileFill';
 import produce from 'immer';
 import { useEffect, useMemo, useState } from 'react';
-import addId from 'utils/add-id';
-import createMove from 'utils/create-move';
-import FillChecker from 'utils/fill-checker';
-import rotateMatrix from 'utils/rotate-matrix';
+import addId from 'utils/addId';
+import createMove from 'utils/createMove';
+import FillChecker from 'utils/fillChecker';
+import rotateMatrix from 'utils/rotateMatrix';
 
-import useDidUpdate from './use-did-update';
-import useInterval from './use-interval';
-import useTetromino from './use-tetromino';
+import useDidUpdate from './useDidUpdate';
+import useInterval from './useInterval';
+import useTetromino from './useTetromino';
 
 const useTetris = (params: TetrisParams) => {
   const { width, height } = params;

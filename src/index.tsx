@@ -3,7 +3,7 @@ import 'index.scss';
 import App from 'App';
 import { StrictMode } from 'react';
 import { render } from 'react-dom';
-import setupIcons from 'setup-icons';
+import setupIcons from 'setupIcons';
 
 setupIcons();
 

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import TileFill from 'constants/tile-fill';
+import TileFill from 'constants/tileFill';
 import { memo } from 'react';
-import FillChecker from 'utils/fill-checker';
+import FillChecker from 'utils/fillChecker';
 
 import styles from './tile.module.scss';
 

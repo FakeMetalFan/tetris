@@ -1,4 +1,4 @@
-import MoveCode from 'constants/move-code';
+import MoveCode from 'constants/moveCode';
 
 const createMove = (code?: MoveCode) => {
   switch (code) {

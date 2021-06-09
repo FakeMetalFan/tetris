@@ -2,12 +2,12 @@ import Counter from 'components/Counter';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 import Tile from 'components/Tile';
-import KeyCode from 'constants/key-code';
-import MoveCode from 'constants/move-code';
-import useDidMount from 'hooks/use-did-mount';
-import useTetris from 'hooks/use-tetris';
+import KeyCode from 'constants/keyCode';
+import MoveCode from 'constants/moveCode';
+import useDidMount from 'hooks/useDidMount';
+import useTetris from 'hooks/useTetris';
 import { KeyboardEvent, SyntheticEvent, useRef } from 'react';
-import createMove from 'utils/create-move';
+import createMove from 'utils/createMove';
 
 import styles from './tetris.module.scss';
 

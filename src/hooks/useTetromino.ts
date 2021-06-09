@@ -1,8 +1,8 @@
 import tetrominos from 'constants/tetrominos';
-import TileFill from 'constants/tile-fill';
+import TileFill from 'constants/tileFill';
 import produce from 'immer';
 import { useState } from 'react';
-import rotateMatrix from 'utils/rotate-matrix';
+import rotateMatrix from 'utils/rotateMatrix';
 
 const useTetromino = ({ width }: TetrisParams) => {
   const [tetromino, setTetromino] = useState<TileFill[][]>([]);
