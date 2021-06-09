@@ -21,7 +21,6 @@ describe('useInterval', () => {
 
   it('should stop interval if "interval" argument is "falsy"', () => {
     const ms = 1e3;
-
     const { rerender } = renderHook(
       ({ interval }) => useInterval(callbackMock, interval),
       {

@@ -30,7 +30,6 @@ describe('useTetris', () => {
     (tetrominos as any).default = [oTetromino];
 
     const { result } = renderHook(() => useTetris(params));
-
     const { tiles } = result.current;
 
     expect(tiles[0][1].fill).toBe(TileFill.O);
@@ -58,7 +57,6 @@ describe('useTetris', () => {
     (tetrominos as any).default = [oTetromino];
 
     const { result } = renderHook(() => useTetris(params));
-
     const { tiles } = result.current;
 
     expect(tiles[0][1].fill).toBe(TileFill.O);
@@ -84,7 +82,6 @@ describe('useTetris', () => {
     (tetrominos as any).default = [oTetromino];
 
     const { result } = renderHook(() => useTetris(params));
-
     const { tiles: initialTiles } = result.current;
 
     expect(initialTiles[0][1].fill).toBe(TileFill.O);
@@ -125,7 +122,6 @@ describe('useTetris', () => {
     (tetrominos as any).default = [oTetromino];
 
     const { result } = renderHook(() => useTetris(params));
-
     const { tiles: initialTiles } = result.current;
 
     expect(initialTiles[0][1].fill).toBe(TileFill.O);
@@ -185,7 +181,6 @@ describe('useTetris', () => {
     (tetrominos as any).default = [oTetromino];
 
     const { result } = renderHook(() => useTetris(params));
-
     const { tiles } = result.current;
 
     expect(tiles[0][1].fill).toBe(TileFill.O);
@@ -211,7 +206,6 @@ describe('useTetris', () => {
     (tetrominos as any).default = [oTetromino];
 
     const { result } = renderHook(() => useTetris(params));
-
     const { tiles } = result.current;
 
     expect(tiles[0][1].fill).toBe(TileFill.O);
@@ -237,7 +231,6 @@ describe('useTetris', () => {
     (tetrominos as any).default = [zTetromino];
 
     const { result } = renderHook(() => useTetris(params));
-
     const { tiles } = result.current;
 
     expect(tiles[0][0].fill).toBe(TileFill.Z);
@@ -275,7 +268,6 @@ describe('useTetris', () => {
     (tetrominos as any).default = [oTetromino];
 
     const { result } = renderHook(() => useTetris(params));
-
     const { tiles, score } = result.current;
 
     expect(tiles[0][1].fill).toBe(TileFill.O);

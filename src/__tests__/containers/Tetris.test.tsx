@@ -31,7 +31,6 @@ describe('Tetris', () => {
 
   it('should set tiles width', () => {
     const width = 2;
-
     const { container } = render(<Tetris width={width} height={3} />);
 
     expect(
@@ -43,7 +42,6 @@ describe('Tetris', () => {
   it('should display tiles', () => {
     const width = 5;
     const height = 5;
-
     const { container } = render(<Tetris width={width} height={height} />);
 
     expect(container.getElementsByClassName(tileStyles.tile).length).toBe(
@@ -53,7 +51,6 @@ describe('Tetris', () => {
 
   it('should prevent navigating to the same url when clicked', () => {
     const { container } = render(<Tetris width={1} height={2} />);
-
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
     clickEvent.preventDefault = jest.fn();
@@ -74,9 +71,7 @@ describe('Tetris', () => {
     ];
 
     const { container } = render(<Tetris width={5} height={4} />);
-
     const tetrisElem = container.getElementsByClassName(styles.tetris)[0];
-
     const { children: tilesElems } = container.getElementsByClassName(
       styles.tiles
     )[0];
@@ -99,9 +94,7 @@ describe('Tetris', () => {
     (tetrominos as any).default = [oTetromino];
 
     const { container } = render(<Tetris width={4} height={3} />);
-
     const tetrisElem = container.getElementsByClassName(styles.tetris)[0];
-
     const { children: tilesElems } = container.getElementsByClassName(
       styles.tiles
     )[0];
@@ -124,9 +117,7 @@ describe('Tetris', () => {
     (tetrominos as any).default = [oTetromino];
 
     const { container } = render(<Tetris width={4} height={3} />);
-
     const tetrisElem = container.getElementsByClassName(styles.tetris)[0];
-
     const { children: tilesElems } = container.getElementsByClassName(
       styles.tiles
     )[0];
@@ -149,9 +140,7 @@ describe('Tetris', () => {
     (tetrominos as any).default = [oTetromino];
 
     const { container } = render(<Tetris width={4} height={8} />);
-
     const tetrisElem = container.getElementsByClassName(styles.tetris)[0];
-
     const { children: tilesElems } = container.getElementsByClassName(
       styles.tiles
     )[0];
