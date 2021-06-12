@@ -180,11 +180,11 @@
   },
   "jest": {
     "coveragePathIgnorePatterns": [
+      "<rootDir>/src/components/Header/",
+      "<rootDir>/src/constants/",
       "<rootDir>/src/App.tsx",
       "<rootDir>/src/index.tsx",
-      "<rootDir>/src/setupIcons.ts",
-      "<rootDir>/src/components/Header/",
-      "<rootDir>/src/constants/"
+      "<rootDir>/src/setupIcons.ts"
     ]
   }
 }
