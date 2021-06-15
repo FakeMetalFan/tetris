@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import Footer from 'components/Footer';
 import setupIcons from 'setupIcons';
 
@@ -8,8 +8,8 @@ describe('Footer', () => {
   });
 
   it('should display a current year', () => {
-    render(<Footer />);
+    const { getByText } = render(<Footer />);
 
-    expect(screen.getByText(new Date().getFullYear())).toBeInTheDocument();
+    expect(getByText(new Date().getFullYear())).toBeInTheDocument();
   });
 });
