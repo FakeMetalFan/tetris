@@ -9,30 +9,26 @@ describe('useInterval', () => {
   });
 
   it('should run interval', () => {
-    const ms = 500;
-    const callsCount = 2;
+    renderHook(() => useInterval(callbackMock, 500));
 
-    renderHook(() => useInterval(callbackMock, ms));
+    jest.advanceTimersByTime(2e3);
 
-    jest.advanceTimersByTime(ms * callsCount);
-
-    expect(callbackMock).toHaveBeenCalledTimes(callsCount);
+    expect(callbackMock).toHaveBeenCalledTimes(4);
   });
 
   it('should stop interval if "interval" argument is "falsy"', () => {
-    const ms = 1e3;
     const { rerender } = renderHook(
       ({ interval }) => useInterval(callbackMock, interval),
       {
-        initialProps: { interval: ms },
+        initialProps: { interval: 1e3 },
       }
     );
 
-    jest.advanceTimersByTime(ms);
+    jest.advanceTimersByTime(1e3);
 
     rerender({ interval: 0 });
 
-    jest.advanceTimersByTime(ms);
+    jest.advanceTimersByTime(1e3);
 
     expect(callbackMock).toHaveBeenCalledTimes(1);
   });

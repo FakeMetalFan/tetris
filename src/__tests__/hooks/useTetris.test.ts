@@ -6,8 +6,6 @@ import useTetris from 'hooks/useTetris';
 import createMove from 'utils/createMove';
 
 describe('useTetris', () => {
-  const params = { width: 4, height: 5 };
-
   const oTetromino = [
     [TileFill.O, TileFill.O],
     [TileFill.O, TileFill.O],
@@ -19,8 +17,6 @@ describe('useTetris', () => {
     [TileFill.Empty, TileFill.Empty, TileFill.Empty],
   ];
 
-  const autoDropMs = 1e3;
-
   beforeEach(() => {
     jest.useFakeTimers();
   });
@@ -29,11 +25,11 @@ describe('useTetris', () => {
     /* eslint-disable @typescript-eslint/no-explicit-any */
     (tetrominos as any).default = [oTetromino];
 
-    const { result } = renderHook(() => useTetris(params));
+    const { result } = renderHook(() => useTetris({ width: 4, height: 5 }));
 
     (tetrominos as any).default = [zTetromino];
 
-    for (let i = 0; i < params.height - 1; i += 1) {
+    for (let i = 0; i < { width: 4, height: 5 }.height - 1; i += 1) {
       act(() => {
         result.current.setMove(createMove());
       });
@@ -50,31 +46,28 @@ describe('useTetris', () => {
   it('should auto drop tetromino', () => {
     (tetrominos as any).default = [oTetromino];
 
-    const { result } = renderHook(() => useTetris(params));
-
-    const autoDropTimesCount = 2;
+    const { result } = renderHook(() => useTetris({ width: 4, height: 5 }));
 
     act(() => {
-      jest.advanceTimersByTime(autoDropMs * autoDropTimesCount);
+      jest.advanceTimersByTime(2e3);
     });
 
     const { tiles } = result.current;
 
-    expect(tiles[autoDropTimesCount][1].fill).toBe(TileFill.O);
-    expect(tiles[autoDropTimesCount][2].fill).toBe(TileFill.O);
-    expect(tiles[autoDropTimesCount + 1][1].fill).toBe(TileFill.O);
-    expect(tiles[autoDropTimesCount + 1][2].fill).toBe(TileFill.O);
+    expect(tiles[2][1].fill).toBe(TileFill.O);
+    expect(tiles[2][2].fill).toBe(TileFill.O);
+    expect(tiles[3][1].fill).toBe(TileFill.O);
+    expect(tiles[3][2].fill).toBe(TileFill.O);
   });
 
   it('should enable / disable auto drop', () => {
     (tetrominos as any).default = [oTetromino];
 
-    const { result } = renderHook(() => useTetris(params));
+    const { result } = renderHook(() => useTetris({ width: 4, height: 5 }));
 
     act(() => {
       result.current.setIsAutoDrop(false);
-
-      jest.advanceTimersByTime(autoDropMs);
+      jest.advanceTimersByTime(1e3);
     });
 
     const { tiles } = result.current;
@@ -84,35 +77,30 @@ describe('useTetris', () => {
     expect(tiles[1][1].fill).toBe(TileFill.O);
     expect(tiles[1][2].fill).toBe(TileFill.O);
 
-    const autoDropTimesCount = 2;
-
     act(() => {
       result.current.setIsAutoDrop(true);
 
-      jest.advanceTimersByTime(autoDropMs * autoDropTimesCount);
+      jest.advanceTimersByTime(2e3);
     });
 
     const { tiles: nextTiles } = result.current;
 
-    expect(nextTiles[autoDropTimesCount][1].fill).toBe(TileFill.O);
-    expect(nextTiles[autoDropTimesCount][2].fill).toBe(TileFill.O);
-    expect(nextTiles[autoDropTimesCount + 1][1].fill).toBe(TileFill.O);
-    expect(nextTiles[autoDropTimesCount + 1][2].fill).toBe(TileFill.O);
+    expect(nextTiles[2][1].fill).toBe(TileFill.O);
+    expect(nextTiles[2][2].fill).toBe(TileFill.O);
+    expect(nextTiles[3][1].fill).toBe(TileFill.O);
+    expect(nextTiles[3][2].fill).toBe(TileFill.O);
   });
 
   it('should reset itself', () => {
     (tetrominos as any).default = [oTetromino];
 
-    const { result } = renderHook(() => useTetris(params));
+    const { result } = renderHook(() => useTetris({ width: 4, height: 5 }));
 
     act(() => {
       result.current.setMove(createMove(MoveCode.Left));
-
-      jest.advanceTimersByTime(autoDropMs * 4);
-
+      jest.advanceTimersByTime(4e3);
       result.current.setMove(createMove(MoveCode.Right));
-
-      jest.advanceTimersByTime(autoDropMs * 9);
+      jest.advanceTimersByTime(9e3);
     });
 
     const { tiles, score } = result.current;
@@ -150,7 +138,7 @@ describe('useTetris', () => {
   it('should move tetromino to the left without colliding', () => {
     (tetrominos as any).default = [oTetromino];
 
-    const { result } = renderHook(() => useTetris(params));
+    const { result } = renderHook(() => useTetris({ width: 4, height: 5 }));
 
     for (let i = 0; i < 5; i += 1) {
       act(() => {
@@ -169,7 +157,7 @@ describe('useTetris', () => {
   it('should move tetromino to the right without colliding', () => {
     (tetrominos as any).default = [oTetromino];
 
-    const { result } = renderHook(() => useTetris(params));
+    const { result } = renderHook(() => useTetris({ width: 4, height: 5 }));
 
     for (let i = 0; i < 5; i += 1) {
       act(() => {
@@ -188,7 +176,7 @@ describe('useTetris', () => {
   it('should rotate tetromino without colliding', () => {
     (tetrominos as any).default = [zTetromino];
 
-    const { result } = renderHook(() => useTetris(params));
+    const { result } = renderHook(() => useTetris({ width: 4, height: 5 }));
 
     act(() => {
       result.current.setMove(createMove(MoveCode.Left));
@@ -219,16 +207,13 @@ describe('useTetris', () => {
   it('should clear filled row and set score', () => {
     (tetrominos as any).default = [oTetromino];
 
-    const { result } = renderHook(() => useTetris(params));
+    const { result } = renderHook(() => useTetris({ width: 4, height: 5 }));
 
     act(() => {
       result.current.setMove(createMove(MoveCode.Left));
-
-      jest.advanceTimersByTime(autoDropMs * 4);
-
+      jest.advanceTimersByTime(4e3);
       result.current.setMove(createMove(MoveCode.Right));
-
-      jest.advanceTimersByTime(autoDropMs * 4);
+      jest.advanceTimersByTime(4e3);
     });
 
     const { tiles, score } = result.current;

@@ -5,44 +5,44 @@ import TileFill from 'constants/tileFill';
 
 describe('Tile', () => {
   it('should have "I" tile background color', () => {
-    const { container } = render(<Tile fill={TileFill.I} />);
+    const { getByRole } = render(<Tile fill={TileFill.I} />);
 
-    expect(container.firstChild).toHaveClass(styles.i);
+    expect(getByRole('button')).toHaveClass(styles.i);
   });
 
   it('should have "J" tile background color', () => {
-    const { container } = render(<Tile fill={TileFill.J} />);
+    const { getByRole } = render(<Tile fill={TileFill.J} />);
 
-    expect(container.firstChild).toHaveClass(styles.j);
+    expect(getByRole('button')).toHaveClass(styles.j);
   });
 
   it('should have "L" tile background color', () => {
-    const { container } = render(<Tile fill={TileFill.L} />);
+    const { getByRole } = render(<Tile fill={TileFill.L} />);
 
-    expect(container.firstChild).toHaveClass(styles.l);
+    expect(getByRole('button')).toHaveClass(styles.l);
   });
 
   it('should have "O" tile background color', () => {
-    const { container } = render(<Tile fill={TileFill.O} />);
+    const { getByRole } = render(<Tile fill={TileFill.O} />);
 
-    expect(container.firstChild).toHaveClass(styles.o);
+    expect(getByRole('button')).toHaveClass(styles.o);
   });
 
   it('should have "S" tile background color', () => {
-    const { container } = render(<Tile fill={TileFill.S} />);
+    const { getByRole } = render(<Tile fill={TileFill.S} />);
 
-    expect(container.firstChild).toHaveClass(styles.s);
+    expect(getByRole('button')).toHaveClass(styles.s);
   });
 
   it('should have "T" tile background color', () => {
-    const { container } = render(<Tile fill={TileFill.T} />);
+    const { getByRole } = render(<Tile fill={TileFill.T} />);
 
-    expect(container.firstChild).toHaveClass(styles.t);
+    expect(getByRole('button')).toHaveClass(styles.t);
   });
 
   it('should have "Z" tile background color', () => {
-    const { container } = render(<Tile fill={TileFill.Z} />);
+    const { getByRole } = render(<Tile fill={TileFill.Z} />);
 
-    expect(container.firstChild).toHaveClass(styles.z);
+    expect(getByRole('button')).toHaveClass(styles.z);
   });
 });

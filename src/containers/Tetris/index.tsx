@@ -56,6 +56,7 @@ const Tetris = (params: TetrisParams) => {
       <main>
         <a
           href="/"
+          data-testid={styles.tetris}
           className={styles.tetris}
           ref={containerRef}
           onClick={handleClick}
@@ -66,6 +67,7 @@ const Tetris = (params: TetrisParams) => {
             <Counter count={score} />
           </div>
           <div
+            data-testid={styles.tiles}
             className={styles.tiles}
             style={{ gridTemplateColumns: `repeat(${width}, 1fr)` }}
           >

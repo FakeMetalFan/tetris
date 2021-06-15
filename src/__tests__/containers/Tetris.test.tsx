@@ -22,34 +22,26 @@ describe('Tetris', () => {
   });
 
   it('should be focused', () => {
-    const { container } = render(<Tetris width={1} height={1} />);
+    const { getByTestId } = render(<Tetris width={1} height={1} />);
 
-    expect(document.activeElement).toStrictEqual(
-      container.getElementsByClassName(styles.tetris)[0]
-    );
+    expect(document.activeElement).toStrictEqual(getByTestId(styles.tetris));
   });
 
   it('should display tiles', () => {
-    const width = 5;
-    const height = 5;
-    const { container } = render(<Tetris width={width} height={height} />);
+    const { getByTestId } = render(<Tetris width={5} height={5} />);
+    const tiles = getByTestId(styles.tiles);
 
-    expect(container.getElementsByClassName(tileStyles.tile).length).toBe(
-      width * height
-    );
-    expect(
-      (container.getElementsByClassName(styles.tiles)[0] as HTMLElement).style
-        .gridTemplateColumns
-    ).toBe(`repeat(${width}, 1fr)`);
+    expect(tiles.childElementCount).toBe(25);
+    expect(tiles.style.gridTemplateColumns).toBe('repeat(5, 1fr)');
   });
 
   it('should prevent navigating to the same url when clicked', () => {
-    const { container } = render(<Tetris width={1} height={2} />);
+    const { getByTestId } = render(<Tetris width={1} height={2} />);
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
     clickEvent.preventDefault = jest.fn();
 
-    fireEvent(container.getElementsByClassName(styles.tetris)[0], clickEvent);
+    fireEvent(getByTestId(styles.tetris), clickEvent);
 
     expect(clickEvent.preventDefault).toHaveBeenCalledTimes(1);
   });
@@ -64,113 +56,103 @@ describe('Tetris', () => {
       ],
     ];
 
-    const { container } = render(<Tetris width={5} height={4} />);
-    const tetrisElem = container.getElementsByClassName(styles.tetris)[0];
-    const { children: tilesElems } = container.getElementsByClassName(
-      styles.tiles
-    )[0];
+    const { getByTestId } = render(<Tetris width={5} height={4} />);
+    const tetris = getByTestId(styles.tetris);
+    const { children: tiles } = getByTestId(styles.tiles);
 
-    expect(tilesElems[1].classList.contains(tileStyles.z)).toBe(true);
-    expect(tilesElems[2].classList.contains(tileStyles.z)).toBe(true);
-    expect(tilesElems[7].classList.contains(tileStyles.z)).toBe(true);
-    expect(tilesElems[8].classList.contains(tileStyles.z)).toBe(true);
+    expect(tiles[1].classList.contains(tileStyles.z)).toBe(true);
+    expect(tiles[2].classList.contains(tileStyles.z)).toBe(true);
+    expect(tiles[7].classList.contains(tileStyles.z)).toBe(true);
+    expect(tiles[8].classList.contains(tileStyles.z)).toBe(true);
 
-    fireEvent.keyDown(tetrisElem, { keyCode: KeyCode.ArrowUp });
-    fireEvent.keyUp(tetrisElem, { keyCode: KeyCode.ArrowUp });
+    fireEvent.keyDown(tetris, { keyCode: KeyCode.ArrowUp });
+    fireEvent.keyUp(tetris, { keyCode: KeyCode.ArrowUp });
 
-    expect(tilesElems[3].classList.contains(tileStyles.z)).toBe(true);
-    expect(tilesElems[7].classList.contains(tileStyles.z)).toBe(true);
-    expect(tilesElems[8].classList.contains(tileStyles.z)).toBe(true);
-    expect(tilesElems[12].classList.contains(tileStyles.z)).toBe(true);
+    expect(tiles[3].classList.contains(tileStyles.z)).toBe(true);
+    expect(tiles[7].classList.contains(tileStyles.z)).toBe(true);
+    expect(tiles[8].classList.contains(tileStyles.z)).toBe(true);
+    expect(tiles[12].classList.contains(tileStyles.z)).toBe(true);
   });
 
   it('should move tetromino to the left', () => {
     (tetrominos as any).default = [oTetromino];
 
-    const { container } = render(<Tetris width={4} height={3} />);
-    const tetrisElem = container.getElementsByClassName(styles.tetris)[0];
-    const { children: tilesElems } = container.getElementsByClassName(
-      styles.tiles
-    )[0];
+    const { getByTestId } = render(<Tetris width={4} height={3} />);
+    const tetris = getByTestId(styles.tetris);
+    const { children: tiles } = getByTestId(styles.tiles);
 
-    expect(tilesElems[1].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[2].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[5].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[6].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[1].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[2].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[5].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[6].classList.contains(tileStyles.o)).toBe(true);
 
-    fireEvent.keyDown(tetrisElem, { keyCode: KeyCode.ArrowLeft });
-    fireEvent.keyUp(tetrisElem, { keyCode: KeyCode.ArrowLeft });
+    fireEvent.keyDown(tetris, { keyCode: KeyCode.ArrowLeft });
+    fireEvent.keyUp(tetris, { keyCode: KeyCode.ArrowLeft });
 
-    expect(tilesElems[0].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[1].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[4].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[5].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[0].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[1].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[4].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[5].classList.contains(tileStyles.o)).toBe(true);
   });
 
   it('should move tetromino to the right', () => {
     (tetrominos as any).default = [oTetromino];
 
-    const { container } = render(<Tetris width={4} height={3} />);
-    const tetrisElem = container.getElementsByClassName(styles.tetris)[0];
-    const { children: tilesElems } = container.getElementsByClassName(
-      styles.tiles
-    )[0];
+    const { getByTestId } = render(<Tetris width={4} height={3} />);
+    const tetris = getByTestId(styles.tetris);
+    const { children: tiles } = getByTestId(styles.tiles);
 
-    expect(tilesElems[1].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[2].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[5].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[6].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[1].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[2].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[5].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[6].classList.contains(tileStyles.o)).toBe(true);
 
-    fireEvent.keyDown(tetrisElem, { keyCode: KeyCode.ArrowRight });
-    fireEvent.keyUp(tetrisElem, { keyCode: KeyCode.ArrowRight });
+    fireEvent.keyDown(tetris, { keyCode: KeyCode.ArrowRight });
+    fireEvent.keyUp(tetris, { keyCode: KeyCode.ArrowRight });
 
-    expect(tilesElems[2].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[3].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[6].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[7].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[2].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[3].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[6].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[7].classList.contains(tileStyles.o)).toBe(true);
   });
 
   it('should drop tetromino with auto drop handling', () => {
     (tetrominos as any).default = [oTetromino];
 
-    const { container } = render(<Tetris width={4} height={8} />);
-    const tetrisElem = container.getElementsByClassName(styles.tetris)[0];
-    const { children: tilesElems } = container.getElementsByClassName(
-      styles.tiles
-    )[0];
+    const { getByTestId } = render(<Tetris width={4} height={8} />);
+    const tetris = getByTestId(styles.tetris);
+    const { children: tiles } = getByTestId(styles.tiles);
 
-    expect(tilesElems[1].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[2].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[5].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[6].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[1].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[2].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[5].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[6].classList.contains(tileStyles.o)).toBe(true);
 
-    fireEvent.keyDown(tetrisElem, { keyCode: KeyCode.ArrowDown });
+    fireEvent.keyDown(tetris, { keyCode: KeyCode.ArrowDown });
 
-    expect(tilesElems[5].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[6].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[9].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[10].classList.contains(tileStyles.o)).toBe(true);
-
-    const autoDropMs = 1e3;
+    expect(tiles[5].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[6].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[9].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[10].classList.contains(tileStyles.o)).toBe(true);
 
     act(() => {
-      jest.advanceTimersByTime(autoDropMs);
+      jest.advanceTimersByTime(1e3);
     });
 
-    expect(tilesElems[5].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[6].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[9].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[10].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[5].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[6].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[9].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[10].classList.contains(tileStyles.o)).toBe(true);
 
-    fireEvent.keyUp(tetrisElem, { keyCode: KeyCode.ArrowDown });
+    fireEvent.keyUp(tetris, { keyCode: KeyCode.ArrowDown });
 
     act(() => {
-      jest.advanceTimersByTime(autoDropMs * 2);
+      jest.advanceTimersByTime(2e3);
     });
 
-    expect(tilesElems[13].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[14].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[17].classList.contains(tileStyles.o)).toBe(true);
-    expect(tilesElems[18].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[13].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[14].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[17].classList.contains(tileStyles.o)).toBe(true);
+    expect(tiles[18].classList.contains(tileStyles.o)).toBe(true);
   });
 });

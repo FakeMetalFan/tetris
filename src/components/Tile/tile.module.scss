@@ -1,9 +1,15 @@
 $tile-size: 32px;
 
 .tile {
+  background-color: transparent;
   border-radius: 2px;
+  border-style: none;
   height: $tile-size;
   width: $tile-size;
+
+  &:focus {
+    outline: 0;
+  }
 }
 
 .i {

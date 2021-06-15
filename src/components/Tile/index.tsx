@@ -9,7 +9,9 @@ const Tile = ({ fill }: { fill: TileFill }) => {
   const { isI, isJ, isL, isO, isS, isT, isZ } = new FillChecker(fill);
 
   return (
-    <div
+    <button
+      type="button"
+      aria-label="tile"
       className={classNames(styles.tile, {
         [styles.i]: isI,
         [styles.j]: isJ,
