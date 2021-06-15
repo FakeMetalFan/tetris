@@ -29,16 +29,6 @@ describe('Tetris', () => {
     );
   });
 
-  it('should set tiles width', () => {
-    const width = 2;
-    const { container } = render(<Tetris width={width} height={3} />);
-
-    expect(
-      (container.getElementsByClassName(styles.tiles)[0] as HTMLDivElement)
-        .style.gridTemplateColumns
-    ).toBe(`repeat(${width}, 1fr)`);
-  });
-
   it('should display tiles', () => {
     const width = 5;
     const height = 5;
@@ -47,6 +37,10 @@ describe('Tetris', () => {
     expect(container.getElementsByClassName(tileStyles.tile).length).toBe(
       width * height
     );
+    expect(
+      (container.getElementsByClassName(styles.tiles)[0] as HTMLElement).style
+        .gridTemplateColumns
+    ).toBe(`repeat(${width}, 1fr)`);
   });
 
   it('should prevent navigating to the same url when clicked', () => {
