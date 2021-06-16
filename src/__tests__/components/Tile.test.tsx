@@ -4,45 +4,34 @@ import styles from 'components/Tile/tile.module.scss';
 import TileFill from 'constants/tileFill';
 
 describe('Tile', () => {
-  it('should have "I" tile background color', () => {
-    const { getByRole } = render(<Tile fill={TileFill.I} />);
+  it('should have appearance based on "fill" prop', () => {
+    const { getByRole, rerender } = render(<Tile fill={TileFill.I} />);
+    const tile = getByRole('button');
 
-    expect(getByRole('button')).toHaveClass(styles.i);
-  });
+    expect(tile).toHaveClass(styles.i);
 
-  it('should have "J" tile background color', () => {
-    const { getByRole } = render(<Tile fill={TileFill.J} />);
+    rerender(<Tile fill={TileFill.J} />);
 
-    expect(getByRole('button')).toHaveClass(styles.j);
-  });
+    expect(tile).toHaveClass(styles.j);
 
-  it('should have "L" tile background color', () => {
-    const { getByRole } = render(<Tile fill={TileFill.L} />);
+    rerender(<Tile fill={TileFill.L} />);
 
-    expect(getByRole('button')).toHaveClass(styles.l);
-  });
+    expect(tile).toHaveClass(styles.l);
 
-  it('should have "O" tile background color', () => {
-    const { getByRole } = render(<Tile fill={TileFill.O} />);
+    rerender(<Tile fill={TileFill.O} />);
 
-    expect(getByRole('button')).toHaveClass(styles.o);
-  });
+    expect(tile).toHaveClass(styles.o);
 
-  it('should have "S" tile background color', () => {
-    const { getByRole } = render(<Tile fill={TileFill.S} />);
+    rerender(<Tile fill={TileFill.S} />);
 
-    expect(getByRole('button')).toHaveClass(styles.s);
-  });
+    expect(tile).toHaveClass(styles.s);
 
-  it('should have "T" tile background color', () => {
-    const { getByRole } = render(<Tile fill={TileFill.T} />);
+    rerender(<Tile fill={TileFill.T} />);
 
-    expect(getByRole('button')).toHaveClass(styles.t);
-  });
+    expect(tile).toHaveClass(styles.t);
 
-  it('should have "Z" tile background color', () => {
-    const { getByRole } = render(<Tile fill={TileFill.Z} />);
+    rerender(<Tile fill={TileFill.Z} />);
 
-    expect(getByRole('button')).toHaveClass(styles.z);
+    expect(tile).toHaveClass(styles.z);
   });
 });
