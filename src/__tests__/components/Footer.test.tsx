@@ -8,8 +8,8 @@ describe('Footer', () => {
   });
 
   it('should display a current year', () => {
-    const { getByText } = render(<Footer />);
-
-    expect(getByText(new Date().getFullYear())).toBeInTheDocument();
+    expect(
+      render(<Footer />).getByText(new Date().getFullYear())
+    ).toBeInTheDocument();
   });
 });
