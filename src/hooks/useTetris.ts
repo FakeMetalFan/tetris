@@ -95,17 +95,17 @@ const useTetris = (params: TetrisParams) => {
     );
 
     if (willCollide && move.isDown) {
-      const filledRowsIndexes = tiles.reduce((acc: number[], row, rowIndex) => {
+      const filledRowsIndexes = tiles.reduce((indexes, row, index) => {
         const hasEmptyTiles = row.some(
           (tile) => new FillChecker(tile.fill).isEmpty
         );
 
         if (!hasEmptyTiles) {
-          acc.push(rowIndex);
+          indexes.push(index);
         }
 
-        return acc;
-      }, []);
+        return indexes;
+      }, [] as number[]);
 
       const { length } = filledRowsIndexes;
 
