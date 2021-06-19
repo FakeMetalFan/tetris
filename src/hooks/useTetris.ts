@@ -3,7 +3,6 @@ import produce from 'immer';
 import { useEffect, useMemo, useState } from 'react';
 import addId from 'utils/addId';
 import createMove from 'utils/createMove';
-import FillChecker from 'utils/fillChecker';
 import rotateMatrix from 'utils/rotateMatrix';
 
 import useDidUpdate from './useDidUpdate';
@@ -16,7 +15,7 @@ const useTetris = (params: TetrisParams) => {
   const emptyTiles = useMemo(
     () =>
       Array.from({ length: height }, () =>
-        Array.from({ length: width }, () => addId({ fill: TileFill.Empty }))
+        Array.from({ length: width }, () => addId({} as { fill?: TileFill }))
       ),
     [height, width]
   );
@@ -38,7 +37,7 @@ const useTetris = (params: TetrisParams) => {
   const willTetrominoCollide = ({
     matrix = tetromino,
     offset = { rowIndex: 0, columnIndex: 0 },
-  }: { matrix?: TileFill[][]; offset?: Position } = {}) =>
+  }: { matrix?: typeof tetromino; offset?: Position } = {}) =>
     matrix.some((row, rowIndex) =>
       row.some((fill, columnIndex) => {
         const rowIndexAhead = rowIndex + position.rowIndex + offset.rowIndex;
@@ -46,10 +45,8 @@ const useTetris = (params: TetrisParams) => {
           columnIndex + position.columnIndex + offset.columnIndex;
 
         return (
-          !new FillChecker(fill).isEmpty &&
-          (!new FillChecker(
-            mergedTiles[rowIndexAhead]?.[columnIndexAhead]?.fill
-          ).isEmpty ||
+          fill &&
+          (mergedTiles[rowIndexAhead]?.[columnIndexAhead]?.fill ||
             rowIndexAhead >= height ||
             columnIndexAhead >= width ||
             columnIndexAhead < 0)
@@ -73,7 +70,7 @@ const useTetris = (params: TetrisParams) => {
           produce(mergedTiles, (draft) => {
             tetromino.forEach((row, rowIndex) => {
               row.forEach((fill, columnIndex) => {
-                if (!new FillChecker(fill).isEmpty) {
+                if (fill) {
                   /* eslint-disable no-param-reassign */
                   draft[rowIndex + position.rowIndex][
                     columnIndex + position.columnIndex
@@ -96,9 +93,7 @@ const useTetris = (params: TetrisParams) => {
 
     if (willCollide && move.isDown) {
       const filledRowsIndexes = tiles.reduce((indexes, row, index) => {
-        const hasEmptyTiles = row.some(
-          (tile) => new FillChecker(tile.fill).isEmpty
-        );
+        const hasEmptyTiles = row.some(({ fill }) => !fill);
 
         if (!hasEmptyTiles) {
           indexes.push(index);

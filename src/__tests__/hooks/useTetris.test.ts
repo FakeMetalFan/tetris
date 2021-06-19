@@ -12,9 +12,9 @@ describe('useTetris', () => {
   ];
 
   const zTetromino = [
-    [TileFill.Z, TileFill.Z, TileFill.Empty],
-    [TileFill.Empty, TileFill.Z, TileFill.Z],
-    [TileFill.Empty, TileFill.Empty, TileFill.Empty],
+    [TileFill.Z, TileFill.Z, undefined],
+    [undefined, TileFill.Z, TileFill.Z],
+    [undefined, undefined, undefined],
   ];
 
   beforeEach(() => {
@@ -105,8 +105,8 @@ describe('useTetris', () => {
 
     const { tiles, score } = result.current;
 
-    expect(tiles[0][1].fill).toBe(TileFill.Empty);
-    expect(tiles[0][2].fill).toBe(TileFill.Empty);
+    expect(tiles[0][1].fill).toBeUndefined();
+    expect(tiles[0][2].fill).toBeUndefined();
     expect(tiles[1][1].fill).toBe(TileFill.O);
     expect(tiles[1][2].fill).toBe(TileFill.O);
     expect(tiles[2][1].fill).toBe(TileFill.O);
@@ -127,12 +127,12 @@ describe('useTetris', () => {
     expect(nextTiles[0][2].fill).toBe(TileFill.O);
     expect(nextTiles[1][1].fill).toBe(TileFill.O);
     expect(nextTiles[1][2].fill).toBe(TileFill.O);
-    expect(nextTiles[2][1].fill).toBe(TileFill.Empty);
-    expect(nextTiles[2][2].fill).toBe(TileFill.Empty);
-    expect(nextTiles[3][1].fill).toBe(TileFill.Empty);
-    expect(nextTiles[3][2].fill).toBe(TileFill.Empty);
-    expect(nextTiles[4][1].fill).toBe(TileFill.Empty);
-    expect(nextTiles[4][2].fill).toBe(TileFill.Empty);
+    expect(nextTiles[2][1].fill).toBeUndefined();
+    expect(nextTiles[2][2].fill).toBeUndefined();
+    expect(nextTiles[3][1].fill).toBeUndefined();
+    expect(nextTiles[3][2].fill).toBeUndefined();
+    expect(nextTiles[4][1].fill).toBeUndefined();
+    expect(nextTiles[4][2].fill).toBeUndefined();
   });
 
   it('should move tetromino to the left without colliding', () => {
@@ -218,14 +218,14 @@ describe('useTetris', () => {
 
     const { tiles, score } = result.current;
 
-    expect(tiles[3][0].fill).toBe(TileFill.Empty);
-    expect(tiles[3][1].fill).toBe(TileFill.Empty);
-    expect(tiles[3][2].fill).toBe(TileFill.Empty);
-    expect(tiles[3][3].fill).toBe(TileFill.Empty);
-    expect(tiles[4][0].fill).toBe(TileFill.Empty);
-    expect(tiles[4][1].fill).toBe(TileFill.Empty);
-    expect(tiles[4][2].fill).toBe(TileFill.Empty);
-    expect(tiles[4][3].fill).toBe(TileFill.Empty);
+    expect(tiles[3][0].fill).toBeUndefined();
+    expect(tiles[3][1].fill).toBeUndefined();
+    expect(tiles[3][2].fill).toBeUndefined();
+    expect(tiles[3][3].fill).toBeUndefined();
+    expect(tiles[4][0].fill).toBeUndefined();
+    expect(tiles[4][1].fill).toBeUndefined();
+    expect(tiles[4][2].fill).toBeUndefined();
+    expect(tiles[4][3].fill).toBeUndefined();
     expect(score).toBe(20);
   });
 });

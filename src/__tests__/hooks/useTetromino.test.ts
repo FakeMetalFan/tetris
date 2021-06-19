@@ -11,9 +11,9 @@ describe('useTetromino', () => {
   ];
 
   const zTetromino = [
-    [TileFill.Z, TileFill.Z, TileFill.Empty],
-    [TileFill.Empty, TileFill.Z, TileFill.Z],
-    [TileFill.Empty, TileFill.Empty, TileFill.Empty],
+    [TileFill.Z, TileFill.Z, undefined],
+    [undefined, TileFill.Z, TileFill.Z],
+    [undefined, undefined, undefined],
   ];
 
   it('should randomize tetromino and set its position', () => {

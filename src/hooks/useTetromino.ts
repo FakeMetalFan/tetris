@@ -5,7 +5,7 @@ import { useState } from 'react';
 import rotateMatrix from 'utils/rotateMatrix';
 
 const useTetromino = ({ width }: TetrisParams) => {
-  const [tetromino, setTetromino] = useState<TileFill[][]>([]);
+  const [tetromino, setTetromino] = useState<(TileFill | undefined)[][]>([]);
 
   const [position, setPosition] = useState({ rowIndex: 0, columnIndex: 0 });
 

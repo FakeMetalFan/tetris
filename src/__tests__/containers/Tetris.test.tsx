@@ -53,9 +53,9 @@ describe('Tetris', () => {
     /* eslint-disable @typescript-eslint/no-explicit-any */
     (tetrominos as any).default = [
       [
-        [TileFill.Z, TileFill.Z, TileFill.Empty],
-        [TileFill.Empty, TileFill.Z, TileFill.Z],
-        [TileFill.Empty, TileFill.Empty, TileFill.Empty],
+        [TileFill.Z, TileFill.Z, undefined],
+        [undefined, TileFill.Z, TileFill.Z],
+        [undefined, undefined, undefined],
       ],
     ];
 

@@ -2,39 +2,39 @@ import TileFill from './tileFill';
 
 const tetrominos = [
   [
-    [TileFill.Empty, TileFill.I, TileFill.Empty, TileFill.Empty],
-    [TileFill.Empty, TileFill.I, TileFill.Empty, TileFill.Empty],
-    [TileFill.Empty, TileFill.I, TileFill.Empty, TileFill.Empty],
-    [TileFill.Empty, TileFill.I, TileFill.Empty, TileFill.Empty],
+    [undefined, TileFill.I, undefined, undefined],
+    [undefined, TileFill.I, undefined, undefined],
+    [undefined, TileFill.I, undefined, undefined],
+    [undefined, TileFill.I, undefined, undefined],
   ],
   [
-    [TileFill.Empty, TileFill.J, TileFill.Empty],
-    [TileFill.Empty, TileFill.J, TileFill.Empty],
-    [TileFill.J, TileFill.J, TileFill.Empty],
+    [undefined, TileFill.J, undefined],
+    [undefined, TileFill.J, undefined],
+    [TileFill.J, TileFill.J, undefined],
   ],
   [
-    [TileFill.Empty, TileFill.L, TileFill.Empty],
-    [TileFill.Empty, TileFill.L, TileFill.Empty],
-    [TileFill.Empty, TileFill.L, TileFill.L],
+    [undefined, TileFill.L, undefined],
+    [undefined, TileFill.L, undefined],
+    [undefined, TileFill.L, TileFill.L],
   ],
   [
     [TileFill.O, TileFill.O],
     [TileFill.O, TileFill.O],
   ],
   [
-    [TileFill.Empty, TileFill.S, TileFill.S],
-    [TileFill.S, TileFill.S, TileFill.Empty],
-    [TileFill.Empty, TileFill.Empty, TileFill.Empty],
+    [undefined, TileFill.S, TileFill.S],
+    [TileFill.S, TileFill.S, undefined],
+    [undefined, undefined, undefined],
   ],
   [
-    [TileFill.Empty, TileFill.T, TileFill.Empty],
+    [undefined, TileFill.T, undefined],
     [TileFill.T, TileFill.T, TileFill.T],
-    [TileFill.Empty, TileFill.Empty, TileFill.Empty],
+    [undefined, undefined, undefined],
   ],
   [
-    [TileFill.Z, TileFill.Z, TileFill.Empty],
-    [TileFill.Empty, TileFill.Z, TileFill.Z],
-    [TileFill.Empty, TileFill.Empty, TileFill.Empty],
+    [TileFill.Z, TileFill.Z, undefined],
+    [undefined, TileFill.Z, TileFill.Z],
+    [undefined, undefined, undefined],
   ],
 ];
 

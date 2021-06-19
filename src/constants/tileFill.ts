@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-shadow
 enum TileFill {
-  Empty,
-  I,
+  I = 1,
   J,
   L,
   O,
