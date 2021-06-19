@@ -6,7 +6,7 @@
   "scripts": {
     "start": "react-scripts start",
     "lint:scripts": "eslint . --fix",
-    "lint:styles": "npx stylelint src/**/*.scss --fix",
+    "lint:styles": "stylelint src/**/*.scss --fix",
     "prettify": "prettier --write .",
     "test": "react-scripts test --watchAll=false",
     "code-coverage": "npm run test -- --coverage",
