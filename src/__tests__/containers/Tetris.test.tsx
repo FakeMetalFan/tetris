@@ -5,17 +5,12 @@ import * as tetrominos from 'constants/tetrominos';
 import TileFill from 'constants/tileFill';
 import Tetris from 'containers/Tetris';
 import styles from 'containers/Tetris/tetris.module.scss';
-import setupIcons from 'setupIcons';
 
 describe('Tetris', () => {
   const oTetromino = [
     [TileFill.O, TileFill.O],
     [TileFill.O, TileFill.O],
   ];
-
-  beforeAll(() => {
-    setupIcons();
-  });
 
   beforeEach(() => {
     jest.useFakeTimers();
