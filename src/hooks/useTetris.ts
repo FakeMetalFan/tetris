@@ -54,10 +54,8 @@ const useTetris = (params: TetrisParams) => {
       })
     );
 
-  useEffect(() => {
-    randomize();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mergedTiles]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(randomize, [mergedTiles]);
 
   useDidUpdate(
     () => {
