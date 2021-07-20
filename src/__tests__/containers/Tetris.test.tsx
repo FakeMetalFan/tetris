@@ -1,5 +1,6 @@
 import { act, fireEvent, render } from '@testing-library/react';
 import tileStyles from 'components/Tile/tile.module.scss';
+import tilesStyles from 'components/Tiles/tiles.module.scss';
 import KeyCode from 'constants/keyCode';
 import * as tetrominos from 'constants/tetrominos';
 import TileFill from 'constants/tileFill';
@@ -20,15 +21,6 @@ describe('Tetris', () => {
     expect(
       render(<Tetris width={1} height={1} />).getByTestId(styles.tetris)
     ).toStrictEqual(document.activeElement);
-  });
-
-  it('should display tiles', () => {
-    const tiles = render(<Tetris width={5} height={5} />).getByTestId(
-      styles.tiles
-    );
-
-    expect(tiles.childElementCount).toBe(25);
-    expect(tiles.style.gridTemplateColumns).toBe('repeat(5, 1fr)');
   });
 
   it('should prevent navigating to the same url when clicked', () => {
@@ -56,7 +48,7 @@ describe('Tetris', () => {
 
     const { getByTestId } = render(<Tetris width={5} height={4} />);
     const tetris = getByTestId(styles.tetris);
-    const { children: tiles } = getByTestId(styles.tiles);
+    const { children: tiles } = getByTestId(tilesStyles.tiles);
 
     expect(tiles[1]).toHaveClass(tileStyles.z);
     expect(tiles[2]).toHaveClass(tileStyles.z);
@@ -77,7 +69,7 @@ describe('Tetris', () => {
 
     const { getByTestId } = render(<Tetris width={4} height={3} />);
     const tetris = getByTestId(styles.tetris);
-    const { children: tiles } = getByTestId(styles.tiles);
+    const { children: tiles } = getByTestId(tilesStyles.tiles);
 
     expect(tiles[1]).toHaveClass(tileStyles.o);
     expect(tiles[2]).toHaveClass(tileStyles.o);
@@ -98,7 +90,7 @@ describe('Tetris', () => {
 
     const { getByTestId } = render(<Tetris width={4} height={3} />);
     const tetris = getByTestId(styles.tetris);
-    const { children: tiles } = getByTestId(styles.tiles);
+    const { children: tiles } = getByTestId(tilesStyles.tiles);
 
     expect(tiles[1]).toHaveClass(tileStyles.o);
     expect(tiles[2]).toHaveClass(tileStyles.o);
@@ -119,7 +111,7 @@ describe('Tetris', () => {
 
     const { getByTestId } = render(<Tetris width={4} height={8} />);
     const tetris = getByTestId(styles.tetris);
-    const { children: tiles } = getByTestId(styles.tiles);
+    const { children: tiles } = getByTestId(tilesStyles.tiles);
 
     expect(tiles[1]).toHaveClass(tileStyles.o);
     expect(tiles[2]).toHaveClass(tileStyles.o);

@@ -1,5 +1,12 @@
 import { memo } from 'react';
 
-const Counter = ({ count }: { count: number }) => <div>{count}</div>;
+interface Props {
+  className?: string;
+  count: number;
+}
+
+const Counter = ({ className, count }: Props) => (
+  <div className={className}>{count}</div>
+);
 
 export default memo(Counter);

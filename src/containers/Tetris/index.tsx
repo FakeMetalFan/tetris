@@ -1,7 +1,7 @@
 import Counter from 'components/Counter';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
-import Tile from 'components/Tile';
+import Tiles from 'components/Tiles';
 import KeyCode from 'constants/keyCode';
 import MoveCode from 'constants/moveCode';
 import useDidMount from 'hooks/useDidMount';
@@ -53,30 +53,18 @@ const Tetris = (params: TetrisParams) => {
   return (
     <>
       <Header />
-      <main>
-        <a
-          href="/"
-          data-testid={styles.tetris}
-          className={styles.tetris}
-          ref={containerRef}
-          onClick={handleClick}
-          onKeyDown={handleKeyDown}
-          onKeyUp={handleKeyUp}
-        >
-          <div className={styles.score}>
-            <Counter count={score} />
-          </div>
-          <div
-            data-testid={styles.tiles}
-            className={styles.tiles}
-            style={{ gridTemplateColumns: `repeat(${width}, 1fr)` }}
-          >
-            {tiles.map((row) =>
-              row.map(({ fill, id }) => <Tile fill={fill} key={id} />)
-            )}
-          </div>
-        </a>
-      </main>
+      <a
+        href="/"
+        data-testid={styles.tetris}
+        className={styles.tetris}
+        ref={containerRef}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        onKeyUp={handleKeyUp}
+      >
+        <Counter className={styles.score} count={score} />
+        <Tiles width={width} tiles={tiles} />
+      </a>
       <Footer />
     </>
   );
