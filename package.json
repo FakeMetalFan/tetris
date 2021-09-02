@@ -9,9 +9,9 @@
     "lint:styles": "stylelint src/**/*.scss --fix",
     "prettify": "prettier --write .",
     "test": "react-scripts test --watchAll=false",
-    "code-coverage": "npm run test -- --coverage",
+    "code-coverage": "yarn test -- --coverage",
     "build": "react-scripts build",
-    "deploy": "npm run build && gh-pages -d build",
+    "deploy": "yarn build && gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "dependencies": {
@@ -67,16 +67,16 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test && lint-staged"
+      "pre-commit": "yarn test && lint-staged"
     }
   },
   "lint-staged": {
     "*.+(ts|tsx)": [
-      "npm run lint:scripts",
+      "yarn lint:scripts",
       "git add"
     ],
     "*.+(scss)": [
-      "npm run lint:styles",
+      "yarn lint:styles",
       "git add"
     ],
     "*.+(html|json|md)": [
