@@ -4,7 +4,7 @@ import produce from 'immer';
 import { useState } from 'react';
 import rotateMatrix from 'utils/rotateMatrix';
 
-const useTetromino = ({ width }: TetrisParams) => {
+const useTetromino = ({ width }: TetrisProps) => {
   const [tetromino, setTetromino] = useState<(TileFill | undefined)[][]>([]);
 
   const [position, setPosition] = useState({ rowIndex: 0, columnIndex: 0 });

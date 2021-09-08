@@ -9,8 +9,8 @@ import useDidUpdate from './useDidUpdate';
 import useInterval from './useInterval';
 import useTetromino from './useTetromino';
 
-const useTetris = (params: TetrisParams) => {
-  const { width, height } = params;
+const useTetris = (props: TetrisProps) => {
+  const { width, height } = props;
 
   const emptyTiles = useMemo(
     () =>
@@ -32,7 +32,7 @@ const useTetris = (params: TetrisParams) => {
 
   const [isAutoDrop, setIsAutoDrop] = useState(true);
 
-  const { tetromino, position, randomize, makeMove } = useTetromino(params);
+  const { tetromino, position, randomize, makeMove } = useTetromino(props);
 
   const willTetrominoCollide = ({
     matrix = tetromino,

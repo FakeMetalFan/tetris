@@ -1,4 +1,4 @@
-interface TetrisParams {
+interface TetrisProps {
   width: number;
   height: number;
 }

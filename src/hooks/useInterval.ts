@@ -1,24 +1,26 @@
 import { useEffect, useRef } from 'react';
 
-const useInterval = (callback: () => void, interval?: number | null) => {
+const useInterval = (
+  callback: () => void,
+  interval?: number | null | false
+) => {
   const callbackRef = useRef<typeof callback>();
 
   useEffect(() => {
     callbackRef.current = callback;
   });
 
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
-    if (!interval) {
-      return undefined;
+    if (interval) {
+      const intervalId = setInterval(() => {
+        callbackRef.current?.();
+      }, interval);
+
+      return () => {
+        clearInterval(intervalId);
+      };
     }
-
-    const intervalId = setInterval(() => {
-      callbackRef.current?.();
-    }, interval);
-
-    return () => {
-      clearInterval(intervalId);
-    };
   }, [interval]);
 };
 

@@ -4,20 +4,22 @@ import { memo } from 'react';
 
 import styles from './tile.module.scss';
 
-const Tile = ({ fill }: { fill?: TileFill }) => (
-  <button
-    type="button"
-    aria-label="tile"
-    className={classNames(styles.tile, {
-      [styles.i]: fill === TileFill.I,
-      [styles.j]: fill === TileFill.J,
-      [styles.l]: fill === TileFill.L,
-      [styles.o]: fill === TileFill.O,
-      [styles.s]: fill === TileFill.S,
-      [styles.t]: fill === TileFill.T,
-      [styles.z]: fill === TileFill.Z,
-    })}
-  />
-);
+interface Props {
+  fill?: TileFill;
+}
+
+const Tile = ({ fill }: Props) => {
+  const className = classNames(styles.tile, {
+    [styles.i]: fill === TileFill.I,
+    [styles.j]: fill === TileFill.J,
+    [styles.l]: fill === TileFill.L,
+    [styles.o]: fill === TileFill.O,
+    [styles.s]: fill === TileFill.S,
+    [styles.t]: fill === TileFill.T,
+    [styles.z]: fill === TileFill.Z,
+  });
+
+  return <button type="button" aria-label="tile" className={className} />;
+};
 
 export default memo(Tile);

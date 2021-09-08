@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { memo } from 'react';
 
 import styles from './header.module.scss';
 
@@ -17,4 +16,4 @@ const Header = () => (
   </header>
 );
 
-export default memo(Header);
+export default Header;

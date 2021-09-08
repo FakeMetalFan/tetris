@@ -1,5 +1,4 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { memo } from 'react';
 
 import styles from './footer.module.scss';
 
@@ -21,4 +20,4 @@ const Footer = () => (
   </footer>
 );
 
-export default memo(Footer);
+export default Footer;

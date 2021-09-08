@@ -1,6 +1,4 @@
 import Counter from 'components/Counter';
-import Footer from 'components/Footer';
-import Header from 'components/Header';
 import Tiles from 'components/Tiles';
 import KeyCode from 'constants/keyCode';
 import MoveCode from 'constants/moveCode';
@@ -11,12 +9,12 @@ import createMove from 'utils/createMove';
 
 import styles from './tetris.module.scss';
 
-const Tetris = (params: TetrisParams) => {
-  const { width } = params;
+const Tetris = (props: TetrisProps) => {
+  const { width } = props;
 
   const containerRef = useRef<HTMLAnchorElement>(null);
 
-  const { tiles, score, setMove, setIsAutoDrop } = useTetris(params);
+  const { tiles, score, setMove, setIsAutoDrop } = useTetris(props);
 
   const handleClick = (event: SyntheticEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -40,8 +38,8 @@ const Tetris = (params: TetrisParams) => {
     }
   };
 
-  const handleKeyUp = ({ keyCode }: KeyboardEvent) => {
-    if (keyCode === KeyCode.ArrowDown) {
+  const handleKeyUp = (event: KeyboardEvent) => {
+    if (event.keyCode === KeyCode.ArrowDown) {
       setIsAutoDrop(true);
     }
   };
@@ -51,22 +49,18 @@ const Tetris = (params: TetrisParams) => {
   });
 
   return (
-    <>
-      <Header />
-      <a
-        href="/"
-        data-testid={styles.tetris}
-        className={styles.tetris}
-        ref={containerRef}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
-        onKeyUp={handleKeyUp}
-      >
-        <Counter className={styles.score} count={score} />
-        <Tiles width={width} tiles={tiles} />
-      </a>
-      <Footer />
-    </>
+    <a
+      href="/"
+      data-testid={styles.tetris}
+      className={styles.tetris}
+      ref={containerRef}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      onKeyUp={handleKeyUp}
+    >
+      <Counter className={styles.score} count={score} />
+      <Tiles width={width} tiles={tiles} />
+    </a>
   );
 };
 
