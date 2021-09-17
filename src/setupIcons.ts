@@ -1,8 +1,6 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
-const setupIcons = () => {
+export default () => {
   library.add(faGithub);
 };
-
-export default setupIcons;

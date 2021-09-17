@@ -1,41 +1,24 @@
 import Counter from 'components/Counter';
 import Tiles from 'components/Tiles';
 import KeyCode from 'constants/keyCode';
-import MoveCode from 'constants/moveCode';
-import useDidMount from 'hooks/useDidMount';
+import useFocus from 'hooks/useFocus';
 import useTetris from 'hooks/useTetris';
-import { KeyboardEvent, SyntheticEvent, useRef } from 'react';
-import createMove from 'utils/createMove';
+import { KeyboardEvent, SyntheticEvent } from 'react';
 
-import styles from './tetris.module.scss';
+import Props from './props';
+import styles from './styles.module.scss';
 
-const Tetris = (props: TetrisProps) => {
+export default (props: Props) => {
   const { width } = props;
 
-  const containerRef = useRef<HTMLAnchorElement>(null);
-
-  const { tiles, score, setMove, setIsAutoDrop } = useTetris(props);
+  const { state, makeMove, setIsAutoDrop } = useTetris(props);
 
   const handleClick = (event: SyntheticEvent<HTMLAnchorElement>) => {
     event.preventDefault();
   };
 
-  const handleKeyDown = ({ keyCode }: KeyboardEvent) => {
-    switch (keyCode) {
-      case KeyCode.ArrowUp:
-        setMove(createMove(MoveCode.Rotation));
-        break;
-      case KeyCode.ArrowLeft:
-        setMove(createMove(MoveCode.Left));
-        break;
-      case KeyCode.ArrowRight:
-        setMove(createMove(MoveCode.Right));
-        break;
-      case KeyCode.ArrowDown:
-      default:
-        setIsAutoDrop(false);
-        setMove(createMove());
-    }
+  const handleKeyDown = (event: KeyboardEvent) => {
+    makeMove(event.keyCode);
   };
 
   const handleKeyUp = (event: KeyboardEvent) => {
@@ -44,24 +27,18 @@ const Tetris = (props: TetrisProps) => {
     }
   };
 
-  useDidMount(() => {
-    containerRef.current?.focus();
-  });
-
   return (
     <a
       href="/"
       data-testid={styles.tetris}
       className={styles.tetris}
-      ref={containerRef}
+      ref={useFocus()}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       onKeyUp={handleKeyUp}
     >
-      <Counter className={styles.score} count={score} />
-      <Tiles width={width} tiles={tiles} />
+      <Counter className={styles.score} count={state.score} />
+      <Tiles width={width} tiles={state.tiles} />
     </a>
   );
 };
-
-export default Tetris;

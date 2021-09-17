@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import Tile from 'components/Tile';
-import styles from 'components/Tile/tile.module.scss';
+import styles from 'components/Tile/styles.module.scss';
 import TileFill from 'constants/tileFill';
 
 describe('Tile', () => {

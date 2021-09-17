@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import Tiles from 'components/Tiles';
-import styles from 'components/Tiles/tiles.module.scss';
+import styles from 'components/Tiles/styles.module.scss';
 
 describe('Tiles', () => {
   it('should display tiles', () => {

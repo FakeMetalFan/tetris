@@ -1,11 +1,11 @@
 import { act, fireEvent, render } from '@testing-library/react';
-import tileStyles from 'components/Tile/tile.module.scss';
-import tilesStyles from 'components/Tiles/tiles.module.scss';
+import tileStyles from 'components/Tile/styles.module.scss';
+import tilesStyles from 'components/Tiles/styles.module.scss';
 import KeyCode from 'constants/keyCode';
-import * as tetrominos from 'constants/tetrominos';
+import * as tetrominos from 'constants/pieces';
 import TileFill from 'constants/tileFill';
 import Tetris from 'containers/Tetris';
-import styles from 'containers/Tetris/tetris.module.scss';
+import styles from 'containers/Tetris/styles.module.scss';
 
 describe('Tetris', () => {
   const oTetromino = [
@@ -55,8 +55,12 @@ describe('Tetris', () => {
     expect(tiles[7]).toHaveClass(tileStyles.z);
     expect(tiles[8]).toHaveClass(tileStyles.z);
 
-    fireEvent.keyDown(tetris, { keyCode: KeyCode.ArrowUp });
-    fireEvent.keyUp(tetris, { keyCode: KeyCode.ArrowUp });
+    fireEvent.keyDown(tetris, {
+      keyCode: KeyCode.ArrowUp,
+    });
+    fireEvent.keyUp(tetris, {
+      keyCode: KeyCode.ArrowUp,
+    });
 
     expect(tiles[3]).toHaveClass(tileStyles.z);
     expect(tiles[7]).toHaveClass(tileStyles.z);
@@ -76,8 +80,12 @@ describe('Tetris', () => {
     expect(tiles[5]).toHaveClass(tileStyles.o);
     expect(tiles[6]).toHaveClass(tileStyles.o);
 
-    fireEvent.keyDown(tetris, { keyCode: KeyCode.ArrowLeft });
-    fireEvent.keyUp(tetris, { keyCode: KeyCode.ArrowLeft });
+    fireEvent.keyDown(tetris, {
+      keyCode: KeyCode.ArrowLeft,
+    });
+    fireEvent.keyUp(tetris, {
+      keyCode: KeyCode.ArrowLeft,
+    });
 
     expect(tiles[0]).toHaveClass(tileStyles.o);
     expect(tiles[1]).toHaveClass(tileStyles.o);
@@ -97,8 +105,12 @@ describe('Tetris', () => {
     expect(tiles[5]).toHaveClass(tileStyles.o);
     expect(tiles[6]).toHaveClass(tileStyles.o);
 
-    fireEvent.keyDown(tetris, { keyCode: KeyCode.ArrowRight });
-    fireEvent.keyUp(tetris, { keyCode: KeyCode.ArrowRight });
+    fireEvent.keyDown(tetris, {
+      keyCode: KeyCode.ArrowRight,
+    });
+    fireEvent.keyUp(tetris, {
+      keyCode: KeyCode.ArrowRight,
+    });
 
     expect(tiles[2]).toHaveClass(tileStyles.o);
     expect(tiles[3]).toHaveClass(tileStyles.o);
@@ -118,7 +130,9 @@ describe('Tetris', () => {
     expect(tiles[5]).toHaveClass(tileStyles.o);
     expect(tiles[6]).toHaveClass(tileStyles.o);
 
-    fireEvent.keyDown(tetris, { keyCode: KeyCode.ArrowDown });
+    fireEvent.keyDown(tetris, {
+      keyCode: KeyCode.ArrowDown,
+    });
 
     expect(tiles[5]).toHaveClass(tileStyles.o);
     expect(tiles[6]).toHaveClass(tileStyles.o);
@@ -134,7 +148,9 @@ describe('Tetris', () => {
     expect(tiles[9]).toHaveClass(tileStyles.o);
     expect(tiles[10]).toHaveClass(tileStyles.o);
 
-    fireEvent.keyUp(tetris, { keyCode: KeyCode.ArrowDown });
+    fireEvent.keyUp(tetris, {
+      keyCode: KeyCode.ArrowDown,
+    });
 
     act(() => {
       jest.advanceTimersByTime(2e3);

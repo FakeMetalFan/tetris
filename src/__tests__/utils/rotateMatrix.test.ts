@@ -1,4 +1,4 @@
-import rotateMatrix from 'utils/rotateMatrix';
+import rotateMatrix from 'utils/rotatePiece';
 
 describe('rotateMatrix', () => {
   it('should rotate a matrix', () => {

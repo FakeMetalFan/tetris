@@ -2,13 +2,11 @@ import classNames from 'classnames';
 import TileFill from 'constants/tileFill';
 import { memo } from 'react';
 
-import styles from './tile.module.scss';
+import Props from './props';
+import styles from './styles.module.scss';
 
-interface Props {
-  fill?: TileFill;
-}
-
-const Tile = ({ fill }: Props) => {
+export default memo((props: Props) => {
+  const { fill } = props;
   const className = classNames(styles.tile, {
     [styles.i]: fill === TileFill.I,
     [styles.j]: fill === TileFill.J,
@@ -20,6 +18,4 @@ const Tile = ({ fill }: Props) => {
   });
 
   return <button type="button" aria-label="tile" className={className} />;
-};
-
-export default memo(Tile);
+});

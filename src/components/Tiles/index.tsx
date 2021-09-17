@@ -1,15 +1,12 @@
-import TileFill from 'constants/tileFill';
-
 import Tile from '../Tile';
-import styles from './tiles.module.scss';
+import Props from './props';
+import styles from './styles.module.scss';
 
-interface Props {
-  width: number;
-  tiles: { id: string; fill?: TileFill }[][];
-}
-
-const Tiles = ({ width, tiles }: Props) => {
-  const style = { gridTemplateColumns: `repeat(${width}, 1fr)` };
+export default (props: Props) => {
+  const { width, tiles } = props;
+  const style = {
+    gridTemplateColumns: `repeat(${width}, 1fr)`,
+  };
 
   return (
     <div data-testid={styles.tiles} className={styles.tiles} style={style}>
@@ -19,5 +16,3 @@ const Tiles = ({ width, tiles }: Props) => {
     </div>
   );
 };
-
-export default Tiles;

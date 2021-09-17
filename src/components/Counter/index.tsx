@@ -1,12 +1,9 @@
 import { memo } from 'react';
 
-interface Props {
-  className?: string;
-  count: number;
-}
+import Props from './props';
 
-const Counter = ({ className, count }: Props) => (
-  <div className={className}>{count}</div>
-);
+export default memo((props: Props) => {
+  const { className, count } = props;
 
-export default memo(Counter);
+  return <div className={className}>{count}</div>;
+});

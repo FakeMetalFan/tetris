@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import styles from './footer.module.scss';
+import styles from './styles.module.scss';
 
-const Footer = () => (
+export default () => (
   <footer className={styles.footer}>
     <span>
       Powered by
@@ -19,5 +19,3 @@ const Footer = () => (
     </span>
   </footer>
 );
-
-export default Footer;

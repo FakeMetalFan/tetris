@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import styles from './header.module.scss';
+import styles from './styles.module.scss';
 
-const Header = () => (
+export default () => (
   <header className={styles.header}>
     Tetris
     <a
@@ -15,5 +15,3 @@ const Header = () => (
     </a>
   </header>
 );
-
-export default Header;

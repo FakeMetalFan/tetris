@@ -1,8 +1,8 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import * as tetrominos from 'constants/tetrominos';
+import * as tetrominos from 'constants/pieces';
 import TileFill from 'constants/tileFill';
-import useTetromino from 'hooks/useTetromino';
-import rotateMatrix from 'utils/rotateMatrix';
+import useTetromino from 'hooks/usePiece';
+import rotateMatrix from 'utils/rotatePiece';
 
 describe('useTetromino', () => {
   const oTetromino = [
@@ -20,7 +20,12 @@ describe('useTetromino', () => {
     /* eslint-disable @typescript-eslint/no-explicit-any */
     (tetrominos as any).default = [oTetromino];
 
-    const { result } = renderHook(() => useTetromino({ width: 5, height: 5 }));
+    const { result } = renderHook(() =>
+      useTetromino({
+        width: 5,
+        height: 5,
+      })
+    );
 
     act(() => {
       result.current.randomize();
@@ -29,7 +34,10 @@ describe('useTetromino', () => {
     const { tetromino, position } = result.current;
 
     expect(tetromino).toStrictEqual(oTetromino);
-    expect(position).toStrictEqual({ rowIndex: 0, columnIndex: 1 });
+    expect(position).toStrictEqual({
+      rowIndex: 0,
+      columnIndex: 1,
+    });
 
     (tetrominos as any).default = [zTetromino];
 
@@ -40,11 +48,19 @@ describe('useTetromino', () => {
     const { tetromino: nextTetromino, position: nextPosition } = result.current;
 
     expect(nextTetromino).toStrictEqual(zTetromino);
-    expect(nextPosition).toStrictEqual({ rowIndex: 0, columnIndex: 1 });
+    expect(nextPosition).toStrictEqual({
+      rowIndex: 0,
+      columnIndex: 1,
+    });
   });
 
   it('should rotate tetromino', () => {
-    const { result } = renderHook(() => useTetromino({ width: 5, height: 5 }));
+    const { result } = renderHook(() =>
+      useTetromino({
+        width: 5,
+        height: 5,
+      })
+    );
 
     act(() => {
       result.current.randomize();
@@ -53,7 +69,9 @@ describe('useTetromino', () => {
     const { tetromino, position } = result.current;
 
     act(() => {
-      result.current.makeMove({ isRotation: true });
+      result.current.makeMove({
+        isRotation: true,
+      });
     });
 
     expect(result.current.tetromino).toStrictEqual(rotateMatrix(tetromino));
@@ -61,7 +79,12 @@ describe('useTetromino', () => {
   });
 
   it('should move tetromino to the left', () => {
-    const { result } = renderHook(() => useTetromino({ width: 5, height: 5 }));
+    const { result } = renderHook(() =>
+      useTetromino({
+        width: 5,
+        height: 5,
+      })
+    );
 
     act(() => {
       result.current.randomize();
@@ -70,7 +93,12 @@ describe('useTetromino', () => {
     const { tetromino, position } = result.current;
 
     act(() => {
-      result.current.makeMove({ offset: { rowIndex: 0, columnIndex: -1 } });
+      result.current.makeMove({
+        offset: {
+          rowIndex: 0,
+          columnIndex: -1,
+        },
+      });
     });
 
     expect(result.current.tetromino).toStrictEqual(tetromino);
@@ -81,7 +109,12 @@ describe('useTetromino', () => {
   });
 
   it('should move tetromino to the right', () => {
-    const { result } = renderHook(() => useTetromino({ width: 5, height: 5 }));
+    const { result } = renderHook(() =>
+      useTetromino({
+        width: 5,
+        height: 5,
+      })
+    );
 
     act(() => {
       result.current.randomize();
@@ -90,7 +123,12 @@ describe('useTetromino', () => {
     const { tetromino, position } = result.current;
 
     act(() => {
-      result.current.makeMove({ offset: { rowIndex: 0, columnIndex: 1 } });
+      result.current.makeMove({
+        offset: {
+          rowIndex: 0,
+          columnIndex: 1,
+        },
+      });
     });
 
     expect(result.current.tetromino).toStrictEqual(tetromino);
@@ -101,7 +139,12 @@ describe('useTetromino', () => {
   });
 
   it('should drop tetromino down', () => {
-    const { result } = renderHook(() => useTetromino({ width: 5, height: 5 }));
+    const { result } = renderHook(() =>
+      useTetromino({
+        width: 5,
+        height: 5,
+      })
+    );
 
     act(() => {
       result.current.randomize();
@@ -110,7 +153,12 @@ describe('useTetromino', () => {
     const { tetromino, position } = result.current;
 
     act(() => {
-      result.current.makeMove({ offset: { rowIndex: 1, columnIndex: 0 } });
+      result.current.makeMove({
+        offset: {
+          rowIndex: 1,
+          columnIndex: 0,
+        },
+      });
     });
 
     expect(result.current.tetromino).toStrictEqual(tetromino);
