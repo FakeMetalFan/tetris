@@ -94,9 +94,9 @@ const handleFilledRows = (state: Tetris) =>
 
     d.score += indexes.length * 10;
     indexes.forEach((index) => {
-      for (let dx = index; dx; --dx) {
-        tiles[dx].forEach((tile, x) => {
-          const { fill, merged } = tiles[dx - 1][x];
+      for (let x = index; x; --x) {
+        tiles[x].forEach((tile, y) => {
+          const { fill, merged } = tiles[x - 1][y];
 
           tile.fill = fill;
           tile.merged = merged;
