@@ -106,7 +106,7 @@ const handleFilledRows = (state: Tetris) =>
   });
 
 export const init = (width: number, height: number): Tetris =>
-  compose(initTiles, initTetromino)({ width, height, isFast: false, score: 0 });
+  compose(initTiles, initTetromino)({ width, height, score: 0 });
 
 export const catchErr = (cb: () => void) =>
   () => {
