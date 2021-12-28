@@ -8,6 +8,13 @@ import rotateMatrix from 'utils/rotate-matrix';
 
 import { TETROMINOS } from '../constants';
 
+const getFilledRowsIndexes = ({ tiles }: Tetris) =>
+  tiles.reduce((acc: number[], row, index) => {
+    !row.some(({ fill }) => fill === TILE_FILL.NONE) && acc.push(index);
+
+    return acc;
+  }, []);
+
 const initTiles = (state: Tetris) =>
   produce(state, (d) => {
     const { height, width } = d;
@@ -83,17 +90,14 @@ const merge = (state: Tetris) =>
     });
   });
 
-const handleFilledRows = (state: Tetris) =>
+const updateScore = (state: Tetris) =>
   produce(state, (d) => {
-    const { tiles } = d;
-    const indexes = tiles.reduce((acc: number[], row, index) => {
-      !row.some(({ fill }) => fill === TILE_FILL.NONE) && acc.push(index);
+    d.score += getFilledRowsIndexes(d).length;
+  });
 
-      return acc;
-    }, []);
-
-    d.score += indexes.length * 10;
-    indexes.forEach((index) => {
+const clearFilledRows = (state: Tetris) =>
+  produce(state, ({ tiles }) => {
+    getFilledRowsIndexes(state).forEach((index) => {
       for (let x = index; x; --x) {
         tiles[x].forEach((tile, y) => {
           const { fill, merged } = tiles[x - 1][y];
@@ -127,7 +131,7 @@ export const setFast = (state: Tetris, fast: boolean) =>
   });
 
 export const finish = (state: Tetris) =>
-  compose(merge, handleFilledRows, initTetromino)(state);
+  compose(merge, updateScore, clearFilledRows, initTetromino)(state);
 
 export const reset = (state: Tetris) =>
   compose((next) => clear(next, true), initTetromino)({ ...state, score: 0 });
