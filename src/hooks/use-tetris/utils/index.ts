@@ -42,7 +42,7 @@ const draw = (state: Tetris) =>
         const tile = tiles[point.x + x][point.y + y];
 
         if (tile.merged) {
-          throw 'Cannot draw over merged tile.';
+          throw 'Cannot draw over a merged tile';
         }
 
         tile.fill = fill;
