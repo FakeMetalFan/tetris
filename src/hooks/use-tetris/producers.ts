@@ -71,7 +71,7 @@ export const drawTetromino = (state: Tetris) =>
           .at(point.x + x)
           .at(point.y + y);
 
-        if (tile.merged) {
+        if (isTileMerged(tile)) {
           throw 'Cannot draw over a merged tile';
         }
 
