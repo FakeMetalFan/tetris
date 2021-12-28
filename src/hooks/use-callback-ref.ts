@@ -4,11 +4,11 @@ import {
 } from 'react';
 
 export default <T>(callback: T) => {
-  const cbRef = useRef<T>();
+  const callbackRef = useRef<T>();
 
   useLayoutEffect(() => {
-    cbRef.current = callback;
+    callbackRef.current = callback;
   });
 
-  return cbRef;
+  return callbackRef;
 };
