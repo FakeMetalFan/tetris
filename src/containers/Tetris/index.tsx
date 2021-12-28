@@ -38,15 +38,12 @@ export default () => {
         break;
       case KEY_CODE.ARROW_DOWN:
         accelerate();
-        break;
     }
   };
 
   const handleKeyUp = (event: KeyboardEvent) => {
-    switch (event.code) {
-      case KEY_CODE.ARROW_DOWN:
-        decelerate();
-        break;
+    if (event.code === KEY_CODE.ARROW_DOWN) {
+      decelerate();
     }
   };
 

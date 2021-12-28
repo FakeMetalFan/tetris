@@ -122,15 +122,3 @@ export const TETROMINOS = [
     ],
   ],
 ];
-
-export const MOVE_OFFSET = {
-  LEFT: {
-    y: -1,
-  },
-  RIGHT: {
-    y: 1,
-  },
-  BOTTOM: {
-    x: 1,
-  },
-};

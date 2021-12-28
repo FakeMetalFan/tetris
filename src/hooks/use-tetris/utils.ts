@@ -4,6 +4,13 @@ import {
   TETROMINOS,
 } from './constants';
 
+export const catchErr = (callback: () => void) =>
+  () => {
+    try {
+      callback();
+    } catch {}
+  };
+
 export const getFilledRowsIndexes = ({
   tiles,
 }: Tetris) =>
@@ -20,7 +27,7 @@ export const getFilledRowsIndexes = ({
 export const getRandomTetromino = () => {
   const randomIndex = Math.floor(Math.random() * TETROMINOS.length);
 
-  return TETROMINOS.at(randomIndex);
+  return TETROMINOS[randomIndex];
 };
 
 export const isNoFill = (fill: TILE_FILL) => fill === TILE_FILL.NONE;

@@ -1,60 +1,108 @@
+import produce from 'immer';
 import {
   useState,
 } from 'react';
 
-import {
-  catchErr,
-  finish,
-  init,
-  move,
-  reset,
-  rotate as _rotate,
-  setFast,
-} from './actions';
+import compose from 'utils/compose';
 
 import {
-  MOVE_OFFSET,
-} from './constants';
+  clearFilledRows,
+  clearTiles,
+  drawTetromino,
+  initState,
+  initTetromino,
+  mergeTetromino,
+  patchPoint,
+  rotateTetromino,
+  updateScore,
+} from './state-producers';
+
+import { catchErr } from './utils';
 
 export default (width: number, height: number) => {
   const [
     state,
     setState,
-  ] = useState(() => init(width, height));
+  ] = useState(() => initState(width, height));
 
-  const _handleCollision = () => {
+  const move = (offset: Partial<Point>) => {
+    setState(
+      compose(
+        clearTiles,
+        (next) => patchPoint(next, offset),
+        drawTetromino,
+      )(state),
+    );
+  };
+
+  const setFast = (fast: boolean) => {
+    setState(
+      produce(state, (draft) => {
+        draft.fast = fast;
+      }),
+    );
+  };
+
+  const handleCollision = () => {
     try {
-      setState(finish(state));
+      setState(
+        compose(
+          mergeTetromino,
+          updateScore,
+          clearFilledRows,
+          initTetromino,
+        )(state),
+      );
     } catch {
-      setState(reset(state));
+      setState(
+        compose(
+          (next) => clearTiles(next, true),
+          initTetromino,
+        )({
+          ...state,
+          score: 0,
+        }),
+      );
     }
   };
 
   const left = catchErr(() => {
-    setState(move(state, MOVE_OFFSET.LEFT));
+    move({
+      y: -1,
+    });
   });
 
   const right = catchErr(() => {
-    setState(move(state, MOVE_OFFSET.RIGHT));
+    move({
+      y: 1,
+    });
   });
 
   const rotate = catchErr(() => {
-    setState(_rotate(state));
+    setState(
+      compose(
+        clearTiles,
+        rotateTetromino,
+        drawTetromino,
+      )(state),
+    );
   });
 
   const accelerate = () => {
-    setState(setFast(state, true));
+    setFast(true);
   };
 
   const decelerate = () => {
-    setState(setFast(state, false));
+    setFast(false);
   };
 
   const drop = () => {
     try {
-      setState(move(state, MOVE_OFFSET.BOTTOM));
+      move({
+        x: 1,
+      });
     } catch {
-      _handleCollision();
+      handleCollision();
     }
   };
 

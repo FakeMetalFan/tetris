@@ -2,6 +2,7 @@ import produce from 'immer';
 
 import TILE_FILL from 'constants/tile-fill';
 
+import compose from 'utils/compose';
 import makeUnique from 'utils/make-unique';
 import rotateMatrix from 'utils/rotate-matrix';
 
@@ -13,21 +14,59 @@ import {
   isTileMerged,
 } from './utils';
 
+const initPoint = (state: Tetris) =>
+  produce(state, (draft) => {
+    const {
+      width,
+      tetromino,
+    } = draft;
+
+    draft.point = {
+      x: 0,
+      y: Math.floor((width - tetromino.length) / 2),
+    };
+  });
+
+const initTiles = (state: Tetris) =>
+  produce(state, (draft) => {
+    const {
+      height,
+      width,
+    } = draft;
+
+    draft.tiles = Array.from(
+      {
+        length: height,
+      },
+      () => Array.from(
+        {
+          length: width,
+        },
+        () => makeUnique({
+          fill: TILE_FILL.NONE,
+        }),
+      ),
+    );
+  });
+
+const randomizeTetromino = (state: Tetris) =>
+  produce(state, (draft) => {
+    draft.tetromino = getRandomTetromino();
+  });
+
 export const clearFilledRows = (state: Tetris) =>
   produce(state, ({
     tiles,
   }) => {
     getFilledRowsIndexes(state).forEach((index) => {
       for (let x = index; x; --x) {
-        const row = tiles.at(x);
+        const row = tiles[x];
 
         row.forEach((tile, y) => {
           const {
             fill,
             merged,
-          } = tiles
-            .at(x - 1)
-            .at(y);
+          } = tiles[x - 1][y];
 
           tile.fill = fill;
           tile.merged = merged;
@@ -67,9 +106,7 @@ export const drawTetromino = (state: Tetris) =>
           return;
         }
 
-        const tile = tiles
-          .at(point.x + x)
-          .at(point.y + y);
+        const tile = tiles[point.x + x][point.y + y];
 
         if (isTileMerged(tile)) {
           throw 'Cannot draw over a merged tile';
@@ -80,40 +117,22 @@ export const drawTetromino = (state: Tetris) =>
     });
   });
 
-export const initPoint = (state: Tetris) =>
-  produce(state, (draft) => {
-    const {
-      width,
-      tetromino,
-    } = draft;
-
-    draft.point = {
-      x: 0,
-      y: Math.floor((width - tetromino.length) / 2),
-    };
+export const initState = (width: number, height: number): Tetris =>
+  compose(
+    initTiles,
+    initTetromino,
+  )({
+    width,
+    height,
+    score: 0,
   });
 
-export const initTiles = (state: Tetris) =>
-  produce(state, (draft) => {
-    const {
-      height,
-      width,
-    } = draft;
-
-    draft.tiles = Array.from(
-      {
-        length: height,
-      },
-      () => Array.from(
-        {
-          length: width,
-        },
-        () => makeUnique({
-          fill: TILE_FILL.NONE,
-        }),
-      ),
-    );
-  });
+export const initTetromino = (state: Tetris) =>
+  compose(
+    randomizeTetromino,
+    initPoint,
+    drawTetromino,
+  )(state);
 
 export const mergeTetromino = (state: Tetris) =>
   produce(state, ({
@@ -139,11 +158,6 @@ export const patchPoint = (state: Tetris, {
   }) => {
     point.x += x;
     point.y += y;
-  });
-
-export const randomizeTetromino = (state: Tetris) =>
-  produce(state, (draft) => {
-    draft.tetromino = getRandomTetromino();
   });
 
 export const rotateTetromino = (state: Tetris) =>
