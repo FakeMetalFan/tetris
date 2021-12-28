@@ -12,10 +12,10 @@ export default ({ tiles, width, height, tileSize }: Props) => {
     gridTemplateRows: `repeat(${height}, ${tileSize}px)`,
   };
 
-  const mapChildren = () =>
+  const mapTiles = () =>
     tiles.map((row) =>
       row.map((tile) => <Tile {...tile} key={tile.id} />),
     );
 
-  return <div style={style} className={styles.tiles}>{mapChildren()}</div>;
+  return <div style={style} className={styles.tiles}>{mapTiles()}</div>;
 };
