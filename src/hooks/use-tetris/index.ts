@@ -43,7 +43,7 @@ export default (width: number, height: number) => {
     );
   };
 
-  const handleCollision = () => {
+  const handleBottomCollision = () => {
     try {
       setState(
         compose(
@@ -102,7 +102,7 @@ export default (width: number, height: number) => {
         x: 1,
       });
     } catch {
-      handleCollision();
+      handleBottomCollision();
     }
   };
 
