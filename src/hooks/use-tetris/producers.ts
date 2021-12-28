@@ -98,7 +98,8 @@ export const initTiles = (state: Tetris) =>
       () => Array.from(
         {
           length: width,
-        }, () => makeUnique({
+        },
+        () => makeUnique({
           fill: TILE_FILL.NONE,
         }),
       ),
