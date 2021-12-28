@@ -1,17 +1,19 @@
-import { useEffect } from 'react';
+import {
+  useEffect,
+} from 'react';
 
 import useCallbackRef from './use-callback-ref';
 
-export default (cb: () => void, ms: number) => {
-  const cbRef = useCallbackRef(cb);
+export default (callback: () => void, ms: number) => {
+  const callbackRef = useCallbackRef(callback);
 
   useEffect(() => {
-    if (!ms) {
+    if (ms === 0) {
       return;
     }
 
     const id = setInterval(() => {
-      cbRef.current?.();
+      callbackRef.current?.();
     }, ms);
 
     return () => {

@@ -5,7 +5,7 @@ type Point = {
 
 type Tile = {
   id: string;
-  fill?: number;
+  fill: number;
   merged?: boolean;
 };
 

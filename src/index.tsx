@@ -1,5 +1,9 @@
-import { StrictMode } from 'react';
-import { render } from 'react-dom';
+import {
+  StrictMode,
+} from 'react';
+import {
+  render,
+} from 'react-dom';
 
 import Footer from 'components/Footer';
 import Header from 'components/Header';

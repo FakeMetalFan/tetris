@@ -1,4 +1,8 @@
-import { memo, createElement, Fragment } from 'react';
+import {
+  createElement,
+  Fragment,
+  memo,
+} from 'react';
 
 type Props = {
   count: number;
@@ -6,10 +10,18 @@ type Props = {
   className?: string;
 };
 
-export default memo(({ count, tagName, className }: Props) =>
+export default memo(({
+  count,
+  tagName,
+  className,
+}: Props) =>
   createElement(
     tagName ?? Fragment,
-    tagName ? { className } : {},
+    tagName
+      ? {
+          className,
+        }
+      : {},
     count,
   ),
 );

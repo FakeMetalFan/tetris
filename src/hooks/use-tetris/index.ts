@@ -1,13 +1,28 @@
-import { useState } from 'react';
+import {
+  useState,
+} from 'react';
 
 import {
-  init, move, catchErr, reset, rotate as rot, setFast, finish,
-} from './utils';
+  catchErr,
+  finish,
+  init,
+  move,
+  reset,
+  rotate as _rotate,
+  setFast,
+} from './actions';
+
+import {
+  MOVE_OFFSET,
+} from './constants';
 
 export default (width: number, height: number) => {
-  const [state, setState] = useState(() => init(width, height));
+  const [
+    state,
+    setState,
+  ] = useState(() => init(width, height));
 
-  const handleCollision = () => {
+  const _handleCollision = () => {
     try {
       setState(finish(state));
     } catch {
@@ -16,15 +31,15 @@ export default (width: number, height: number) => {
   };
 
   const left = catchErr(() => {
-    setState(move(state, { y: -1 }));
+    setState(move(state, MOVE_OFFSET.LEFT));
   });
 
   const right = catchErr(() => {
-    setState(move(state, { y: 1 }));
+    setState(move(state, MOVE_OFFSET.RIGHT));
   });
 
   const rotate = catchErr(() => {
-    setState(rot(state));
+    setState(_rotate(state));
   });
 
   const accelerate = () => {
@@ -37,11 +52,19 @@ export default (width: number, height: number) => {
 
   const drop = () => {
     try {
-      setState(move(state, { x: 1 }));
+      setState(move(state, MOVE_OFFSET.BOTTOM));
     } catch {
-      handleCollision();
+      _handleCollision();
     }
   };
 
-  return { ...state, left, right, rotate, accelerate, decelerate, drop };
+  return {
+    ...state,
+    left,
+    right,
+    rotate,
+    accelerate,
+    decelerate,
+    drop,
+  };
 };

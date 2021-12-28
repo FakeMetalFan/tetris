@@ -1,12 +1,16 @@
 import classNames from 'classnames';
-import { memo } from 'react';
+import {
+  memo,
+} from 'react';
 
 import TILE_FILL from 'constants/tile-fill';
 
 import styles from './tile.module.scss';
 
 export default memo(
-  ({ fill }: Tile) => {
+  ({
+     fill,
+   }: Tile) => {
     const className = classNames(styles.tile, {
       [styles.i]: fill === TILE_FILL.I,
       [styles.j]: fill === TILE_FILL.J,
@@ -17,7 +21,11 @@ export default memo(
       [styles.z]: fill === TILE_FILL.Z,
     });
 
-    return <div className={className} />;
+    return (
+      <div
+        className={className}
+      />
+    );
   },
   (prev, next) => prev.fill === next.fill,
 );

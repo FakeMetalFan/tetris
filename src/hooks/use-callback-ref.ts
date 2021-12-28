@@ -1,10 +1,13 @@
-import { useLayoutEffect, useRef } from 'react';
+import {
+  useLayoutEffect,
+  useRef,
+} from 'react';
 
-export default <T>(cb: T) => {
+export default <T>(callback: T) => {
   const cbRef = useRef<T>();
 
   useLayoutEffect(() => {
-    cbRef.current = cb;
+    cbRef.current = callback;
   });
 
   return cbRef;

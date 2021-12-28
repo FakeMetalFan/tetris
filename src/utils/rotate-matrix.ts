@@ -1,10 +1,12 @@
-import produce, { Draft } from 'immer';
+import produce, {
+  Draft,
+} from 'immer';
 
 export default <T>(matrix: T[][]) =>
-  produce(matrix, (d) => {
-    d.forEach((_, index) => {
-      d[index] = matrix.map((row) => row[index]) as Draft<T[]>;
+  produce(matrix, (draft) => {
+    draft.forEach((_, x) => {
+      draft[x] = matrix.map((row) => row.at(x)) as Draft<T[]>;
     });
 
-    d.map((row) => row.reverse());
+    draft.map((row) => row.reverse());
   });

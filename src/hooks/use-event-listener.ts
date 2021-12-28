@@ -1,17 +1,19 @@
-import { useEffect } from 'react';
+import {
+  useEffect,
+} from 'react';
 
 import useCallbackRef from './use-callback-ref';
 
 export default <T extends HTMLElement, E>(
   eventName: string,
-  cb: (event: E) => void,
+  callback: (event: E) => void,
   target: T | Document = document,
 ) => {
-  const cbRef = useCallbackRef(cb);
+  const callbackRef = useCallbackRef(callback);
 
   useEffect(() => {
     const handleEvent: any = (event: E) => {
-      cbRef.current?.(event);
+      callbackRef.current?.(event);
     };
 
     target.addEventListener(eventName, handleEvent);

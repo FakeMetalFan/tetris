@@ -25,15 +25,29 @@ export default () => {
     height,
   } = useTetris(10, 20);
 
-  const handleKeyDown = ({ code }: KeyboardEvent) => {
-    code === KEY_CODE.ARROW_LEFT && left();
-    code === KEY_CODE.ARROW_RIGHT && right();
-    code === KEY_CODE.ARROW_UP && rotate();
-    code === KEY_CODE.ARROW_DOWN && accelerate();
+  const handleKeyDown = (event: KeyboardEvent) => {
+    switch (event.code) {
+      case KEY_CODE.ARROW_LEFT:
+        left();
+        break;
+      case KEY_CODE.ARROW_RIGHT:
+        right();
+        break;
+      case KEY_CODE.ARROW_UP:
+        rotate();
+        break;
+      case KEY_CODE.ARROW_DOWN:
+        accelerate();
+        break;
+    }
   };
 
   const handleKeyUp = (event: KeyboardEvent) => {
-    event.code === KEY_CODE.ARROW_DOWN && decelerate();
+    switch (event.code) {
+      case KEY_CODE.ARROW_DOWN:
+        decelerate();
+        break;
+    }
   };
 
   useEventListener('keydown', handleKeyDown);
@@ -42,8 +56,17 @@ export default () => {
 
   return (
     <>
-      <Counter count={score} tagName='div' className={styles.counter} />
-      <Tiles tiles={tiles} width={width} height={height} tileSize={24} />
+      <Counter
+        count={score}
+        tagName='div'
+        className={styles.counter}
+      />
+      <Tiles
+        tiles={tiles}
+        width={width}
+        height={height}
+        tileSize={24}
+      />
     </>
   );
 };
