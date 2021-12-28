@@ -30,7 +30,8 @@ export default ({
   return (
     <div
       style={style}
-      className={styles.tiles}>
+      className={styles.tiles}
+    >
       {mapTiles()}
     </div>
   );
