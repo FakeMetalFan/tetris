@@ -1,5 +1,6 @@
-import styles from './tiles.module.scss';
 import Tile from '../Tile';
+
+import styles from './tiles.module.scss';
 
 type Props = Pick<Tetris, 'tiles' | 'width' | 'height'> & {
   tileSize: number;
