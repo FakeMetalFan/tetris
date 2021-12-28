@@ -107,8 +107,10 @@ export const initTiles = (state: Tetris) =>
   });
 
 export const mergeTetromino = (state: Tetris) =>
-  produce(state, (draft) => {
-    draft.tiles.forEach((row) => {
+  produce(state, ({
+    tiles,
+  }) => {
+    tiles.forEach((row) => {
       row.forEach((tile) => {
         if (isTileMerged(tile) || isTileEmpty(tile)) {
           return;
