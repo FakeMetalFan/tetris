@@ -22,7 +22,12 @@ export const clearFilledRows = (state: Tetris) =>
         const row = tiles.at(x);
 
         row.forEach((tile, y) => {
-          const { fill, merged } = tiles.at(x - 1).at(y);
+          const {
+            fill,
+            merged,
+          } = tiles
+            .at(x - 1)
+            .at(y);
 
           tile.fill = fill;
           tile.merged = merged;
@@ -32,7 +37,9 @@ export const clearFilledRows = (state: Tetris) =>
   });
 
 export const clearTiles = (state: Tetris, overrideMerge?: boolean) =>
-  produce(state, ({ tiles }) => {
+  produce(state, ({
+    tiles,
+  }) => {
     tiles.forEach((row) => {
       row.forEach((tile) => {
         if (overrideMerge) {
@@ -60,7 +67,9 @@ export const drawTetromino = (state: Tetris) =>
           return;
         }
 
-        const tile = tiles.at(point.x + x).at(point.y + y);
+        const tile = tiles
+          .at(point.x + x)
+          .at(point.y + y);
 
         if (tile.merged) {
           throw 'Cannot draw over a merged tile';

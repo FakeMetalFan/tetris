@@ -1,6 +1,8 @@
 import TILE_FILL from 'constants/tile-fill';
 
-import { TETROMINOS, } from './constants';
+import {
+  TETROMINOS,
+} from './constants';
 
 export const getFilledRowsIndexes = ({
   tiles,
