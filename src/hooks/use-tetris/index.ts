@@ -43,26 +43,34 @@ export default (width: number, height: number) => {
     );
   };
 
+  const finish = () => {
+    setState(
+      compose(
+        mergeTetromino,
+        updateScore,
+        clearFilledRows,
+        initTetromino,
+      )(state),
+    );
+  };
+
+  const reset = () => {
+    setState(
+      compose(
+        (next) => clearTiles(next, true),
+        initTetromino,
+      )({
+        ...state,
+        score: 0,
+      }),
+    );
+  };
+
   const handleBottomCollision = () => {
     try {
-      setState(
-        compose(
-          mergeTetromino,
-          updateScore,
-          clearFilledRows,
-          initTetromino,
-        )(state),
-      );
+      finish();
     } catch {
-      setState(
-        compose(
-          (next) => clearTiles(next, true),
-          initTetromino,
-        )({
-          ...state,
-          score: 0,
-        }),
-      );
+      reset();
     }
   };
 
