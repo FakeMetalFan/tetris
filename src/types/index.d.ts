@@ -1,12 +1,15 @@
+type Unique = {
+  id: string;
+};
+
 type Point = {
   x: number;
   y: number;
 };
 
-type Tile = {
-  id: string;
+type Tile = Unique & {
   fill: number;
-  merged?: boolean;
+  merged: boolean;
 };
 
 type Tetris = {

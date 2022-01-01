@@ -3,15 +3,13 @@ import produce from 'immer';
 import TILE_FILL from 'constants/tile-fill';
 
 import compose from 'utils/compose';
-import makeUnique from 'utils/make-unique';
+import omit from 'utils/omit';
 import rotateMatrix from 'utils/rotate-matrix';
 
 import {
+  createEmptyTile,
   getFilledRowsIndexes,
   getRandomTetromino,
-  isNoFill,
-  isTileEmpty,
-  isTileMerged,
 } from './utils';
 
 const initPoint = (state: Tetris) =>
@@ -42,9 +40,7 @@ const initTiles = (state: Tetris) =>
         {
           length: width,
         },
-        () => makeUnique({
-          fill: TILE_FILL.NONE,
-        }),
+        createEmptyTile,
       ),
     );
   });
@@ -60,16 +56,8 @@ export const clearFilledRows = (state: Tetris) =>
   }) => {
     getFilledRowsIndexes(state).forEach((index) => {
       for (let x = index; x; --x) {
-        const row = tiles[x];
-
-        row.forEach((tile, y) => {
-          const {
-            fill,
-            merged,
-          } = tiles[x - 1][y];
-
-          tile.fill = fill;
-          tile.merged = merged;
+        tiles[x].forEach((tile, y) => {
+          Object.assign(tile, omit(tiles[x - 1][y], 'id'));
         });
       }
     });
@@ -82,10 +70,10 @@ export const clearTiles = (state: Tetris, overrideMerge?: boolean) =>
     tiles.forEach((row) => {
       row.forEach((tile) => {
         if (overrideMerge) {
-          delete tile.merged;
+          tile.merged = false;
         }
 
-        if (isTileMerged(tile)) {
+        if (tile.merged) {
           return;
         }
 
@@ -102,13 +90,13 @@ export const drawTetromino = (state: Tetris) =>
   }) => {
     tetromino.forEach((row, x) => {
       row.forEach((fill, y) => {
-        if (isNoFill(fill)) {
+        if (!fill) {
           return;
         }
 
         const tile = tiles[point.x + x][point.y + y];
 
-        if (isTileMerged(tile)) {
+        if (tile.merged) {
           throw 'Cannot draw over a merged tile';
         }
 
@@ -140,11 +128,7 @@ export const mergeTetromino = (state: Tetris) =>
   }) => {
     tiles.forEach((row) => {
       row.forEach((tile) => {
-        if (isTileMerged(tile) || isTileEmpty(tile)) {
-          return;
-        }
-
-        tile.merged = true;
+        tile.merged = tile.fill !== TILE_FILL.NONE;
       });
     });
   });
