@@ -3,13 +3,17 @@ import produce from 'immer';
 import TILE_FILL from 'constants/tile-fill';
 
 import compose from 'utils/compose';
+import getRandomArrItem from 'utils/get-random-arr-item';
 import makeUnique from 'utils/make-unique';
 import omit from 'utils/omit';
 import rotateMatrix from 'utils/rotate-matrix';
 
 import {
+  TETROMINOS,
+} from './constants';
+
+import {
   getFilledRowsIndexes,
-  getRandomTetromino,
 } from './utils';
 
 const initTile = () =>
@@ -53,7 +57,7 @@ const initTiles = (state: Tetris) =>
 
 const randomizeTetromino = (state: Tetris) =>
   produce(state, (draft) => {
-    draft.tetromino = getRandomTetromino();
+    draft.tetromino = getRandomArrItem(TETROMINOS);
   });
 
 export const clearFilledRows = (state: Tetris) =>

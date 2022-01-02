@@ -1,9 +1,5 @@
 import TILE_FILL from 'constants/tile-fill';
 
-import {
-  TETROMINOS,
-} from './constants';
-
 export const catchErr = (callback: () => void) =>
   () => {
     try {
@@ -23,6 +19,3 @@ export const getFilledRowsIndexes = ({
 
     return acc;
   }, []);
-
-export const getRandomTetromino = () =>
-  TETROMINOS[Math.floor(Math.random() * TETROMINOS.length)];
