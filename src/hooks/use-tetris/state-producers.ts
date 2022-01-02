@@ -3,14 +3,20 @@ import produce from 'immer';
 import TILE_FILL from 'constants/tile-fill';
 
 import compose from 'utils/compose';
+import makeUnique from 'utils/make-unique';
 import omit from 'utils/omit';
 import rotateMatrix from 'utils/rotate-matrix';
 
 import {
-  createEmptyTile,
   getFilledRowsIndexes,
   getRandomTetromino,
 } from './utils';
+
+const initTile = () =>
+  makeUnique({
+    fill: TILE_FILL.NONE,
+    merged: false,
+  });
 
 const initPoint = (state: Tetris) =>
   produce(state, (draft) => {
@@ -40,7 +46,7 @@ const initTiles = (state: Tetris) =>
         {
           length: width,
         },
-        createEmptyTile,
+        initTile,
       ),
     );
   });
