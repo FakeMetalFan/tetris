@@ -1,11 +1,15 @@
 import {
   useEffect,
+  useLayoutEffect,
+  useRef,
 } from 'react';
 
-import useCallbackRef from './use-callback-ref';
-
 export default (callback: () => void, ms: number) => {
-  const callbackRef = useCallbackRef(callback);
+  const callbackRef = useRef<typeof callback>();
+
+  useLayoutEffect(() => {
+    callbackRef.current = callback;
+  });
 
   useEffect(() => {
     if (ms === 0) {
