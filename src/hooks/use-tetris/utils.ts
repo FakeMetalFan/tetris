@@ -8,9 +8,9 @@ export const catchErr = (callback: () => void) =>
   };
 
 export const getFilledRowsIndexes = ({
-  tiles,
+  field,
 }: Tetris) =>
-  tiles.reduce((acc: number[], row, x) => {
+  field.reduce((acc: number[], row, x) => {
     const isFilled = !row.some(({ fill }) => fill === TILE_FILL.NONE);
 
     if (isFilled) {

@@ -7,8 +7,8 @@ import {
 import compose from 'utils/compose';
 
 import {
+  clearField,
   clearFilledRows,
-  clearTiles,
   drawTetromino,
   initState,
   initTetromino,
@@ -29,7 +29,7 @@ export default (width: number, height: number) => {
   const move = (offset: Partial<Point>) => {
     setState(
       compose(
-        clearTiles,
+        clearField,
         (next) => patchPoint(next, offset),
         drawTetromino,
       )(state),
@@ -58,7 +58,7 @@ export default (width: number, height: number) => {
   const reset = () => {
     setState(
       compose(
-        (next) => clearTiles(next, true),
+        (next) => clearField(next, true),
         initTetromino,
       )({
         ...state,
@@ -90,7 +90,7 @@ export default (width: number, height: number) => {
   const rotate = catchErr(() => {
     setState(
       compose(
-        clearTiles,
+        clearField,
         rotateTetromino,
         drawTetromino,
       )(state),

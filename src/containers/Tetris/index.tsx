@@ -1,5 +1,5 @@
 import Counter from 'components/Counter';
-import Tiles from 'components/Tiles';
+import Field from 'components/Field';
 
 import INTERVAL from 'constants/interval';
 import KEY_CODE from 'constants/key-code';
@@ -20,7 +20,7 @@ export default () => {
     drop,
     fast,
     score,
-    tiles,
+    field,
     width,
     height,
   } = useTetris(10, 20);
@@ -58,8 +58,8 @@ export default () => {
         tagName='div'
         className={styles.counter}
       />
-      <Tiles
-        tiles={tiles}
+      <Field
+        field={field}
         width={width}
         height={height}
         tileSize={24}

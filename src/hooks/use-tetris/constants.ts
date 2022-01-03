@@ -1,6 +1,6 @@
 import TILE_FILL from 'constants/tile-fill';
 
-export const TETROMINOS = [
+export const TETROMINOES = [
   [
     [
       TILE_FILL.NONE,

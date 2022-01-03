@@ -9,7 +9,7 @@ import omit from 'utils/omit';
 import rotateMatrix from 'utils/rotate-matrix';
 
 import {
-  TETROMINOS,
+  TETROMINOES,
 } from './constants';
 
 import {
@@ -35,14 +35,14 @@ const initPoint = (state: Tetris) =>
     };
   });
 
-const initTiles = (state: Tetris) =>
+const initField = (state: Tetris) =>
   produce(state, (draft) => {
     const {
       height,
       width,
     } = draft;
 
-    draft.tiles = Array.from(
+    draft.field = Array.from(
       {
         length: height,
       },
@@ -57,27 +57,14 @@ const initTiles = (state: Tetris) =>
 
 const randomizeTetromino = (state: Tetris) =>
   produce(state, (draft) => {
-    draft.tetromino = getRandomArrItem(TETROMINOS);
+    draft.tetromino = getRandomArrItem(TETROMINOES);
   });
 
-export const clearFilledRows = (state: Tetris) =>
+export const clearField = (state: Tetris, overrideMerge?: boolean) =>
   produce(state, ({
-    tiles,
+    field,
   }) => {
-    getFilledRowsIndexes(state).forEach((index) => {
-      for (let x = index; x; --x) {
-        tiles[x].forEach((tile, y) => {
-          Object.assign(tile, omit(tiles[x - 1][y], 'id'));
-        });
-      }
-    });
-  });
-
-export const clearTiles = (state: Tetris, overrideMerge?: boolean) =>
-  produce(state, ({
-    tiles,
-  }) => {
-    tiles.forEach((row) => {
+    field.forEach((row) => {
       row.forEach((tile) => {
         if (overrideMerge) {
           tile.merged = false;
@@ -92,11 +79,24 @@ export const clearTiles = (state: Tetris, overrideMerge?: boolean) =>
     });
   });
 
+export const clearFilledRows = (state: Tetris) =>
+  produce(state, ({
+    field,
+  }) => {
+    getFilledRowsIndexes(state).forEach((index) => {
+      for (let x = index; x; --x) {
+        field[x].forEach((tile, y) => {
+          Object.assign(tile, omit(field[x - 1][y], 'id'));
+        });
+      }
+    });
+  });
+
 export const drawTetromino = (state: Tetris) =>
   produce(state, ({
     tetromino,
     point,
-    tiles,
+    field,
   }) => {
     tetromino.forEach((row, x) => {
       row.forEach((fill, y) => {
@@ -104,7 +104,7 @@ export const drawTetromino = (state: Tetris) =>
           return;
         }
 
-        const tile = tiles[point.x + x][point.y + y];
+        const tile = field[point.x + x][point.y + y];
 
         if (tile.merged) {
           throw 'Cannot draw over a merged tile';
@@ -117,7 +117,7 @@ export const drawTetromino = (state: Tetris) =>
 
 export const initState = (width: number, height: number): Tetris =>
   compose(
-    initTiles,
+    initField,
     initTetromino,
   )({
     width,
@@ -134,9 +134,9 @@ export const initTetromino = (state: Tetris) =>
 
 export const mergeTetromino = (state: Tetris) =>
   produce(state, ({
-    tiles,
+    field,
   }) => {
-    tiles.forEach((row) => {
+    field.forEach((row) => {
       row.forEach((tile) => {
         tile.merged = tile.fill !== TILE_FILL.NONE;
       });
