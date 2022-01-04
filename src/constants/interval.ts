@@ -1,6 +1,6 @@
 enum INTERVAL {
-  SLOW = 650,
-  FAST = 25,
+  SLOW = 600,
+  FAST = 20,
 }
 
 export default INTERVAL;

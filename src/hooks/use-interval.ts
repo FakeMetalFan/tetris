@@ -12,16 +12,14 @@ export default (callback: () => void, ms: number) => {
   });
 
   useEffect(() => {
-    if (ms === 0) {
-      return;
+    if (ms) {
+      const id = setInterval(() => {
+        callbackRef.current?.();
+      }, ms);
+
+      return () => {
+        clearInterval(id);
+      };
     }
-
-    const id = setInterval(() => {
-      callbackRef.current?.();
-    }, ms);
-
-    return () => {
-      clearInterval(id);
-    };
   }, [ms]);
 };

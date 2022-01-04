@@ -70,11 +70,9 @@ export const clearField = (state: Tetris, overrideMerge?: boolean) =>
           tile.merged = false;
         }
 
-        if (tile.merged) {
-          return;
+        if (!tile.merged) {
+          tile.fill = TILE_FILL.NONE;
         }
-
-        tile.fill = TILE_FILL.NONE;
       });
     });
   });
@@ -100,17 +98,15 @@ export const drawTetromino = (state: Tetris) =>
   }) => {
     tetromino.forEach((row, x) => {
       row.forEach((fill, y) => {
-        if (!fill) {
-          return;
+        if (fill) {
+          const tile = field[point.x + x][point.y + y];
+
+          if (tile.merged) {
+            throw 'Cannot draw over a merged tile';
+          }
+
+          tile.fill = fill;
         }
-
-        const tile = field[point.x + x][point.y + y];
-
-        if (tile.merged) {
-          throw 'Cannot draw over a merged tile';
-        }
-
-        tile.fill = fill;
       });
     });
   });
