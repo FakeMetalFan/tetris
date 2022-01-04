@@ -5,7 +5,7 @@ import INTERVAL from 'constants/interval';
 import KEY_CODE from 'constants/key-code';
 
 import useTetris from 'hooks/use-tetris';
-import useEventListener from 'hooks/use-event-listener';
+import useEventHandler from 'hooks/use-event-handler';
 import useInterval from 'hooks/use-interval';
 
 import styles from './tetris.module.scss';
@@ -47,8 +47,8 @@ export default () => {
     }
   };
 
-  useEventListener('keydown', handleKeyDown);
-  useEventListener('keyup', handleKeyUp);
+  useEventHandler('keydown', handleKeyDown);
+  useEventHandler('keyup', handleKeyUp);
   useInterval(drop, fast ? INTERVAL.FAST : INTERVAL.SLOW);
 
   return (
