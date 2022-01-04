@@ -4,19 +4,18 @@ import {
 
 import useCallbackRef from './use-callback-ref';
 
-export default <T extends Element, E>(
+export default <T extends Element, U>(
   eventName: string,
-  callback: (event: E) => void,
-  target: T | Document = document,
+  callback: (event: U) => void,
+  target: T | null | Document = document,
 ) => {
   const handleEvent: any = useCallbackRef(callback);
 
   useEffect(() => {
-    target.addEventListener(eventName, handleEvent);
+    target?.addEventListener(eventName, handleEvent);
 
     return () => {
-      console.log('cleared!');
-      target.removeEventListener(eventName, handleEvent);
+      target?.removeEventListener(eventName, handleEvent);
     };
   }, [eventName, target]);
 };
