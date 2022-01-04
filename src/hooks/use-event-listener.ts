@@ -4,7 +4,7 @@ import {
   useRef,
 } from 'react';
 
-export default <T extends HTMLElement, E>(
+export default <T extends Element, E>(
   eventName: string,
   callback: (event: E) => void,
   target: T | Document = document,
