@@ -5,7 +5,6 @@ import TILE_FILL from 'constants/tile-fill';
 import compose from 'utils/compose';
 import getRandomArrItem from 'utils/get-random-arr-item';
 import makeUnique from 'utils/make-unique';
-import omit from 'utils/omit';
 import rotateMatrix from 'utils/rotate-matrix';
 
 import {
@@ -84,7 +83,12 @@ export const clearFilledRows = (state: Tetris) =>
     getFilledRowsIndexes(state).forEach((index) => {
       for (let x = index; x; --x) {
         field[x].forEach((tile, y) => {
-          Object.assign(tile, omit(field[x - 1][y], 'id'));
+          const {
+            id,
+            ...rest
+          } = field[x - 1][y];
+
+          Object.assign(tile, rest);
         });
       }
     });
