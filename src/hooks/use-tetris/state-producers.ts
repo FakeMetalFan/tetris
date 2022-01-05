@@ -3,7 +3,7 @@ import produce from 'immer';
 import TILE_FILL from 'constants/tile-fill';
 
 import compose from 'utils/compose';
-import getRandomArrItem from 'utils/get-random-arr-item';
+import getRandomItem from 'utils/get-random-item';
 import makeUnique from 'utils/make-unique';
 import rotateMatrix from 'utils/rotate-matrix';
 
@@ -56,7 +56,7 @@ const initField = (state: Tetris) =>
 
 const randomizeTetromino = (state: Tetris) =>
   produce(state, (draft) => {
-    draft.tetromino = getRandomArrItem(TETROMINOES);
+    draft.tetromino = getRandomItem(TETROMINOES);
   });
 
 export const clearField = (state: Tetris, overrideMerge?: boolean) =>
