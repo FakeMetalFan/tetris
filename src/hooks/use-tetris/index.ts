@@ -1,10 +1,18 @@
 import produce from 'immer';
 
 import {
+  flow,
+  partial,
+  partialRight,
+} from 'lodash-es';
+
+import {
   useState,
 } from 'react';
 
-import compose from 'utils/compose';
+import {
+  POINT_OFFSET,
+} from './constants';
 
 import {
   clearField,
@@ -18,7 +26,9 @@ import {
   updateScore,
 } from './state-producers';
 
-import { catchErr } from './utils';
+import {
+  catchErr,
+} from './utils';
 
 export default (width: number, height: number) => {
   const [
@@ -28,9 +38,9 @@ export default (width: number, height: number) => {
 
   const move = (offset: Partial<Point>) => {
     setState(
-      compose(
+      flow(
         clearField,
-        (next) => patchPoint(next, offset),
+        partial(patchPoint, offset),
         drawTetromino,
       )(state),
     );
@@ -46,7 +56,7 @@ export default (width: number, height: number) => {
 
   const finish = () => {
     setState(
-      compose(
+      flow(
         mergeTetromino,
         updateScore,
         clearFilledRows,
@@ -57,8 +67,8 @@ export default (width: number, height: number) => {
 
   const reset = () => {
     setState(
-      compose(
-        (next) => clearField(next, true),
+      flow(
+        partialRight(clearField, true),
         initTetromino,
       )({
         ...state,
@@ -76,20 +86,16 @@ export default (width: number, height: number) => {
   };
 
   const left = catchErr(() => {
-    move({
-      y: -1,
-    });
+    move(POINT_OFFSET.LEFT);
   });
 
   const right = catchErr(() => {
-    move({
-      y: 1,
-    });
+    move(POINT_OFFSET.RIGHT);
   });
 
   const rotate = catchErr(() => {
     setState(
-      compose(
+      flow(
         clearField,
         rotateTetromino,
         drawTetromino,
@@ -107,9 +113,7 @@ export default (width: number, height: number) => {
 
   const drop = () => {
     try {
-      move({
-        x: 1,
-      });
+      move(POINT_OFFSET.BOTTOM);
     } catch {
       handleBottomCollision();
     }

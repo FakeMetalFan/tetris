@@ -1,8 +1,8 @@
 import {
-  nanoid,
-} from 'nanoid';
+  uniqueId,
+} from 'lodash-es';
 
 export default <T extends Record<string, unknown>>(obj: T) => ({
   ...obj,
-  id: nanoid(),
+  id: uniqueId(),
 });

@@ -1,21 +1,31 @@
 import {
   useEffect,
+  useLayoutEffect,
+  useRef,
 } from 'react';
 
-import useCallbackRef from './use-callback-ref';
+type EventHandler = (event: Event) => void;
 
-export default <T extends Element, U>(
+export default <T extends EventTarget, U extends Event>(
   eventName: string,
   callback: (event: U) => void,
   target: T | null | Document = document,
 ) => {
-  const handleEvent: any = useCallbackRef(callback);
+  const callbackRef = useRef<typeof callback>();
+
+  useLayoutEffect(() => {
+    callbackRef.current = callback;
+  });
 
   useEffect(() => {
-    target?.addEventListener(eventName, handleEvent);
+    const handleEvent = (event: U) => {
+      callbackRef.current?.(event);
+    };
+
+    target?.addEventListener(eventName, handleEvent as EventHandler);
 
     return () => {
-      target?.removeEventListener(eventName, handleEvent);
+      target?.removeEventListener(eventName, handleEvent as EventHandler);
     };
   }, [eventName, target]);
 };

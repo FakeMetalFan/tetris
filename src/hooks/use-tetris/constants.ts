@@ -1,5 +1,17 @@
 import TILE_FILL from 'constants/tile-fill';
 
+export const POINT_OFFSET = {
+  LEFT: {
+    y: -1,
+  },
+  RIGHT: {
+    y: 1,
+  },
+  BOTTOM: {
+    x: 1,
+  },
+};
+
 export const TETROMINOES = [
   [
     [

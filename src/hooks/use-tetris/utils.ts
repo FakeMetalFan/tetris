@@ -7,14 +7,12 @@ export const catchErr = (callback: () => void) =>
     } catch {}
   };
 
-export const getFilledRowsIndexes = ({
-  field,
-}: Tetris) =>
-  field.reduce((acc: number[], row, x) => {
-    const isFilled = !row.some(({ fill }) => fill === TILE_FILL.NONE);
+export const getFilledRowsIndexes = (state: Tetris) =>
+  state.field.reduce((acc: number[], row, index) => {
+    const isFilled = !row.some((tile) => tile.fill === TILE_FILL.NONE);
 
     if (isFilled) {
-      acc.push(x);
+      acc.push(index);
     }
 
     return acc;

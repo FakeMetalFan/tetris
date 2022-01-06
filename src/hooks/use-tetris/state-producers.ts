@@ -1,11 +1,12 @@
 import produce from 'immer';
 
+import {
+  flow,
+} from 'lodash-es';
+
 import TILE_FILL from 'constants/tile-fill';
 
-import compose from 'utils/compose';
-import getRandomItem from 'utils/get-random-item';
 import makeUnique from 'utils/make-unique';
-import rotateMatrix from 'utils/rotate-matrix';
 
 import {
   TETROMINOES,
@@ -56,14 +57,13 @@ const initField = (state: Tetris) =>
 
 const randomizeTetromino = (state: Tetris) =>
   produce(state, (draft) => {
-    draft.tetromino = getRandomItem(TETROMINOES);
+    draft.tetromino =
+      TETROMINOES[Math.floor(Math.random() * TETROMINOES.length)];
   });
 
 export const clearField = (state: Tetris, overrideMerge?: boolean) =>
-  produce(state, ({
-    field,
-  }) => {
-    field.forEach((row) => {
+  produce(state, (draft) => {
+    draft.field.forEach((row) => {
       row.forEach((tile) => {
         if (overrideMerge) {
           tile.merged = false;
@@ -115,38 +115,36 @@ export const drawTetromino = (state: Tetris) =>
     });
   });
 
-export const initState = (width: number, height: number): Tetris =>
-  compose(
+export const initState = (width: number, height: number) =>
+  flow(
     initField,
     initTetromino,
   )({
     width,
     height,
     score: 0,
-  });
+  } as Tetris);
 
 export const initTetromino = (state: Tetris) =>
-  compose(
+  flow(
     randomizeTetromino,
     initPoint,
     drawTetromino,
   )(state);
 
 export const mergeTetromino = (state: Tetris) =>
-  produce(state, ({
-    field,
-  }) => {
-    field.forEach((row) => {
+  produce(state, (draft) => {
+    draft.field.forEach((row) => {
       row.forEach((tile) => {
         tile.merged = tile.fill !== TILE_FILL.NONE;
       });
     });
   });
 
-export const patchPoint = (state: Tetris, {
+export const patchPoint = ({
   x = 0,
   y = 0,
-}: Partial<Point>) =>
+}: Partial<Point>, state: Tetris) =>
   produce(state, ({
     point,
   }) => {
@@ -156,7 +154,15 @@ export const patchPoint = (state: Tetris, {
 
 export const rotateTetromino = (state: Tetris) =>
   produce(state, (draft) => {
-    draft.tetromino = rotateMatrix(draft.tetromino);
+    const {
+      tetromino,
+    } = draft;
+
+    draft.tetromino = tetromino[0].map((_, index) =>
+      tetromino
+        .map((row) => row[index])
+        .reverse(),
+    );
   });
 
 export const updateScore = (state: Tetris) =>

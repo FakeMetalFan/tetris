@@ -1,14 +1,22 @@
 import {
   useEffect,
+  useLayoutEffect,
+  useRef,
 } from 'react';
 
-import useCallbackRef from './use-callback-ref';
+export default (callback: () => void, ms?: number | null) => {
+  const callbackRef = useRef<typeof callback>();
 
-export default (callback: () => void, ms: number) => {
-  const handleInterval = useCallbackRef(callback);
+  useLayoutEffect(() => {
+    callbackRef.current = callback;
+  });
 
   useEffect(() => {
     if (ms) {
+      const handleInterval = () => {
+        callbackRef.current?.();
+      };
+
       const id = setInterval(handleInterval, ms);
 
       return () => {
