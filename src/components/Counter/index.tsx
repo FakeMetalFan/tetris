@@ -4,24 +4,22 @@ import {
   memo,
 } from 'react';
 
+import {
+  StyledComponent,
+} from 'styled-components';
+
 type Props = {
   count: number;
-  tagName?: string;
-  className?: string;
+  Styles?: StyledComponent<any, any>;
 };
 
 export default memo(({
   count,
-  tagName,
-  className,
+  Styles,
 }: Props) =>
   createElement(
-    tagName ?? Fragment,
-    tagName
-      ? {
-          className,
-        }
-      : {},
+    Styles ?? Fragment,
+    null,
     count,
   ),
 );

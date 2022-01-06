@@ -13,12 +13,13 @@ import Tetris from 'containers/Tetris';
 
 import setupIcons from 'setup-icons';
 
-import 'index.scss';
+import GlobalStyle from 'styles';
 
 setupIcons();
 
 render(
   <StrictMode>
+    <GlobalStyle />
     <Header />
     <main>
       <Tetris />

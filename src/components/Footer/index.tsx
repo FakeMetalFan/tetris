@@ -2,28 +2,37 @@ import {
   FontAwesomeIcon,
 } from '@fortawesome/react-fontawesome';
 
-import styles from './footer.module.scss';
+import {
+  Footer,
+  Link,
+} from './styles';
 
-export default () => (
-  <footer
-    className={styles.footer}
-  >
+export default () => {
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <Footer>
     <span>
       Powered by
-      <a
-        className={styles.link}
+      <Link
         href="https://github.com/FakeMetalFan"
         target="_blank"
         rel="noopener noreferrer"
       >
         <FontAwesomeIcon
-          icon={['fab', 'github']}
+          icon={
+            [
+              'fab',
+              'github',
+            ]
+          }
         />
-      </a>
+      </Link>
       &copy;
       <span>
-        {new Date().getFullYear()}
+        {currentYear}
       </span>
     </span>
-  </footer>
-);
+    </Footer>
+  );
+};

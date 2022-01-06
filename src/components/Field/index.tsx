@@ -1,21 +1,15 @@
 import Tile from '../Tile';
 
-import styles from './field.module.scss';
+import Styles from './styles';
 
-type Props = Pick<Tetris, 'field' | 'width' | 'height'> & {
+export type Props = Pick<Tetris, 'field' | 'width' | 'height'> & {
   tileSize: number;
 };
 
-export default ({
-  field,
-  width,
-  height,
-  tileSize,
-}: Props) => {
-  const style = {
-    gridTemplateColumns: `repeat(${width}, ${tileSize}px)`,
-    gridTemplateRows: `repeat(${height}, ${tileSize}px)`,
-  };
+export default (props: Props) => {
+  const {
+    field,
+  } = props;
 
   const mapTiles = () =>
     field.map((row) =>
@@ -28,11 +22,10 @@ export default ({
     );
 
   return (
-    <div
-      style={style}
-      className={styles.field}
+    <Styles
+      {...props}
     >
       {mapTiles()}
-    </div>
+    </Styles>
   );
 };

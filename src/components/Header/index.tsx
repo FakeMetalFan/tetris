@@ -2,22 +2,27 @@ import {
   FontAwesomeIcon,
 } from '@fortawesome/react-fontawesome';
 
-import styles from './header.module.scss';
+import {
+  Header,
+  Link,
+} from './styles';
 
 export default () => (
-  <header
-    className={styles.header}
-  >
+  <Header>
     Tetris
-    <a
-      className={styles.link}
+    <Link
       href="https://github.com/FakeMetalFan/tetris"
       target="_blank"
       rel="noopener noreferrer"
     >
       <FontAwesomeIcon
-        icon={['fab', 'github']}
+        icon={
+          [
+            'fab',
+            'github',
+          ]
+        }
       />
-    </a>
-  </header>
+    </Link>
+  </Header>
 );
