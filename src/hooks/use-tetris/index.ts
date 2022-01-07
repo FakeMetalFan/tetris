@@ -11,7 +11,7 @@ import {
   initState,
   move,
   reset,
-  rotate as rot,
+  rotate as _rotate,
   setFast,
 } from './state-producers';
 
@@ -42,7 +42,7 @@ export default (width: number, height: number) => {
   });
 
   const rotate = catchErr(() => {
-    setState(rot(state));
+    setState(_rotate(state));
   });
 
   const accelerate = () => {
