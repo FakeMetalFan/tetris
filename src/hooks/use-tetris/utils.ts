@@ -1,3 +1,7 @@
+import {
+  reduce,
+} from 'lodash-es';
+
 import TILE_FILL from 'constants/tile-fill';
 
 export const catchErr = (callback: () => void) =>
@@ -8,7 +12,7 @@ export const catchErr = (callback: () => void) =>
   };
 
 export const getFilledRowsIndexes = (state: Tetris) =>
-  state.field.reduce((acc: number[], row, index) => {
+  reduce(state.field, (acc: number[], row, index) => {
     const isFilled = !row.some((tile) => tile.fill === TILE_FILL.NONE);
 
     if (isFilled) {

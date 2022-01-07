@@ -1,3 +1,7 @@
+import {
+  map,
+} from 'lodash-es';
+
 import Tile from '../Tile';
 
 import Styles from './styles';
@@ -12,8 +16,8 @@ export default (props: Props) => {
   } = props;
 
   const mapTiles = () =>
-    field.map((row) =>
-      row.map((tile) => (
+    map(field, (row) =>
+      map(row, (tile) => (
         <Tile
           {...tile}
           key={tile.id}
