@@ -1,12 +1,12 @@
 import produce from 'immer';
 
 import {
+  assign,
   each,
   floor,
   flow,
   head,
   map,
-  merge,
   omit,
   partial,
   partialRight,
@@ -94,7 +94,7 @@ const clearFilledRows = (state: Tetris) =>
     each(getFilledRowsIndexes(state), (index) => {
       for (let x = index; x; --x) {
         each(field[x], (tile, y) => {
-          merge(tile, omit(field[x- 1][y], 'id'));
+          assign(tile, omit(field[x- 1][y], 'id'));
         });
       }
     });
