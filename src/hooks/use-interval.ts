@@ -4,7 +4,7 @@ import {
   useRef,
 } from 'react';
 
-export default (callback: () => void, ms?: number | null) => {
+export default (callback: () => void, interval?: number | null) => {
   const callbackRef = useRef<typeof callback>();
 
   useLayoutEffect(() => {
@@ -12,16 +12,14 @@ export default (callback: () => void, ms?: number | null) => {
   });
 
   useEffect(() => {
-    if (ms) {
-      const handleInterval = () => {
+    if (interval) {
+      const id = setInterval(() => {
         callbackRef.current?.();
-      };
-
-      const id = setInterval(handleInterval, ms);
+      }, interval);
 
       return () => {
         clearInterval(id);
       };
     }
-  }, [ms]);
+  }, [interval]);
 };
