@@ -6,14 +6,7 @@ import {
   POINT_OFFSET,
 } from './constants';
 
-import {
-  finish,
-  initState,
-  move,
-  reset,
-  rotate as _rotate,
-  setFast,
-} from './state-producers';
+import stateProducers from './state-producers';
 
 import {
   catchErr,
@@ -23,39 +16,39 @@ export default (width: number, height: number) => {
   const [
     state,
     setState,
-  ] = useState(() => initState(width, height));
+  ] = useState(() => stateProducers.initState(width, height));
 
   const handleBottomCollision = () => {
     try {
-      setState(finish(state));
+      setState(stateProducers.finish(state));
     } catch {
-      setState(reset(state));
+      setState(stateProducers.reset(state));
     }
   };
 
   const left = catchErr(() => {
-    setState(move(POINT_OFFSET.LEFT, state));
+    setState(stateProducers.move(POINT_OFFSET.LEFT, state));
   });
 
   const right = catchErr(() => {
-    setState(move(POINT_OFFSET.RIGHT, state));
+    setState(stateProducers.move(POINT_OFFSET.RIGHT, state));
   });
 
   const rotate = catchErr(() => {
-    setState(_rotate(state));
+    setState(stateProducers.rotate(state));
   });
 
   const accelerate = () => {
-    setState(setFast(true, state));
+    setState(stateProducers.setFast(true, state));
   };
 
   const decelerate = () => {
-    setState(setFast(false, state));
+    setState(stateProducers.setFast(false, state));
   };
 
   const drop = () => {
     try {
-      setState(move(POINT_OFFSET.BOTTOM, state));
+      setState(stateProducers.move(POINT_OFFSET.BOTTOM, state));
     } catch {
       handleBottomCollision();
     }

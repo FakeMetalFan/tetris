@@ -164,7 +164,7 @@ const rotateTetromino = (state: Tetris) =>
     );
   });
 
-export const finish = (state: Tetris) =>
+const finish = (state: Tetris) =>
   flow(
     mergeTetromino,
     updateScore,
@@ -172,7 +172,7 @@ export const finish = (state: Tetris) =>
     initTetromino,
   )(state);
 
-export const initState = (width: number, height: number) =>
+const initState = (width: number, height: number) =>
   flow(
     initField,
     initTetromino,
@@ -184,14 +184,14 @@ export const initState = (width: number, height: number) =>
     } as Tetris,
   );
 
-export const move = (offset: Partial<Point>, state: Tetris) =>
+const move = (offset: Partial<Point>, state: Tetris) =>
   flow(
     clearField,
     partial(patchPoint, offset),
     draw,
   )(state);
 
-export const reset = (state: Tetris) =>
+const reset = (state: Tetris) =>
   flow(
     partialRight(clearField, true),
     initTetromino,
@@ -202,14 +202,23 @@ export const reset = (state: Tetris) =>
     },
   );
 
-export const rotate = (state: Tetris) =>
+const rotate = (state: Tetris) =>
   flow(
     clearField,
     rotateTetromino,
     draw,
   )(state);
 
-export const setFast = (value: boolean, state: Tetris) =>
+const setFast = (value: boolean, state: Tetris) =>
   produce(state, (draft) => {
     draft.fast = value;
   });
+
+export default {
+  finish,
+  initState,
+  move,
+  reset,
+  rotate,
+  setFast,
+};
