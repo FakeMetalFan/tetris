@@ -10,26 +10,19 @@ export type Props = Pick<Tetris, 'field' | 'width' | 'height'> & {
   tileSize: number;
 };
 
-export default (props: Props) => {
-  const {
-    field,
-  } = props;
-
-  const mapTiles = () =>
-    map(field, (row) =>
-      map(row, (tile) => (
-        <Tile
-          {...tile}
-          key={tile.id}
-        />
-      )),
-    );
-
-  return (
-    <Styles
-      {...props}
-    >
-      {mapTiles()}
-    </Styles>
-  );
-};
+export default (props: Props) => (
+  <Styles
+    {...props}
+  >
+    {
+      map(props.field, (row) =>
+        map(row, (tile) => (
+          <Tile
+            {...tile}
+            key={tile.id}
+          />
+        )),
+      )
+    }
+  </Styles>
+);

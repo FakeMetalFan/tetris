@@ -8,15 +8,13 @@ import {
   StyledComponent,
 } from 'styled-components';
 
-type Props = {
-  count: number;
-  Styles?: StyledComponent<any, any>;
-};
-
 export default memo(({
   count,
   Styles,
-}: Props) =>
+}: {
+  count: number;
+  Styles?: StyledComponent<any, any>;
+}) =>
   createElement(
     Styles ?? Fragment,
     null,

@@ -27,7 +27,7 @@ export default () => {
     height,
   } = useTetris(10, 20);
 
-  const handleKeyDown = (event: KeyboardEvent) => {
+  useEventHandler('keydown', (event: KeyboardEvent) => {
     switch (event.code) {
       case KEY_CODE.ARROW_LEFT:
         left();
@@ -41,16 +41,14 @@ export default () => {
       case KEY_CODE.ARROW_DOWN:
         accelerate();
     }
-  };
+  });
 
-  const handleKeyUp = (event: KeyboardEvent) => {
+  useEventHandler('keyup', (event: KeyboardEvent) => {
     if (event.code === KEY_CODE.ARROW_DOWN) {
       decelerate();
     }
-  };
+  });
 
-  useEventHandler('keydown', handleKeyDown);
-  useEventHandler('keyup', handleKeyUp);
   useInterval(drop, fast ? INTERVAL.FAST : INTERVAL.SLOW);
 
   return (

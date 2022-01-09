@@ -7,11 +7,8 @@ import {
   Link,
 } from './styles';
 
-export default () => {
-  const currentYear = new Date().getFullYear();
-
-  return (
-    <Footer>
+export default () => (
+  <Footer>
     <span>
       Powered by
       <Link
@@ -30,9 +27,8 @@ export default () => {
       </Link>
       &copy;
       <span>
-        {currentYear}
+        {new Date().getFullYear()}
       </span>
     </span>
-    </Footer>
-  );
-};
+  </Footer>
+);
