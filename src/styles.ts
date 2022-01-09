@@ -8,14 +8,14 @@ export default createGlobalStyle`
     padding: 0;
   }
 
+  a {
+    color: inherit;
+  }
+
   body {
     background-color: #292524;
     color: #fff;
     font-family: Comic Sans MS, cursive, sans-serif;
-  }
-
-  a {
-    color: inherit;
   }
 
   #root {
