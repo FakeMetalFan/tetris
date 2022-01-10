@@ -64,7 +64,7 @@ export default styled.div<Tile>`
             transparent
           );
         }
-      `
+      `;
     }
   }}
 `;
