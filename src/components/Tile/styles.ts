@@ -41,7 +41,7 @@ export default styled.div<Tile>`
       const color = getFillColor(fill)!;
 
       return css`
-        background-color: ${rgba(color, 0.7)};
+        background-color: ${rgba(color, .7)};
 
         &::before,
         &::after {
