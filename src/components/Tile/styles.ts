@@ -1,6 +1,5 @@
 import {
   darken,
-  lighten,
   rgba,
 } from 'polished';
 
@@ -41,7 +40,7 @@ export default styled.div<Tile>`
       const color = getFillColor(fill)!;
 
       return css`
-        background-color: ${rgba(color, .7)};
+        background-color: ${darken(.2, color)};
 
         &::before,
         &::after {
@@ -51,16 +50,17 @@ export default styled.div<Tile>`
           top: 2px;
           right: 2px;
           bottom: 2px;
+          border-radius: inherit;
         }
 
         &::before {
-          background-color: ${darken(.15, color)};
+          background-color: ${rgba(color, .2)};
         }
 
         &::after {
           background: radial-gradient(
             ellipse at top,
-            ${lighten(.1, color)},
+            ${color},
             transparent
           );
         }
