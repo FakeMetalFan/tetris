@@ -16,7 +16,9 @@ export default (width: number, height: number) => {
   const [
     state,
     setState,
-  ] = useState(() => stateProducers.initState(width, height));
+  ] = useState(() =>
+    stateProducers.initState(width, height),
+  );
 
   const handleBottomCollision = () => {
     try {
