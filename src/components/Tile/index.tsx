@@ -4,11 +4,10 @@ import {
 
 import Styles from './styles';
 
-export default memo(
-  (props: Tile) => (
-    <Styles
-      {...props}
-    />
-  ),
-  (prev, next) => prev.fill === next.fill,
-);
+export type Props = Pick<Tile, 'fill'>;
+
+export default memo((props: Props) => (
+  <Styles
+    {...props}
+  />
+));

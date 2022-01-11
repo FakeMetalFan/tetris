@@ -16,10 +16,13 @@ export default (props: Props) => (
   >
     {
       map(props.field, (row) =>
-        map(row, (tile) => (
+        map(row, ({
+          fill,
+          id,
+        }) => (
           <Tile
-            {...tile}
-            key={tile.id}
+            fill={fill}
+            key={id}
           />
         )),
       )

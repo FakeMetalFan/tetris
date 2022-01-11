@@ -1,4 +1,4 @@
-type Unique = {
+type Unique<T extends Record<string, unknown>> = T & {
   id: string;
 };
 
@@ -7,7 +7,7 @@ type Point = {
   y: number;
 };
 
-type Tile = Unique & {
+type Tile = {
   fill: number;
   merged: boolean;
 };
@@ -17,7 +17,7 @@ type Tetris = {
   height: number;
   tetromino: number[][];
   point: Point;
-  field: Tile[][];
+  field: Unique<Tile>[][];
   fast: boolean;
   score: number;
 };

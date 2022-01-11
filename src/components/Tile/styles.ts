@@ -9,6 +9,10 @@ import styled, {
 
 import TILE_FILL from 'constants/tile-fill';
 
+import {
+  Props,
+} from '.';
+
 const getFillColor = (fill: TILE_FILL) => {
   switch (fill) {
     case TILE_FILL.I:
@@ -28,7 +32,7 @@ const getFillColor = (fill: TILE_FILL) => {
   }
 };
 
-export default styled.div<Tile>`
+export default styled.div<Props>`
   background-color: transparent;
   border-radius: 2px;
   position: relative;
