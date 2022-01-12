@@ -6,9 +6,9 @@ import {
 
 type EventHandler = (event: Event) => void;
 
-export default <T extends EventTarget, U extends Event>(
+export default <T extends EventTarget, E extends Event>(
   eventName: string,
-  callback: (event: U) => void,
+  callback: (event: E) => void,
   target: T | null | Document = document,
 ) => {
   const callbackRef = useRef<typeof callback>();
@@ -18,7 +18,7 @@ export default <T extends EventTarget, U extends Event>(
   });
 
   useEffect(() => {
-    const handleEvent = (event: U) => {
+    const handleEvent = (event: E) => {
       callbackRef.current?.(event);
     };
 
