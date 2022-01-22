@@ -8,9 +8,7 @@ import useTetris from 'hooks/use-tetris';
 import useEventHandler from 'hooks/use-event-handler';
 import useInterval from 'hooks/use-interval';
 
-import {
-  Counter as CounterStyles,
-} from './styles';
+import * as Styles from './styles';
 
 export default () => {
   const {
@@ -55,7 +53,7 @@ export default () => {
     <>
       <Counter
         count={score}
-        Styles={CounterStyles}
+        Styles={Styles.Counter}
       />
       <Field
         field={field}
