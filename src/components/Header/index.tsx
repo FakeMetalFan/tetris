@@ -8,9 +8,9 @@ export default () => (
   <Styles.Header>
     Tetris
     <Styles.Link
-      href="https://github.com/FakeMetalFan/tetris"
-      target="_blank"
-      rel="noopener noreferrer"
+      href='https://github.com/FakeMetalFan/tetris'
+      target='_blank'
+      rel='noopener noreferrer'
     >
       <FontAwesomeIcon
         icon={
