@@ -12,12 +12,16 @@ export const catchErr = (callback: () => void) =>
   };
 
 export const getFilledRowsIndexes = (state: Tetris) =>
-  reduce(state.field, (acc: number[], row, index) => {
-    const isFilled = !row.some((tile) => tile.fill === TILE_FILL.NONE);
+  reduce(
+    state.field,
+    (acc: number[], row, index) => {
+      const isFilled = !row.some((tile) => tile.fill === TILE_FILL.NONE);
 
-    if (isFilled) {
-      acc.push(index);
-    }
+      if (isFilled) {
+        acc.push(index);
+      }
 
-    return acc;
-  }, []);
+      return acc;
+    },
+    [],
+  );
