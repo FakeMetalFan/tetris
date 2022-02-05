@@ -94,7 +94,7 @@ const clearFilledRows = (state: Tetris) =>
     each(getFilledRowsIndexes(state), (index) => {
       for (let x = index; x; --x) {
         each(field[x], (tile, y) => {
-          assign(tile, omit(field[x- 1][y], 'id'));
+          assign(tile, omit(field[x - 1][y], 'id'));
         });
       }
     });
