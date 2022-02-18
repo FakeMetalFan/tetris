@@ -4,13 +4,6 @@ import {
 
 import TILE_FILL from 'constants/tile-fill';
 
-export const catchErr = (callback: () => void) =>
-  () => {
-    try {
-      callback();
-    } catch {}
-  };
-
 export const getFilledRowsIndexes = (state: Tetris) =>
   reduce(
     state.field,
