@@ -50,12 +50,12 @@ const draw = (state: Tetris) =>
   produce(state, ({
     tetromino,
     point,
-    field,
+    tiles,
   }) => {
     each(tetromino, (row, x) => {
       each(row, (fill, y) => {
         if (fill) {
-          const tile = field[point.x + x][point.y + y];
+          const tile = tiles[point.x + x][point.y + y];
 
           if (tile.merged) {
             throw 'Cannot draw over a merged tile';
@@ -75,7 +75,7 @@ const initTile = () =>
 
 const mergeTetromino = (state: Tetris) =>
   produce(state, (draft) => {
-    each(draft.field, (row) => {
+    each(draft.tiles, (row) => {
       each(row, (tile) => {
         tile.merged = tile.fill !== TILE_FILL.NONE;
       });
@@ -89,12 +89,12 @@ const updateScore = (state: Tetris) =>
 
 const clearFilledRows = (state: Tetris) =>
   produce(state, ({
-    field,
+    tiles,
   }) => {
     each(getFilledRowsIndexes(state), (index) => {
       for (let x = index; x; --x) {
-        each(field[x], (tile, y) => {
-          assign(tile, omit(field[x - 1][y], 'id'));
+        each(tiles[x], (tile, y) => {
+          assign(tile, omit(tiles[x - 1][y], 'id'));
         });
       }
     });
@@ -114,7 +114,7 @@ const initField = (state: Tetris) =>
       width,
     } = draft;
 
-    draft.field = map(
+    draft.tiles = map(
       toArray({
         length: height,
       }),
@@ -129,7 +129,7 @@ const initField = (state: Tetris) =>
 
 const clearField = (state: Tetris, overrideMerge?: boolean) =>
   produce(state, (draft) => {
-    each(draft.field, (row) => {
+    each(draft.tiles, (row) => {
       each(row, (tile) => {
         if (overrideMerge) {
           tile.merged = false;

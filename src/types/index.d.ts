@@ -17,7 +17,7 @@ type Tetris = {
   height: number;
   tetromino: number[][];
   point: Point;
-  field: Unique<Tile>[][];
+  tiles: Unique<Tile>[][];
   fast: boolean;
   score: number;
 };

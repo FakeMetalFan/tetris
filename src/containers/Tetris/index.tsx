@@ -1,5 +1,5 @@
 import Counter from 'components/Counter';
-import Field from 'components/Field';
+import Tiles from 'components/Tiles';
 
 import INTERVAL from 'constants/interval';
 import KEY_CODE from 'constants/key-code';
@@ -20,7 +20,7 @@ export default () => {
     drop,
     fast,
     score,
-    field,
+    tiles,
     width,
     height,
   } = useTetris(10, 20);
@@ -55,8 +55,8 @@ export default () => {
         count={score}
         Styles={Styles.Counter}
       />
-      <Field
-        field={field}
+      <Tiles
+        tiles={tiles}
         width={width}
         height={height}
         tileSize={24}

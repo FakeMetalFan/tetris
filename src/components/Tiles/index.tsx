@@ -6,7 +6,7 @@ import Tile from '../Tile';
 
 import Styles from './styles';
 
-export type Props = Pick<Tetris, 'field' | 'width' | 'height'> & {
+export type Props = Pick<Tetris, 'tiles' | 'width' | 'height'> & {
   tileSize: number;
 };
 
@@ -15,7 +15,7 @@ export default (props: Props) => (
     {...props}
   >
     {
-      map(props.field, (row) =>
+      map(props.tiles, (row) =>
         map(row, ({
           fill,
           id,
